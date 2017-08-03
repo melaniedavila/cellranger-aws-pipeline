@@ -26,7 +26,7 @@ RUN cd /tmp/ && \
  	
 # Install cellranger
 RUN cd /tmp/ && \
-	wget -O cellranger-2.0.1.tar.gz "http://cf.10xgenomics.com/releases/cell-exp/cellranger-2.0.1.tar.gz?Expires=1501659669&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cDovL2NmLjEweGdlbm9taWNzLmNvbS9yZWxlYXNlcy9jZWxsLWV4cC9jZWxscmFuZ2VyLTIuMC4xLnRhci5neiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTUwMTY1OTY2OX19fV19&Signature=Xuz1NFXv~rODK6k1Fh5za8Us0X78kpfrxPNQGpMXPHXxOttx81ilMu18WaEUIknvjGIB6oSCbQOtX7qWgcY18J6nYbd3FFfL8FHuXgg~NwPKdNUatAJEah4GRZmdpcm82SfSOvp241KYMYSZnx-zVeY~Gsyw5r0798O4MLMHSgnYTE22tJjr~AsIene09vDOfkqT1Cx4HRqfi9mFZ4PT3f7dfhCGw5EJtM1-NcLFAfY0CGfreBrDdev903cbGMaJGr-8xaWkuYplxkNh3VcaFpYvV7QnMTUA6qqCObMeZ5P6jzqrTf-QyyX2JgObXDFgYokt5-wwNcghHxjYe9eG2Q__&Key-Pair-Id=APKAI7S6A5RYOXBWRPDA" && \
+	wget -O cellranger-2.0.1.tar.gz "http://cf.10xgenomics.com/releases/cell-exp/cellranger-2.0.1.tar.gz?Expires=1501815005&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cDovL2NmLjEweGdlbm9taWNzLmNvbS9yZWxlYXNlcy9jZWxsLWV4cC9jZWxscmFuZ2VyLTIuMC4xLnRhci5neiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTUwMTgxNTAwNX19fV19&Signature=bZBpP5m7Fv6X9LlWzNDCihS2LnoKyY0BFtAWvpPQMYAFJDx6avqOCYI0CvLzUml5JxPv3t4qvqDFSAEHFc59xm13198zQGSM~u1nBo4XIYonfUrzF6mytLxAo4nX8EL7ziBh3TEqSuU1OSdZX1aWWWnce24D851tXGpMIGVE3tgSr2FJZ3kTIRsloMDPY6aof4ROp4R1U0PeS8U0VyU9SxdsNvUi9FlVMgr1FFWD0wn42pdcESwo5B7Yg3M0b89bWOSbbc7vgCzbF~nctYHZ4bFqpLtXbNkmgROYm3Wzrje1n-1QqOydflKAk6DkiAmt3s9nj04V5b8PvUqSYCTu-w__&Key-Pair-Id=APKAI7S6A5RYOXBWRPDA" && \	
 	mv cellranger-2.0.1.tar.gz /opt/ && \
 	cd /opt/ && \
 	tar -xzvf cellranger-2.0.1.tar.gz && \
