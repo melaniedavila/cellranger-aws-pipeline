@@ -27,6 +27,7 @@ RUN cd /tmp/ && \
 
 
 COPY cellranger-2.1.0.tar.gz /tmp
+COPY tiny-bcl /
 
 # Install cellranger
 RUN cd /tmp/ && \
