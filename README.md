@@ -10,7 +10,7 @@ cellranger v2.0.1 (07/18/2017)
 
 # Command to Run
 
- cellranger mkfastq --id=tiny-bcl --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv
+  cellranger mkfastq --id=tiny-bcl --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv
 
 
 # System Requirements (from [10X Genomics](https://support.10xgenomics.com/single-cell-gene-expression/software/overview/system-requirements))
