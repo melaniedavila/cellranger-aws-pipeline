@@ -7,7 +7,7 @@ CentOS 7
 
 bcl2fastq2 v2.19 (06/13/2017)
 
-cellranger v2.1.0 (07/18/2017)
+cellranger v2.1.0
 
 # Make Docker Image
   Use the following docker commands to build and run the container. See the next section for the commands to run within the contianer.
