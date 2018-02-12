@@ -16,11 +16,10 @@ cellranger v2.1.0 (07/18/2017)
 
   `$ docker run -it --rm -p 8087:80 docker-cellranger`
 
-# Commands to run within running docker container
-
+# Commands to run within a running docker container
 
   ### Cellranger mkfastq
-  `$ cellranger mkfastq --id=tiny-bcl --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
+  `$ cellranger mkfastq --id=tiny-bcl-output --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
 
 
   ### cellranger count
