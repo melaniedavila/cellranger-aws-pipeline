@@ -1,0 +1,61 @@
+[root@742f554eb869 /]# cellranger count --id=test_sample --fastqs=/tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --transcriptome=/refdata-cellranger-GRCh38-1.2.0
+/opt/cellranger-2.1.0/cellranger-cs/2.1.0/bin
+cellranger count (2.1.0)
+Copyright (c) 2017 10x Genomics, Inc.  All rights reserved.
+-------------------------------------------------------------------------------
+
+Martian Runtime - '2.1.0-2.3.0'
+Serving UI at http://742f554eb869:44111?auth=C4jgC3oB9ir19-c8SbdfvVYgzPmg5qmnVyvclriop9M
+
+Running preflight checks (please wait)...
+Checking sample info...
+Checking FASTQ folder...
+Checking reference...
+Checking reference_path (/refdata-cellranger-GRCh38-1.2.0) on 742f554eb869...
+Checking chemistry...
+Checking optional arguments...
+mrc: '2.1.0-2.3.0'
+
+mrp: '2.1.0-2.3.0'
+
+Anaconda: Python 2.7.13 :: Continuum Analytics, Inc.
+
+numpy: 1.13.1
+
+scipy: 0.19.1
+
+pysam: 0.9.1
+
+h5py: 2.7.0
+
+pandas: 0.20.2
+
+STAR: STAR_2.5.1b
+
+samtools: samtools 1.6
+Using htslib 1.6
+Copyright (C) 2017 Genome Research Ltd.
+
+2018-02-12 18:38:43 [runtime] (ready)           ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY
+2018-02-12 18:38:43 [runtime] (run:local)       ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY.fork0.split
+2018-02-12 18:38:46 [runtime] (split_complete)  ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY
+2018-02-12 18:38:46 [runtime] (run:local)       ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY.fork0.chnk0.main
+2018-02-12 18:38:49 [runtime] (progress)        ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY.fork0.chnk0: Indexing genome...
+2018-02-12 18:38:58 [runtime] (progress)        ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY.fork0.chnk0: Building transcriptome...
+2018-02-12 18:39:13 [runtime] (progress)        ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY.fork0.chnk0: Building kmer index...
+2018-02-12 18:39:43 [runtime] (progress)        ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY.fork0.chnk0: Mapping reads...
+2018-02-12 18:39:48 [runtime] (chunks_complete) ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY
+2018-02-12 18:39:48 [runtime] (run:local)       ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY.fork0.join
+2018-02-12 18:39:54 [runtime] (join_complete)   ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.CHEMISTRY_DETECTOR.DETECT_CHEMISTRY
+2018-02-12 18:40:00 [runtime] (ready)           ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.SETUP_CHUNKS
+2018-02-12 18:40:03 [runtime] (split_complete)  ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.SETUP_CHUNKS
+2018-02-12 18:40:03 [runtime] (run:local)       ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.SETUP_CHUNKS.fork0.chnk0.main
+2018-02-12 18:40:06 [runtime] (failed)          ID.test_sample.SC_RNA_COUNTER_CS.SC_RNA_COUNTER.SETUP_CHUNKS
+
+[error] The chemistry was unable to be automatically determined. This can happen if not enough reads originate from the given reference. Please verify your choice of reference or explicitly specify the chemistry via the --chemistry argument.
+
+Saving pipestance info to test_sample/test_sample.mri.tgz
+For assistance, upload this file to 10x Genomics by running:
+
+cellranger upload <your_email> test_sample/test_sample.mri.tgz
+

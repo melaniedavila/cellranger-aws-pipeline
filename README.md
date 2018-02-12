@@ -21,16 +21,12 @@ cellranger v2.1.0
   ### Cellranger mkfastq
   `$ cellranger mkfastq --id=tiny-bcl-output --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
 
+  See mkfastq_output.txt for output
+
   ### Cellranger count
+  `$ cellranger count --id=test_sample --fastqs=/tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --transcriptome=/refdata-cellranger-GRCh38-1.2.0`
 
-  Example input
-
-  `$ cellranger count --id=sample345 \
-                      --transcriptome=/opt/refdata-cellranger-GRCh38-1.2.0 \
-                      --fastqs=/home/jdoe/runs/HAW../outs/fastq_path \
-                      --sample=mysample \
-                      --expect-cells=1000`
-
+  See count_output.txt for output.
 
 # Output from cellranger commands
 
