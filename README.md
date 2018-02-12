@@ -1,5 +1,5 @@
 # Dockerfile Overview
-Modified from from dockerfile: Tiandao Li <litd99@gmail.com>
+Modified from from dockerfile: https://hub.docker.com/r/litd/docker-cellranger/
 
 10X Genomics Cell Ranger Suite
 
