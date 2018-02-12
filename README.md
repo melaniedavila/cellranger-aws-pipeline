@@ -1,10 +1,3 @@
-# Make Docker Image
-
-
-  `$ docker build -t docker-cellranger .`
-
-  `$ docker run -it --rm -p 8087:80 docker-cellranger`
-
 # Dockerfile Overview
 Modified from from dockerfile: Tiandao Li <litd99@gmail.com>
 
@@ -16,7 +9,15 @@ bcl2fastq2 v2.19 (06/13/2017)
 
 cellranger v2.1.0 (07/18/2017)
 
-# Command to Run
+# Make Docker Image
+  Use the following docker commands to build and run the container. See the next section for the commands to run within the contianer.
+
+  `$ docker build -t docker-cellranger .`
+
+  `$ docker run -it --rm -p 8087:80 docker-cellranger`
+
+# Commands to run within running docker container
+
 
   ### Cellranger mkfastq
   `$ cellranger mkfastq --id=tiny-bcl --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
@@ -25,6 +26,7 @@ cellranger v2.1.0 (07/18/2017)
   ### cellranger count
 
   Example input
+
   `$ cellranger count --id=sample345 \
                       --transcriptome=/opt/refdata-cellranger-GRCh38-1.2.0 \
                       --fastqs=/home/jdoe/runs/HAW../outs/fastq_path \
