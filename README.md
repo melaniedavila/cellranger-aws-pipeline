@@ -9,7 +9,7 @@ bcl2fastq2 v2.19 (06/13/2017)
 
 cellranger v2.1.0
 
-# Make Docker Image
+# Make Docker Image and Run Container
   Use the following docker commands to build and run the container. See the next section for the commands to run within the contianer.
 
   `$ docker build -t docker-cellranger .`
