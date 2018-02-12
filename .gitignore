@@ -73,5 +73,5 @@ clustergrammer
 # git add .
 # git commit -m "fixing .gitignore"
 
-tiny-bcl
+# tiny-bcl
 refdata-cellranger

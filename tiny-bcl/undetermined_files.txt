@@ -1,0 +1,8 @@
+/tiny-bcl-output/outs/fastq_path
+
+-rw-r--r-- 1 root root  51499694 Feb 12 17:03 Undetermined_S0_L001_R1_001.fastq.gz
+-rw-r--r-- 1 root root  20615106 Feb 12 17:03 Undetermined_S0_L001_I1_001.fastq.gz
+-rw-r--r-- 1 root root 152692701 Feb 12 17:03 Undetermined_S0_L001_R2_001.fastq.gz
+drwxr-xr-x 2 root root      4096 Feb 12 17:03 Stats
+drwxr-xr-x 3 root root      4096 Feb 12 17:03 Reports
+drwxr-xr-x 3 root root      4096 Feb 12 17:04 p1
