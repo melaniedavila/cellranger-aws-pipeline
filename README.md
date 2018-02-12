@@ -21,8 +21,7 @@ cellranger v2.1.0 (07/18/2017)
   ### Cellranger mkfastq
   `$ cellranger mkfastq --id=tiny-bcl-output --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
 
-
-  ### cellranger count
+  ### Cellranger count
 
   Example input
 
@@ -32,12 +31,10 @@ cellranger v2.1.0 (07/18/2017)
                       --sample=mysample \
                       --expect-cells=1000`
 
-  I had run the following on Minerva
 
-  `$ cellranger count --id=tiny-bcl2 --fastqs=H35KCBCXY/outs/fastq_path --sample=test_sample --cells=1000 --transcriptome=/hpc/packages/minerva-common/cellranger/1.3.1/refdata-cellranger-1.2.0/hg19`
+# Output from cellranger commands
 
-  on the tiny-bcl2 example.
-
+See mkfastq_output.txt for the terminal output.
 
 # System Requirements (from [10X Genomics](https://support.10xgenomics.com/single-cell-gene-expression/software/overview/system-requirements))
 
