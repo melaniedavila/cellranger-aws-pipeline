@@ -1,8 +1,9 @@
 # Make Docker Image
 
-  $ docker build -t docker-cellranger .
 
-  $ docker run -it --rm -p 8087:80 docker-cellranger
+  `$ docker build -t docker-cellranger .`
+
+  `$ docker run -it --rm -p 8087:80 docker-cellranger`
 
 # Dockerfile Overview
 
