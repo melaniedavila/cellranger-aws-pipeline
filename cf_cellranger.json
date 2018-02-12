@@ -140,7 +140,7 @@
                 {
                   "Ref": "AWS::Region"
                 },
-                ".amazonaws.com/awsbatch/cytof-single-job:latest"
+                ".amazonaws.com/awsbatch/cellranger-aws-pipeline:latest"
               ]
             ]
           },
@@ -148,7 +148,7 @@
           "Memory": 5000,
 
           "Command": [
-            "python3.6",
+            "python3.5",
             "run_cellranger_pipeline.py",
             "Ref::inst_argument"
           ]

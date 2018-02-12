@@ -42,4 +42,3 @@ COPY run_cellranger_pipeline.py /
 
 # path
 ENV PATH /opt/cellranger-2.1.0:$PATH
-
