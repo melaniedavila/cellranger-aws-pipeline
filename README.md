@@ -54,3 +54,7 @@ Illumina bcl2fastq
 bcl2fastq 2.17 or higher is preferred and supports most sequencers running RTA version 1.18.54 or higher. If you are using a NovaSeq, please use version 2.20 or higher. If your sequencer is running an older version of RTA, then bcl2fastq 1.8.4 is required by Illumina.
 
 All other software dependencies come bundled in the Cell Ranger package.
+
+# Migrating to AWS
+
+519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline
