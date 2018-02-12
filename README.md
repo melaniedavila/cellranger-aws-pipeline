@@ -6,6 +6,7 @@
   `$ docker run -it --rm -p 8087:80 docker-cellranger`
 
 # Dockerfile Overview
+Modified from from dockerfile: Tiandao Li <litd99@gmail.com>
 
 10X Genomics Cell Ranger Suite
 
@@ -13,26 +14,26 @@ CentOS 7
 
 bcl2fastq2 v2.19 (06/13/2017)
 
-cellranger v2.0.1 (07/18/2017)
+cellranger v2.1.0 (07/18/2017)
 
 # Command to Run
 
-  ### `cellranger mkfastq`
-  cellranger mkfastq --id=tiny-bcl --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv
+  ### Cellranger mkfastq
+  `$ cellranger mkfastq --id=tiny-bcl --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
 
 
-  ### `cellranger count`
+  ### cellranger count
 
   Example input
-  $ cellranger count --id=sample345 \
+  `$ cellranger count --id=sample345 \
                       --transcriptome=/opt/refdata-cellranger-GRCh38-1.2.0 \
                       --fastqs=/home/jdoe/runs/HAW../outs/fastq_path \
                       --sample=mysample \
-                      --expect-cells=1000
+                      --expect-cells=1000`
 
   I had run the following on Minerva
 
-    >> cellranger count --id=tiny-bcl2 --fastqs=H35KCBCXY/outs/fastq_path --sample=test_sample --cells=1000 --transcriptome=/hpc/packages/minerva-common/cellranger/1.3.1/refdata-cellranger-1.2.0/hg19
+  `$ cellranger count --id=tiny-bcl2 --fastqs=H35KCBCXY/outs/fastq_path --sample=test_sample --cells=1000 --transcriptome=/hpc/packages/minerva-common/cellranger/1.3.1/refdata-cellranger-1.2.0/hg19`
 
   on the tiny-bcl2 example.
 
