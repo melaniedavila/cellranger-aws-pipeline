@@ -158,6 +158,31 @@
         }
       }
     },
+    "JobDef2": {
+      "Type": "AWS::Batch::JobDefinition",
+      "Properties": {
+        "Type": "container",
+        "ContainerProperties": {
+          "Image": {
+            "Fn::Join": [
+              "",
+              [
+                "519400500372.dkr.ecr.",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ".amazonaws.com/awsbatch/dockerized-cellranger:latest"
+              ]
+            ]
+          },
+          "Vcpus": 1,
+          "Memory": 64000,
+        },
+        "RetryStrategy": {
+          "Attempts": 1
+        }
+      }
+    },
     "JobQueue": {
       "Type": "AWS::Batch::JobQueue",
       "Properties": {
@@ -218,6 +243,11 @@
     "JobDefinition1Arn": {
       "Value": {
         "Ref": "JobDef1"
+      }
+    },
+    "JobDefinition2Arn": {
+      "Value": {
+        "Ref": "JobDef2"
       }
     },
   }

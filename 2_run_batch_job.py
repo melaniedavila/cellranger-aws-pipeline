@@ -26,14 +26,14 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-1'
+base_name = 'cellranger-2'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
 
 # single-sample-job 1
 ######################
-batch_job_name = base_name + '-single-1'
+batch_job_name = base_name # + '-single-1'
 params_dict['inst_fcs'] = 'something'
 parameters={'inst_argument': json.dumps(params_dict)}
 job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
