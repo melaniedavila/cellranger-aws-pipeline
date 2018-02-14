@@ -171,7 +171,7 @@
               ]
             ]
           },
-          "Vcpus": 6,
+          "Vcpus": 1,
           "Command": [
             "cellranger",
             "count",
