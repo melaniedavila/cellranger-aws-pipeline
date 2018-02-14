@@ -1,6 +1,16 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS CloudFormation Sample Template Managed Single Batch Job Queue: This template demonstrates the usage of simple Job Queue and EC2 style Compute Environment.  **WARNING** You will be billed for the AWS resources used if you create a stack from this template.",
+
+  "Parameters":{
+    "EFSNameTag": {
+        "Description": "The name of the EFS volume",
+        "Type": "String",
+        "MinLength": "1",
+        "Default": "myEFSvolume"
+    },
+  },
+
   "Resources": {
     "VPC": {
       "Type": "AWS::EC2::VPC",
@@ -118,7 +128,6 @@
               "Action": "sts:AssumeRole"
             },
 
-
           ]
         },
         "ManagedPolicyArns": [
@@ -127,6 +136,38 @@
         ]
       }
     },
+
+    "FileSystem": {
+        "Type": "AWS::EFS::FileSystem",
+        "Properties": {
+            "FileSystemTags": [
+                {
+                    "Key": "Name",
+                    "Value": {
+                        "Ref": "EFSNameTag"
+                    }
+                }
+            ]
+        }
+    },
+
+    "MountTarget": {
+        "Type": "AWS::EFS::MountTarget",
+        "Properties": {
+            "FileSystemId": {
+                "Ref": "FileSystem"
+            },
+            "SubnetId": {
+                "Ref": "Subnet"
+            },
+            "SecurityGroups": [
+                {
+                    "Ref": "SecurityGroup"
+                }
+            ]
+        }
+    },
+
     "JobDef1": {
       "Type": "AWS::Batch::JobDefinition",
       "Properties": {
@@ -298,6 +339,12 @@
       "Value": {
         "Ref": "JobDef3"
       }
+    },
+    "MountTargetID": {
+        "Description": "Mount target ID",
+        "Value": {
+            "Ref": "MountTarget"
+        }
     },
   }
 }
