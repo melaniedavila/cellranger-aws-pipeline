@@ -146,7 +146,6 @@
           },
           "Vcpus": 1,
           "Memory": 5000,
-
           "Command": [
             "python3.5",
             "run_cellranger_pipeline.py",
@@ -167,15 +166,23 @@
             "Fn::Join": [
               "",
               [
-                "519400500372.dkr.ecr.",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ".amazonaws.com/awsbatch/dockerized-cellranger:latest"
+                "cornhundred/",
+                "dockerized-cellranger-nick:latest"
               ]
             ]
           },
-          "Vcpus": 1,
+          "Vcpus": 6,
+          "Command": [
+            "cellranger",
+            "count",
+            "--id=test_sample",
+            "--fastqs=/tiny-bcl-fastqs/outs/fastq_path/p1/s1",
+            "--sample=test_sample",
+            "--chemistry=SC3Pv2",
+            "--expect-cells=100",
+            "--localmem=6",
+            "--transcriptome=/refdata-cellranger-GRCh38-1.2.0"
+          ],
           "Memory": 64000,
         },
         "RetryStrategy": {

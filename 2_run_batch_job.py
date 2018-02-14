@@ -20,6 +20,10 @@ for inst_resource in resources:
   if logical_resource_id == 'JobDef1':
     job_def_id_1 = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
 
+  # 2 single job
+  if logical_resource_id == 'JobDef2':
+    job_def_id_2 = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
+
   if resource_type == 'AWS::Batch::JobQueue':
     job_queue_id = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
 
@@ -35,11 +39,11 @@ params_dict['bucket'] = 'cellranger_bucket'
 ######################
 batch_job_name = base_name # + '-single-1'
 params_dict['inst_fcs'] = 'something'
-parameters={'inst_argument': json.dumps(params_dict)}
-job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
+# parameters={'inst_argument': json.dumps(params_dict)}
+job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
                                        jobName=batch_job_name,
-                                       jobQueue=job_queue_id,
-                                       parameters=parameters)
+                                       jobQueue=job_queue_id)
+                                       # parameters=parameters)
 
 job_id_1 = job_response['jobId']
 print('submitted job 1: ' + batch_job_name)
