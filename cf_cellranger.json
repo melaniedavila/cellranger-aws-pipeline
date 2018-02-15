@@ -154,7 +154,7 @@
             ]
           },
           "Vcpus": 1,
-          "Memory": 10000,
+          "Memory": 5000,
 
           "Command": [
             "python3.5",
@@ -202,7 +202,7 @@
             ]
           },
           "Vcpus": 1,
-          "Memory": 20000,
+          "Memory": 10000,
 
           "Command": [
             "python3.5",
