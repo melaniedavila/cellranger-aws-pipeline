@@ -34,7 +34,7 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-custom-ami'
+base_name = 'cellranger-pydfh-no-entrypoint'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
