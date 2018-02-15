@@ -40,14 +40,14 @@ params_dict['bucket'] = 'cellranger_bucket'
 
 # mounted volume
 ######################
-batch_job_name = base_name + '-mounted-volume'
+batch_job_name = base_name + '-mounted-volume-R1'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
 # mounted volume
 ######################
-batch_job_name = base_name + '-mounted-volume'
+batch_job_name = base_name + '-mounted-volume-R2'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
