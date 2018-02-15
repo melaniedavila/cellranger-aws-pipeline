@@ -46,3 +46,16 @@ import shlex
 import subprocess
 cmd = "df -h"
 subprocess.check_call(shlex.split(cmd))
+
+cmd = "ls -lrt"
+subprocess.check_call(shlex.split(cmd))
+
+# # Single Sample Pipeline
+# ###########################################
+# from common_utils.s3_utils import download_file, upload_file, download_folder, upload_folder
+# from common_utils.job_utils import generate_working_dir, delete_working_dir
+
+# inst_bucket = 'cellranger_bucket'
+# s3_folder = 'tiny-bcl'
+# s3_path = 's3://'+inst_bucket + '/' + s3_folder
+# download_folder(s3_path, 'scratch2')
