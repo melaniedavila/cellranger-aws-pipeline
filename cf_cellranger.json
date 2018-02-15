@@ -244,16 +244,6 @@
       "Value": {
         "Ref": "JobDef1"
       }
-    },
-    "JobDefinition2Arn": {
-      "Value": {
-        "Ref": "JobDef2"
-      }
-    },
-    "JobDefinition3Arn": {
-      "Value": {
-        "Ref": "JobDef3"
-      }
     }
   }
 }
