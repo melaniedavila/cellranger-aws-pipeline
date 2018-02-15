@@ -161,20 +161,22 @@
             "run_cellranger_pipeline.py"
           ],
 
-          "MountPoints":[
-            {
-              "ContainerPath": "/scratch",
-              "SourceVolume": "docker_scratch"
-            }
-          ],
-          "Volumes": [
+           "MountPoints": [
               {
-                  "Host": {
-                      "SourcePath": "/docker_scratch"
-                  },
-                  "Name": "docker_scratch"
+                 "ContainerPath": "/scratch",
+                 "ReadOnly": false,
+                 "SourceVolume": "docker_scratch"
               }
-          ]
+           ],
+           "Volumes": [
+              {
+                 "Name": "docker_scratch",
+                 "Host": {
+                    "SourcePath": "/docker_scratch"
+                 }
+              }
+           ]
+
         },
         "RetryStrategy": {
           "Attempts": 1
