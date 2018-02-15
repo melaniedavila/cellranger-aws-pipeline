@@ -11,14 +11,31 @@
   * step-2: single job that runs mkfastq on primary bcl data
   * step-3: single job that runs count on fastqs
 
-### Make and Run Docker Image that will be used as the Batch Job Definition
+The steps required to submit jobs to AWS batch are discussed below.
+
+# 1. Build Stack using Cloudformation
+
+  The following commands can be used to create and update the stack on AWS using the `cf_cellranger.json` cloudformation
+
+  `$ aws cloudformation create-stack --template-body file://cf_cellranger.json --stack-name cellranger-job --capabilities CAPABILITY_NAMED_IAM`
+
+  `$ aws cloudformation update-stack --template-body file://cf_cellranger.json --stack-name cellranger-job --capabilities CAPABILITY_NAMED_IAM`
+
+  The cloudformation template sets up the mounted volume for the jobs (see jobdefinition in template) and tells batch to use a custom AMI that has a mounted 1TB volume for the compute environment. See [aws-batch-genomics](https://aws.amazon.com/blogs/compute/building-high-throughput-genomic-batch-workflows-on-aws-batch-layer-part-3-of-4/) part 3 to see how to make a custom AMI. Also see the [cloudformation docs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html) for an exmaple of how to use a custom AMI as a compute environment for AWS batch. Additional helpful links:
+
+    * [aws London pop-up video batch computing](https://www.youtube.com/watch?v=H8bmHU_z8Ac&t=662s)
+    * [base2 genomics presentation for AWS re:invent](https://www.youtube.com/watch?v=8dApnlJLY54&t=2785s)
+
+# 2. Upload reference data to S3
+
+# 3. Make and Run Docker Image that will be used as the Batch Job Definition
   Use the following docker commands to build and run the container. See the next section for the commands to run within the contianer.
 
   `$ docker build -t <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline .`
 
   `$ docker run -it --rm -p 8087:80 <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
 
-### Push Image to AWS ECS
+# 4. Push Image to AWS ECS
 
   After the image has been built it needs to be pushed to AWS ECS. First auth credentials need to be obtained by running
 
@@ -28,7 +45,7 @@
 
   `$ docker push <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
 
-# Cellranger Commands
+# 5. Run Cellranger Commands in Container (in-progress)
 
   These are the Cellranger commands that need to be run in the container. They will be run by `run_cellranger_pipeline.py`, which currently only copies the reference genome from S3.
 
