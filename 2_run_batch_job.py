@@ -38,28 +38,35 @@ base_name = 'cellranger-MEMORY'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
-# mounted volume
-######################
-batch_job_name = base_name + '-mounted-volume-R1'
+# mounted volume 10GB RAM
+#########################
+batch_job_name = base_name + '-mounted-volume-10GB'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
-# mounted volume
-######################
-batch_job_name = base_name + '-mounted-volume-R2'
-job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
+# mounted volume 20GB
+#######################
+batch_job_name = base_name + '-mounted-volume-20GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
-# # single-sample-job 1
-# ######################
-# batch_job_name = base_name + '-no-mount'
-# # params_dict['inst_fcs'] = 'something'
-# # parameters={'inst_argument': json.dumps(params_dict)}
-# job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
-#                                        jobName=batch_job_name,
-#                                        jobQueue=job_queue_id)
+
+# mounted volume 30GB
+#######################
+batch_job_name = base_name + '-mounted-volume-30GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
+                                       jobName=batch_job_name,
+                                       jobQueue=job_queue_id)
+
+# mounted volume 64GB
+#######################
+batch_job_name = base_name + '-mounted-volume-64GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_4,
+                                       jobName=batch_job_name,
+                                       jobQueue=job_queue_id)
+
 
 job_id_1 = job_response['jobId']
 print('submitted job 1: ' + batch_job_name)
