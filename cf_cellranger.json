@@ -233,6 +233,7 @@
       "Type": "AWS::Batch::ComputeEnvironment",
       "Properties": {
         "Type": "MANAGED",
+
         "ComputeResources": {
           "Type": "EC2",
           "MinvCpus": 0,
@@ -253,8 +254,11 @@
           ],
           "InstanceRole": {
             "Ref": "IamInstanceProfile"
-          }
+          },
+          "ImageId": "ami-dba2bda1"
         },
+
+
         "ServiceRole": {
           "Ref": "BatchServiceRole"
         }
