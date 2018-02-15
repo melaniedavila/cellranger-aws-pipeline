@@ -34,7 +34,7 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-REFERENCE-fix-slash'
+base_name = 'cellranger-AMI-FIX2'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 

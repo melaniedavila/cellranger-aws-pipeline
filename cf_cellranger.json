@@ -255,7 +255,7 @@
           "InstanceRole": {
             "Ref": "IamInstanceProfile"
           },
-          "ImageId": "ami-dba2bda1"
+          "ImageId": "ami-dba2bda1",
         },
 
 
