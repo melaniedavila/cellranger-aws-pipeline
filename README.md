@@ -1,20 +1,14 @@
 # Dockerfile Overview
-Modified from from dockerfile: https://hub.docker.com/r/litd/docker-cellranger/
 
-10X Genomics Cell Ranger Suite
-
-CentOS 7
-
-bcl2fastq2 v2.19 (06/13/2017)
-
-cellranger v2.1.0
 
 # Make Docker Image and Run Container
   Use the following docker commands to build and run the container. See the next section for the commands to run within the contianer.
 
-  `$ docker build -t docker-cellranger .`
+  `$ docker build -t 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline .`
 
-  `$ docker run -it --rm -p 8087:80 docker-cellranger`
+  `$ docker run -it --rm -p 8087:80 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
+
+  `$ docker push 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
 
 # Commands to run within a running docker container
 
@@ -68,3 +62,14 @@ docker run -it --rm -p 8087:80 -v /Users/nickfernandez/Large_Documents/refdata-c
   $ docker build -t 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline .
 
   $ docker push 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline
+
+
+# Components
+
+Modified from from dockerfile: https://hub.docker.com/r/litd/docker-cellranger/
+
+10X Genomics Cell Ranger Suite
+
+bcl2fastq2 v2.19 (06/13/2017)
+
+cellranger v2.1.0
