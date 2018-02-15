@@ -28,6 +28,9 @@ The steps required to submit jobs to AWS batch are discussed below.
 
 # 2. Upload reference data to S3
 
+  Upload `refdata-cellranger-GRCh38-1.2.0` to S3 (~16GB) using `common_utils`. This reference is not in the repo and the upload was done elsewhere.
+
+
 # 3. Make and Run Docker Image that will be used as the Batch Job Definition
   Use the following docker commands to build and run the container. See the next section for the commands to run within the contianer.
 
