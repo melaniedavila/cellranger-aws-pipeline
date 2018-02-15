@@ -34,25 +34,32 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-AMI-FIX2'
+base_name = 'cellranger-MEMORY'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
-# single-sample-job 1
+# mounted volume
 ######################
 batch_job_name = base_name + '-mounted-volume'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
-# single-sample-job 1
+# mounted volume
 ######################
-batch_job_name = base_name + '-no-mount'
-# params_dict['inst_fcs'] = 'something'
-# parameters={'inst_argument': json.dumps(params_dict)}
-job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
+batch_job_name = base_name + '-mounted-volume'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
+
+# # single-sample-job 1
+# ######################
+# batch_job_name = base_name + '-no-mount'
+# # params_dict['inst_fcs'] = 'something'
+# # parameters={'inst_argument': json.dumps(params_dict)}
+# job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
+#                                        jobName=batch_job_name,
+#                                        jobQueue=job_queue_id)
 
 job_id_1 = job_response['jobId']
 print('submitted job 1: ' + batch_job_name)
