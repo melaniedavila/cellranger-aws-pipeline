@@ -84,7 +84,8 @@
                 "Service": "batch.amazonaws.com"
               },
               "Action": "sts:AssumeRole"
-            }
+            },
+
           ]
         },
         "ManagedPolicyArns": [
@@ -115,7 +116,7 @@
                 "Service": "ec2.amazonaws.com"
               },
               "Action": "sts:AssumeRole"
-            }
+            },
 
 
           ]
@@ -156,6 +157,74 @@
         }
       }
     },
+    "JobDef2": {
+      "Type": "AWS::Batch::JobDefinition",
+      "Properties": {
+        "Type": "container",
+        "ContainerProperties": {
+          "Image": {
+            "Fn::Join": [
+              "",
+              [
+                "cornhundred/",
+                "dockerized-cellranger-nick:latest"
+              ]
+            ]
+          },
+          "Vcpus": 1,
+          "Command": [
+            "cellranger",
+            "count",
+            "--id=test_sample",
+            "--fastqs=/tiny-bcl-fastqs/outs/fastq_path/p1/s1",
+            "--sample=test_sample",
+            "--chemistry=SC3Pv2",
+            "--expect-cells=100",
+            "--localmem=6",
+            "--transcriptome=/refdata-cellranger-GRCh38-1.2.0"
+          ],
+          "Memory": 64000,
+        },
+        "RetryStrategy": {
+          "Attempts": 1
+        }
+      }
+    },
+
+    "JobDef3": {
+      "Type": "AWS::Batch::JobDefinition",
+      "Properties": {
+        "Type": "container",
+        "ContainerProperties": {
+          "Image": {
+            "Fn::Join": [
+              "",
+              [
+                "cornhundred/",
+                "dockerized-cellranger-nick:latest"
+              ]
+            ]
+          },
+          "Vcpus": 1,
+          "Command": [
+            "cellranger",
+            "count",
+            "--id=test_sample",
+            "--fastqs=/tiny-bcl-fastqs/outs/fastq_path/p1/s1",
+            "--sample=test_sample",
+            "--chemistry=SC3Pv2",
+            "--expect-cells=100",
+            "--localmem=6",
+            "--transcriptome=/refdata-cellranger-GRCh38-1.2.0"
+          ],
+          "Memory": 3000,
+        },
+        "RetryStrategy": {
+          "Attempts": 1
+        }
+      }
+    },
+
 
 
     "JobQueue": {
@@ -229,6 +298,6 @@
       "Value": {
         "Ref": "JobDef3"
       }
-    }
+    },
   }
 }
