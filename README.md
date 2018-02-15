@@ -1,14 +1,22 @@
 # Dockerfile Overview
 
 
-# Make Docker Image and Run Container
+### Make Docker Image and Run the Container
   Use the following docker commands to build and run the container. See the next section for the commands to run within the contianer.
 
-  `$ docker build -t 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline .`
+  `$ docker build -t <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline .`
 
-  `$ docker run -it --rm -p 8087:80 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
+  `$ docker run -it --rm -p 8087:80 <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
 
-  `$ docker push 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
+### Push to AWS ECS
+
+  After the image has been built it needs to be pushed to AWS ECS. First auth credentials need to be obtained by running
+
+  `$ aws ecr get-login`
+
+  This will return a long aws CLI command that you need to copy and paste into the terminal. You may need to remove "-e none" from the command if docker gives an error. Now that you have the proper credentials, you will be able to push the repository using the following command:
+
+  `$ docker push <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
 
 # Commands to run within a running docker container
 
@@ -51,17 +59,11 @@ All other software dependencies come bundled in the Cell Ranger package.
 
 # Migrating to AWS
 
-519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline
+<URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline
 
 # Mounting volume
 docker run -it --rm -p 8087:80 -v /Users/nickfernandez/Large_Documents/refdata-cellranger:/refdata-cellranger python
 
-
-# Custom AMI
-
-  $ docker build -t 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline .
-
-  $ docker push 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline
 
 
 # Components
