@@ -61,3 +61,10 @@ All other software dependencies come bundled in the Cell Ranger package.
 
 # Mounting volume
 docker run -it --rm -p 8087:80 -v /Users/nickfernandez/Large_Documents/refdata-cellranger:/refdata-cellranger python
+
+
+# Custom AMI
+
+  $ docker build -t 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline .
+
+  $ docker push 519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline

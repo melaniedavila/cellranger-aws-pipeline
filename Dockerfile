@@ -3,7 +3,6 @@
 ###############################################
 
 # Based on
-# FROM centos:7
 FROM python:3.5
 
 # File Author / Maintainer
@@ -21,7 +20,7 @@ RUN apt-get update \
  && rm bcl2fastq2*.deb bcl2fastq2*.rpm bcl2fastq2*.zip
 
 COPY cellranger-2.1.0.tar.gz /tmp
-COPY tiny-bcl /tiny-bcl/
+# COPY tiny-bcl /tiny-bcl/
 # COPY refdata-cellranger/refdata-cellranger-GRCh38-1.2.0 refdata-cellranger-GRCh38-1.2.0/
 
 # Install cellranger
@@ -42,3 +41,6 @@ COPY run_cellranger_pipeline.py /
 
 # path
 ENV PATH /opt/cellranger-2.1.0:$PATH
+
+ENTRYPOINT ["bash"]
+

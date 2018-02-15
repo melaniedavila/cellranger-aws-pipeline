@@ -44,7 +44,7 @@ params_dict['bucket'] = 'cellranger_bucket'
 batch_job_name = base_name # + '-single-1'
 params_dict['inst_fcs'] = 'something'
 # parameters={'inst_argument': json.dumps(params_dict)}
-job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
+job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
                                        # parameters=parameters)

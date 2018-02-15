@@ -154,11 +154,18 @@
           },
           "Vcpus": 1,
           "Memory": 5000,
+
+          // "Command": [
+          //   "python3.5",
+          //   "run_cellranger_pipeline.py",
+          //   "Ref::inst_argument"
+          // ],
+
           "Command": [
-            "python3.5",
-            "run_cellranger_pipeline.py",
-            "Ref::inst_argument"
+            "df",
+            "-h"
           ],
+
           "MountPoints":[
             {
               "ContainerPath": "/scratch",
