@@ -157,8 +157,8 @@
           "Memory": 5000,
 
           "Command": [
-            "df",
-            "-h"
+            "python3.5",
+            "run_cellranger_pipeline.py"
           ],
 
           "MountPoints":[
@@ -182,6 +182,36 @@
       }
     },
 
+    "JobDef2": {
+      "Type": "AWS::Batch::JobDefinition",
+      "Properties": {
+        "Type": "container",
+        "ContainerProperties": {
+          "Image": {
+            "Fn::Join": [
+              "",
+              [
+                "519400500372.dkr.ecr.",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ".amazonaws.com/awsbatch/cellranger-aws-pipeline:latest"
+              ]
+            ]
+          },
+          "Vcpus": 1,
+          "Memory": 1000,
+
+          "Command": [
+            "python3.5",
+            "run_cellranger_pipeline.py"
+          ]
+        },
+        "RetryStrategy": {
+          "Attempts": 1
+        }
+      }
+    },
 
     "JobQueue": {
       "Type": "AWS::Batch::JobQueue",
@@ -243,6 +273,11 @@
     "JobDefinition1Arn": {
       "Value": {
         "Ref": "JobDef1"
+      }
+    },
+    "JobDefinition2Arn": {
+      "Value": {
+        "Ref": "JobDef2"
       }
     }
   }

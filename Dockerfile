@@ -43,4 +43,3 @@ COPY run_cellranger_pipeline.py /
 ENV PATH /opt/cellranger-2.1.0:$PATH
 
 ENTRYPOINT ["bash"]
-
