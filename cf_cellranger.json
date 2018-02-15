@@ -1,6 +1,15 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS CloudFormation Sample Template Managed Single Batch Job Queue: This template demonstrates the usage of simple Job Queue and EC2 style Compute Environment.  **WARNING** You will be billed for the AWS resources used if you create a stack from this template.",
+
+  "Parameters":{
+    "ImageId": {
+       "Type": "AWS::EC2::Image::Id",
+       "Description": "AMI you want your AWS Batch Compute Environment to use",
+       "Default": "ami-dba2bda1"
+    }
+  },
+
   "Resources": {
     "VPC": {
       "Type": "AWS::EC2::VPC",
@@ -126,6 +135,7 @@
         ]
       }
     },
+
     "JobDef1": {
       "Type": "AWS::Batch::JobDefinition",
       "Properties": {
@@ -145,10 +155,25 @@
           },
           "Vcpus": 1,
           "Memory": 5000,
+
           "Command": [
-            "python3.5",
-            "run_cellranger_pipeline.py",
-            "Ref::inst_argument"
+            "df",
+            "-h"
+          ],
+
+          "MountPoints":[
+            {
+              "ContainerPath": "/scratch",
+              "SourceVolume": "docker_scratch"
+            }
+          ],
+          "Volumes": [
+              {
+                  "Host": {
+                      "SourcePath": "/docker_scratch"
+                  },
+                  "Name": "docker_scratch"
+              }
           ]
         },
         "RetryStrategy": {
