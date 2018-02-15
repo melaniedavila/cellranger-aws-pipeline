@@ -28,6 +28,10 @@ for inst_resource in resources:
   if logical_resource_id == 'JobDef3':
     job_def_id_3 = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
 
+# job 4
+  if logical_resource_id == 'JobDef4':
+    job_def_id_4 = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
+
   if resource_type == 'AWS::Batch::JobQueue':
     job_queue_id = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
 
