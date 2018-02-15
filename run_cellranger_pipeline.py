@@ -56,7 +56,8 @@ from common_utils.s3_utils import download_file, upload_file, download_folder, u
 from common_utils.job_utils import generate_working_dir, delete_working_dir
 
 inst_bucket = 'cellranger_bucket'
-s3_folder = 'tiny-bcl'
+# s3_folder = 'tiny-bcl'
+s3_folder = 'refdata-cellranger-GRCh38-1.2.0'
 s3_path = 's3://'+inst_bucket + '/' + s3_folder
 download_folder(s3_path, 'scratch')
 

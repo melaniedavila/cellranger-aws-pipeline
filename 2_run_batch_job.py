@@ -34,7 +34,7 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-s3-download'
+base_name = 'cellranger-s3-download-REF'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
