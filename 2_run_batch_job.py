@@ -38,7 +38,7 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-m54xlarge'
+base_name = 'cellranger-optimal'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
@@ -57,12 +57,12 @@ job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
                                        jobQueue=job_queue_id)
 
 
-# mounted volume 30GB
-#######################
-batch_job_name = base_name + '-30GB'
-job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
-                                       jobName=batch_job_name,
-                                       jobQueue=job_queue_id)
+# # mounted volume 30GB
+# #######################
+# batch_job_name = base_name + '-30GB'
+# job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
+#                                        jobName=batch_job_name,
+#                                        jobQueue=job_queue_id)
 
 # # mounted volume 64GB
 # #######################

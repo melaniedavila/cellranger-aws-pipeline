@@ -351,9 +351,9 @@
           "Type": "EC2",
           "MinvCpus": 0,
           "DesiredvCpus": 0,
-          "MaxvCpus": 128,
+          "MaxvCpus": 2,
           "InstanceTypes": [
-            "m5.4xlarge"
+            "optimal"
           ],
           "Subnets": [
             {
