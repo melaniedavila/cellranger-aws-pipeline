@@ -38,23 +38,23 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-MEMORY'
+base_name = 'cellranger-m54xlarge'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
-# # mounted volume 10GB RAM
-# #########################
-# batch_job_name = base_name + '-mounted-volume-5GB'
-# job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
-#                                        jobName=batch_job_name,
-#                                        jobQueue=job_queue_id)
+# mounted volume 5GB RAM
+#########################
+batch_job_name = base_name + '-mounted-volume-5GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
+                                       jobName=batch_job_name,
+                                       jobQueue=job_queue_id)
 
-# # mounted volume 20GB
-# #######################
-# batch_job_name = base_name + '-mounted-volume-10GB'
-# job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
-#                                        jobName=batch_job_name,
-#                                        jobQueue=job_queue_id)
+# mounted volume 10GB
+#######################
+batch_job_name = base_name + '-mounted-volume-10GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
+                                       jobName=batch_job_name,
+                                       jobQueue=job_queue_id)
 
 
 # mounted volume 30GB
@@ -64,12 +64,12 @@ job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
-# mounted volume 64GB
-#######################
-batch_job_name = base_name + '-mounted-volume-64GB'
-job_response = client_batch.submit_job(jobDefinition=job_def_id_4,
-                                       jobName=batch_job_name,
-                                       jobQueue=job_queue_id)
+# # mounted volume 64GB
+# #######################
+# batch_job_name = base_name + '-mounted-volume-64GB'
+# job_response = client_batch.submit_job(jobDefinition=job_def_id_4,
+#                                        jobName=batch_job_name,
+#                                        jobQueue=job_queue_id)
 
 
 job_id_1 = job_response['jobId']
