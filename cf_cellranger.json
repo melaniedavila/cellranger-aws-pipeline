@@ -327,6 +327,101 @@
       }
     },
 
+    "JobDef5": {
+      "Type": "AWS::Batch::JobDefinition",
+      "Properties": {
+        "Type": "container",
+        "ContainerProperties": {
+          "Image": {
+            "Fn::Join": [
+              "",
+              [
+                "519400500372.dkr.ecr.",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ".amazonaws.com/awsbatch/cellranger-aws-pipeline:latest"
+              ]
+            ]
+          },
+          "Vcpus": 1,
+          "Memory": 30000,
+
+          "Command": [
+            "python3.5",
+            "run_cellranger_pipeline.py"
+          ],
+
+           "MountPoints": [
+              {
+                 "ContainerPath": "/scratch",
+                 "ReadOnly": false,
+                 "SourceVolume": "docker_scratch"
+              }
+           ],
+           "Volumes": [
+              {
+                 "Name": "docker_scratch",
+                 "Host": {
+                    "SourcePath": "/docker_scratch"
+                 }
+              }
+           ]
+
+        },
+        "RetryStrategy": {
+          "Attempts": 1
+        }
+      }
+    },
+
+    "JobDef6": {
+      "Type": "AWS::Batch::JobDefinition",
+      "Properties": {
+        "Type": "container",
+        "ContainerProperties": {
+          "Image": {
+            "Fn::Join": [
+              "",
+              [
+                "519400500372.dkr.ecr.",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ".amazonaws.com/awsbatch/cellranger-aws-pipeline:latest"
+              ]
+            ]
+          },
+          "Vcpus": 1,
+          "Memory": 64000,
+
+          "Command": [
+            "python3.5",
+            "run_cellranger_pipeline.py"
+          ],
+
+           "MountPoints": [
+              {
+                 "ContainerPath": "/scratch",
+                 "ReadOnly": false,
+                 "SourceVolume": "docker_scratch"
+              }
+           ],
+           "Volumes": [
+              {
+                 "Name": "docker_scratch",
+                 "Host": {
+                    "SourcePath": "/docker_scratch"
+                 }
+              }
+           ]
+
+        },
+        "RetryStrategy": {
+          "Attempts": 1
+        }
+      }
+    },
 
     "JobQueue": {
       "Type": "AWS::Batch::JobQueue",
@@ -406,6 +501,16 @@
     "JobDefinition4Arn": {
       "Value": {
         "Ref": "JobDef4"
+      }
+    },
+    "JobDefinition5Arn": {
+      "Value": {
+        "Ref": "JobDef5"
+      }
+    },
+    "JobDefinition6Arn": {
+      "Value": {
+        "Ref": "JobDef6"
       }
     }
   }

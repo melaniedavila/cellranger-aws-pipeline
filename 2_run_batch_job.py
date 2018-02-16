@@ -28,9 +28,17 @@ for inst_resource in resources:
   if logical_resource_id == 'JobDef3':
     job_def_id_3 = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
 
-# job 4
+  # job 4
   if logical_resource_id == 'JobDef4':
     job_def_id_4 = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
+
+  # job 5
+  if logical_resource_id == 'JobDef5':
+    job_def_id_5 = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
+
+  # job 6
+  if logical_resource_id == 'JobDef6':
+    job_def_id_6 = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
 
   if resource_type == 'AWS::Batch::JobQueue':
     job_queue_id = inst_resource['PhysicalResourceId'].split('/')[-1].split(':')[0]
@@ -38,18 +46,18 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-OPTIMAL-4part'
+base_name = 'cellranger-OPTIMAL-6part'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
-# mounted volume 10GB RAM
+# job 1
 #########################
 batch_job_name = base_name + '-10GB'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
-# mounted volume 15GB
+# job 2
 #######################
 batch_job_name = base_name + '-15GB'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
@@ -57,17 +65,31 @@ job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
                                        jobQueue=job_queue_id)
 
 
-# mounted volume 20GB
+# job 3
 #######################
 batch_job_name = base_name + '-20GB'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
-# mounted volume 25GB
+# job 4
 #######################
 batch_job_name = base_name + '-25GB'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_4,
+                                       jobName=batch_job_name,
+                                       jobQueue=job_queue_id)
+
+# job 5
+#######################
+batch_job_name = base_name + '-30GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_5,
+                                       jobName=batch_job_name,
+                                       jobQueue=job_queue_id)
+
+# job 6
+#######################
+batch_job_name = base_name + '-64GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_6,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
