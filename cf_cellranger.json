@@ -154,7 +154,7 @@
             ]
           },
           "Vcpus": 1,
-          "Memory": 5000,
+          "Memory": 10000,
 
           "Command": [
             "python3.5",
@@ -202,7 +202,7 @@
             ]
           },
           "Vcpus": 1,
-          "Memory": 10000,
+          "Memory": 15000,
 
           "Command": [
             "python3.5",
@@ -249,7 +249,7 @@
             ]
           },
           "Vcpus": 1,
-          "Memory": 30000,
+          "Memory": 20000,
 
           "Command": [
             "python3.5",
@@ -297,7 +297,7 @@
             ]
           },
           "Vcpus": 1,
-          "Memory": 64000,
+          "Memory": 25000,
 
           "Command": [
             "python3.5",
@@ -351,7 +351,7 @@
           "Type": "EC2",
           "MinvCpus": 0,
           "DesiredvCpus": 0,
-          "MaxvCpus": 2,
+          "MaxvCpus": 128,
           "InstanceTypes": [
             "optimal"
           ],

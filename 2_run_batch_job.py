@@ -38,38 +38,38 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-optimal'
+base_name = 'cellranger-OPTIMAL-4part'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
-# mounted volume 5GB RAM
+# mounted volume 10GB RAM
 #########################
-batch_job_name = base_name + '-5GB'
+batch_job_name = base_name + '-10GB'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
-# mounted volume 10GB
+# mounted volume 15GB
 #######################
-batch_job_name = base_name + '-10GB'
+batch_job_name = base_name + '-15GB'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
 
-# # mounted volume 30GB
-# #######################
-# batch_job_name = base_name + '-30GB'
-# job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
-#                                        jobName=batch_job_name,
-#                                        jobQueue=job_queue_id)
+# mounted volume 20GB
+#######################
+batch_job_name = base_name + '-20GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
+                                       jobName=batch_job_name,
+                                       jobQueue=job_queue_id)
 
-# # mounted volume 64GB
-# #######################
-# batch_job_name = base_name + '-64GB'
-# job_response = client_batch.submit_job(jobDefinition=job_def_id_4,
-#                                        jobName=batch_job_name,
-#                                        jobQueue=job_queue_id)
+# mounted volume 25GB
+#######################
+batch_job_name = base_name + '-25GB'
+job_response = client_batch.submit_job(jobDefinition=job_def_id_4,
+                                       jobName=batch_job_name,
+                                       jobQueue=job_queue_id)
 
 
 job_id_1 = job_response['jobId']
