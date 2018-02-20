@@ -57,41 +57,41 @@ job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
 
-# job 2
-#######################
-batch_job_name = base_name + '-15GB'
-job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
-                                       jobName=batch_job_name,
-                                       jobQueue=job_queue_id)
+# # job 2
+# #######################
+# batch_job_name = base_name + '-15GB'
+# job_response = client_batch.submit_job(jobDefinition=job_def_id_2,
+#                                        jobName=batch_job_name,
+#                                        jobQueue=job_queue_id)
 
 
-# job 3
-#######################
-batch_job_name = base_name + '-20GB'
-job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
-                                       jobName=batch_job_name,
-                                       jobQueue=job_queue_id)
+# # job 3
+# #######################
+# batch_job_name = base_name + '-20GB'
+# job_response = client_batch.submit_job(jobDefinition=job_def_id_3,
+#                                        jobName=batch_job_name,
+#                                        jobQueue=job_queue_id)
 
-# job 4
-#######################
-batch_job_name = base_name + '-25GB'
-job_response = client_batch.submit_job(jobDefinition=job_def_id_4,
-                                       jobName=batch_job_name,
-                                       jobQueue=job_queue_id)
+# # job 4
+# #######################
+# batch_job_name = base_name + '-25GB'
+# job_response = client_batch.submit_job(jobDefinition=job_def_id_4,
+#                                        jobName=batch_job_name,
+#                                        jobQueue=job_queue_id)
 
-# job 5
-#######################
-batch_job_name = base_name + '-30GB'
-job_response = client_batch.submit_job(jobDefinition=job_def_id_5,
-                                       jobName=batch_job_name,
-                                       jobQueue=job_queue_id)
+# # job 5
+# #######################
+# batch_job_name = base_name + '-30GB'
+# job_response = client_batch.submit_job(jobDefinition=job_def_id_5,
+#                                        jobName=batch_job_name,
+#                                        jobQueue=job_queue_id)
 
-# job 6
-#######################
-batch_job_name = base_name + '-64GB'
-job_response = client_batch.submit_job(jobDefinition=job_def_id_6,
-                                       jobName=batch_job_name,
-                                       jobQueue=job_queue_id)
+# # job 6
+# #######################
+# batch_job_name = base_name + '-64GB'
+# job_response = client_batch.submit_job(jobDefinition=job_def_id_6,
+#                                        jobName=batch_job_name,
+#                                        jobQueue=job_queue_id)
 
 
 job_id_1 = job_response['jobId']
