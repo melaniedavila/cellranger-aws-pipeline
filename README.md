@@ -1,15 +1,17 @@
 # Cellranger AWS Pipeline
 
-  This repo is working towards deploying the 10X cellranger pipeline on AWS. In a separate repo, [dockerized-cellranger](https://github.com/ismms-himc/dockerized_cellranger), we ran `cellranger mkfastq` and `cellranger count` in a docker container using the `tiny-bcl` example dataset (the image ran successfully on linux but not on mac). However, the reference transcriptome (e.g. GRCh38) was included in the docker iamge, which made the image ~18GB and this is too large to run on AWS batch. We are working on a docker image that uses `boto` to copy the reference from S3 to a 1TB mounted volume (see `docker_scratch` below). We can get two jobs with 5GB of memory each to run successfully (e.g. copy 16GB reference from S3 to docker_scratch, they are currently writing to the same destination but this multitenancy issue can be taken care of by passing in arguments to the jobs). We're testing running jobs with higher memory requirements.
+  This repo is working towards deploying the 10X cellranger pipeline on AWS. In a separate repo, [dockerized-cellranger](https://github.com/ismms-himc/dockerized_cellranger), we ran `cellranger mkfastq` and `cellranger count` in a docker container using the `tiny-bcl` example dataset (the image ran successfully on linux but not on mac). However, the reference transcriptome (e.g. GRCh38) was included in the docker iamge, which made the image ~18GB and this is too large to run on AWS batch. We are working on a docker image that uses `boto` to copy the reference from S3 to a 1TB mounted volume (see `docker_scratch` below).
+
+  Currently, we can get several jobs to run and share the same `docker_scratch` directory and have access to up to 64GB of memory. Next, we are working on getting jobs to run `cellranger mkfastq` and `cellranger count`.
 
   ### To Do
   * get jobs to write to different directories within the 1TB `docker_scratch` directory
-  * test running jobs with higher memory requirements, we need ~30-60GB
   * set up python script to actually run the cellranger commands
-  * save outputs back to S3 bucket
+  * save cellranger outputs back to S3 bucket
   * step-1: download primary bcl data and reference transcriptome
-  * step-2: single job that runs mkfastq on primary bcl data
-  * step-3: single job that runs count on fastqs
+  * step-2: single job that runs `cellranger mkfastq` on tiny-bcl data
+  * step-3: single job that runs `cellranger count` on tiny-bcl fastqs
+  * ~~test running jobs with higher memory requirements, we need ~30-60GB~~
 
 The steps required to submit jobs to AWS batch are discussed below.
 
