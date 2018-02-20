@@ -50,8 +50,12 @@ from common_utils.job_utils import generate_working_dir, delete_working_dir
 cmd = "df -h"
 subprocess.check_call(shlex.split(cmd))
 
+directory = 'scratch/tenant_1'
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
 # move into scratch directory
-os.chdir('scratch')
+os.chdir('scratch/tenant_1')
 
 # Copy files from S3
 ###########################################
