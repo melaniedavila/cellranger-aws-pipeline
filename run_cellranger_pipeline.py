@@ -87,12 +87,12 @@ subprocess.check_call(shlex.split(cmd))
 # # Copy data back to S3
 # ###########################
 
-# # copy mkfastq outputs
-# s3_path = 's3://'+inst_bucket + '/tiny-bcl-output'
-# fcs_files_path = 'tiny-bcl-output'
-# upload_folder(s3_path, fcs_files_path)
+# copy mkfastq outputs
+s3_path = 's3://'+inst_bucket + '/tiny-bcl-output'
+fcs_files_path = 'tiny-bcl-output'
+upload_folder(s3_path, fcs_files_path)
 
-# # copy count outputs
-# s3_path = 's3://'+inst_bucket + '/something'
-# fcs_files_path = 'something'
-# upload_folder(s3_path, fcs_files_path)
+# copy count outputs
+s3_path = 's3://'+inst_bucket + '/test_sample'
+fcs_files_path = 'test_sample'
+upload_folder(s3_path, fcs_files_path)
