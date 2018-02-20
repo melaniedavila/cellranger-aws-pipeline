@@ -13,6 +13,8 @@
   * step-3: single job that runs `cellranger count` on tiny-bcl fastqs
   * ~~ test running jobs with higher memory requirements, we need ~30-60GB ~~
 
+  * ~~something~~
+
 The steps required to submit jobs to AWS batch are discussed below.
 
 # 1. Build Stack using Cloudformation and Make AMI with 1TB Volume
