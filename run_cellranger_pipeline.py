@@ -44,9 +44,19 @@
 
 import shlex
 import subprocess
+
+# check available disk space
 cmd = "df -h"
 subprocess.check_call(shlex.split(cmd))
 
+# copy run_cellranger_pipeline.py into scratch directory
+cmd = 'cp run_cellranger_pipeline.py scratch'
+subprocess.check_call(shlex.split(cmd))
+
+# move into scratch directory
+os.chdir('scratch')
+
+# check contents of directory
 cmd = "ls"
 subprocess.check_call(shlex.split(cmd))
 
