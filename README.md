@@ -52,13 +52,13 @@ The steps required to submit jobs to AWS batch are discussed below.
 
 # 5. Run Cellranger Commands in Container (in-progress)
 
-  These are the Cellranger commands that need to be run in the container. They will be run by `run_cellranger_pipeline.py`, which currently only copies the reference genome from S3.
+  These Cellranger commands can be run after changing directories to the `scratch` directory. They will be run by `run_cellranger_pipeline.py`, which currently only copies the reference genome from S3.
 
   ### Cellranger mkfastq
-  `$ cellranger mkfastq --id=tiny-bcl-output --run=/tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=/tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
+  `$ cellranger mkfastq --id=tiny-bcl-output --run=tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
 
   ### Cellranger count
-  `$ cellranger count --id=test_sample --fastqs=/tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --transcriptome=/refdata-cellranger-GRCh38-1.2.0`
+  `$ cellranger count --id=test_sample --fastqs=tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --transcriptome=refdata-cellranger/refdata-cellranger-GRCh38-1.2.0`
 
 
 # System Requirements (from [10X Genomics](https://support.10xgenomics.com/single-cell-gene-expression/software/overview/system-requirements))
