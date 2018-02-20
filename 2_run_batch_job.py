@@ -46,7 +46,7 @@ for inst_resource in resources:
 
 # single-sample-job initialization
 ####################################
-base_name = 'cellranger-OPTIMAL-6part'
+base_name = 'cellranger-REF-PATH2'
 params_dict = {}
 params_dict['bucket'] = 'cellranger_bucket'
 
