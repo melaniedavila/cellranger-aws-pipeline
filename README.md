@@ -15,7 +15,7 @@
 
 The steps required to submit jobs to AWS batch are discussed below.
 
-# 1. Build Stack using Cloudformation
+# 1. Build Stack using Cloudformation and Make AMI with 1TB Volume
 
   The following commands can be used to create and update the stack on AWS using the `cf_cellranger.json` cloudformation
 
