@@ -11,7 +11,7 @@
   * step-1: download primary bcl data and reference transcriptome
   * step-2: single job that runs `cellranger mkfastq` on tiny-bcl data
   * step-3: single job that runs `cellranger count` on tiny-bcl fastqs
-  * ~~ test running jobs with higher memory requirements, we need about 30-60GB ~~
+  * ~~test running jobs with higher memory requirements, we need about 30-60GB~~
 
 The steps required to submit jobs to AWS batch are discussed below.
 
