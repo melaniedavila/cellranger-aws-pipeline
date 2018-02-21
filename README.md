@@ -4,13 +4,18 @@
 
   Currently, we can get several jobs to run and share the same `docker_scratch` directory and have access to up to 64GB of memory. Next, we are working on getting jobs to run `cellranger mkfastq` and `cellranger count`.
 
+  ## Pipeline Overview
+  * step-1: Download bcl data and reference transcriptome from S3
+  * step-2: Run single `cellranger mkfastq` job on tiny-bcl data
+  * step-3: Run multiple `cellranger count` jobs on the tiny-bcl fastqs (use samplesheet)
+
   ### To Do
+
   * get jobs to write to different directories within the 1TB `docker_scratch` directory
-  * set up python script to actually run the cellranger commands
-  * save cellranger outputs back to S3 bucket
-  * step-1: download primary bcl data and reference transcriptome
-  * step-2: single job that runs `cellranger mkfastq` on tiny-bcl data
-  * step-3: single job that runs `cellranger count` on tiny-bcl fastqs
+  * set up AMI that can be ssh'd into
+
+  * ~~save cellranger outputs back to S3 bucket~~
+  * ~~set up python script to actually run the cellranger commands~~
   * ~~test running jobs with higher memory requirements, we need about 30-60GB~~
 
 The steps required to submit jobs to AWS batch are discussed below.

@@ -76,12 +76,16 @@ download_folder(s3_path, 'tiny-bcl')
 cmd = "ls -l refdata-cellranger-GRCh38-1.2.0"
 subprocess.check_call(shlex.split(cmd))
 
-# Run Cellranger
+# Run Cellranger MKFASTQ and COUNT
 ############################################
 
 # cellranger mkfastqs
 cmd = 'cellranger mkfastq --id=tiny-bcl-output --run=tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv'
 subprocess.check_call(shlex.split(cmd))
+
+#
+# use full path for reference transcriptome
+#
 
 # cellranger count
 cmd = 'cellranger count --id=test_sample --fastqs=tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --localmem=3 --chemistry=SC3Pv2 --transcriptome=refdata-cellranger-GRCh38-1.2.0'
