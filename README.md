@@ -14,6 +14,7 @@
   * get jobs to write to different directories within the 1TB `docker_scratch` directory
   * set up AMI that can be ssh'd into
 
+  * ~~run cellranger mkfastq and count on tiny-bcl as AWS batch job~~
   * ~~save cellranger outputs back to S3 bucket~~
   * ~~set up python script to actually run the cellranger commands~~
   * ~~test running jobs with higher memory requirements, we need about 30-60GB~~
