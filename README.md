@@ -56,7 +56,37 @@ The steps required to submit jobs to AWS batch are discussed below.
 
   `$ docker push <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
 
-# 5. Run Cellranger Commands in Container (in-progress)
+# 5. Create AMI
+While in the AWS console, go to the EC2 service section. Click "Instances" on the
+left-hand side panel. Then hit the blue "Launch" button near the top of the page.
+This will take you to Amazon Marketplace.
+
+- Step 1 (choose AMI): select "Amazon ECS-Optimized Amazon Linux AMI".
+- Step 2 (choose an instance type): select t2.micro
+- Step 3 (skip)
+- Step 4 (add storage): Two entries must be made as per [this AWS tutorial](https://aws.amazon.com/blogs/compute/building-high-throughput-genomic-batch-workflows-on-aws-batch-layer-part-3-of-4/)
+Follow the screenshot they provide.
+- Final Step (only steps 1, 2, and 4 needed prior to this): Click "Review and 
+Launch" and then "Launch". You will be prompted to select an existing key pair 
+or create a new pair. 
+    - If creating a new key pair, ensure to save the pem file 
+    for future use and run `chmod 400` on the pem file. You can then
+    hit "Launch Instance" and ssh into your instance.
+
+Again, in the EC2 service section, click "Instances" on the left-hand side panel.
+You should now see the instance you created in the last step. Select the instance,
+click "Actions" (near the blue "Launch Instance" button), hover over "Image", click
+"Create Image". Fill in the "Image name" field and click the "Create Image" button.
+
+Ensure to replace the AMI ID fields in the `cf_cellranger.json` file with the ID of the 
+AMI you just created. To find the AMI ID, in the EC2 service section, under "Images"
+on the left-hand side panel, click "AMIs", and copy the AMI ID corresponding to 
+the AMI you just created.
+
+Reminder: Don't forget to update the stack via the following command:
+`$ aws cloudformation update-stack --template-body file://cf_cellranger.json --stack-name cellranger-job --capabilities CAPABILITY_NAMED_IAM`
+
+# 6. Run Cellranger Commands in Container (in-progress)
 
   These Cellranger commands can be run after changing directories to the `scratch` directory. They will be run by `run_cellranger_pipeline.py`, which currently only copies the reference genome from S3.
 
@@ -66,6 +96,27 @@ The steps required to submit jobs to AWS batch are discussed below.
   ### Cellranger count
   `$ cellranger count --id=test_sample --fastqs=tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --localmem=3 --chemistry=SC3Pv2 --transcriptome=refdata-cellranger/refdata-cellranger-GRCh38-1.2.0`
 
+Note: The samplesheet 10X provides for the tiny-bcl example is more complex than
+the samplesheets we provide during our own runs of the cellranger pipeline. As of
+02/22/18, we create these sample sheet csv files manually on the command line using
+data from Laura's "10x Chromium scRNA-Seq" google sheet ("Sequencing Prep & QC" 
+tab) under the ismmshimc@gmail.com gmail account. We plan to automate this task
+along with various others (i.e. filling out the `cellranger count` parameter 
+`expect-cells` ) once the AWS pipeline is streamlined. The sample sheet 
+should look like the below example:
+
+```
+[Data]
+Lane,Sample_ID,Sample_Name,index
+,SI-GA-B6,MC68NN1,SI-GA-B6
+,SI-GA-B7,MC68NN2,SI-GA-B7
+,SI-GA-B8,MC68TN1,SI-GA-B8
+
+```
+To date (02/22/18), the following has been true of the sample sheets:
+  - The `Lane` column is empty
+  - `Sample_ID` and `Index` columns have the same value and are always prefixed
+  with `SI-GA-`
 
 # System Requirements (from [10X Genomics](https://support.10xgenomics.com/single-cell-gene-expression/software/overview/system-requirements))
 
