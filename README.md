@@ -48,6 +48,9 @@ The steps required to submit jobs to AWS batch are discussed below.
   `$ docker run -it --rm -p 8087:80 <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
 
   See the next section for the commands to run within the container.
+  
+# 4. Create repository
+   Run `python 1_make_ecr_dockerized_cellranger.py`.
 
 # 4. Push Image to AWS ECS
 
