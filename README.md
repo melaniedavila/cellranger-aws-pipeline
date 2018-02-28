@@ -52,7 +52,7 @@ The steps required to submit jobs to AWS batch are discussed below.
 # 4. Create repository
    Run `python 1_make_ecr_dockerized_cellranger.py`.
 
-# 4. Push Image to AWS ECS
+# 5. Push Image to AWS ECS
 
   After the image has been built it needs to be pushed to AWS ECS. First auth credentials need to be obtained by running
 
@@ -62,7 +62,7 @@ The steps required to submit jobs to AWS batch are discussed below.
 
   `$ docker push <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline`
 
-# 5. Create AMI
+# 6. Create AMI
 While in the AWS console, go to the EC2 service section. Click "Instances" on the
 left-hand side panel. Then hit the blue "Launch" button near the top of the page.
 This will take you to Amazon Marketplace.
@@ -92,7 +92,7 @@ the AMI you just created.
 Reminder: Don't forget to update the stack via the following command:
 `$ aws cloudformation update-stack --template-body file://cf_cellranger.json --stack-name cellranger-job --capabilities CAPABILITY_NAMED_IAM`
 
-# 6. Run Cellranger Commands in Container (in-progress)
+# 7. Run Cellranger Commands in Container (in-progress)
 
   These Cellranger commands can be run after changing directories to the `scratch` directory. They will be run by `run_cellranger_pipeline.py`, which currently only copies the reference genome from S3.
 
