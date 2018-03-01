@@ -41,7 +41,7 @@ The steps required to submit jobs to AWS batch are discussed below.
 
 
 # 3. Make and Run Docker Image that will be used as the Batch Job Definition
-  Use the following docker commands to build and run the container. Here, `<URI>` refers to the _Account Id_.
+  Use the following docker commands to build and run the container. Here, `<URI>` refers to your _Account Id_.
 
   `$ docker build -t <URI>.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline .`
 
