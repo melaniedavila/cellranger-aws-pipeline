@@ -100,7 +100,7 @@ Reminder: Don't forget to update the stack via the following command:
   `$ cellranger mkfastq --id=tiny-bcl-output --run=tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv`
 
   ### Cellranger count
-  `$ cellranger count --id=test_sample --fastqs=tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --localmem=3 --chemistry=SC3Pv2 --transcriptome=refdata-cellranger/refdata-cellranger-GRCh38-1.2.0`
+  `$ cellranger count --id=test_sample --fastqs=tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --localmem=3 --chemistry=SC3Pv2 --transcriptome=refdata-cellranger-GRCh38-1.2.0`
 
 Note: The samplesheet 10X provides for the tiny-bcl example is more complex than
 the samplesheets we provide during our own runs of the cellranger pipeline. As of
