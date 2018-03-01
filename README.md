@@ -64,8 +64,8 @@ The steps required to submit jobs to AWS batch are discussed below.
 
 # 6. Create AMI
 While in the AWS console, go to the EC2 service section. Click "Instances" on the
-left-hand side panel. Then hit the blue "Launch" button near the top of the page.
-This will take you to Amazon Marketplace.
+left-hand side panel. Then hit the blue "Launch Instance" button near the top of the page.
+Then, on the left menu, click on "AWS Marketplace".
 
 - Step 1 (choose AMI): select "Amazon ECS-Optimized Amazon Linux AMI".
 - Step 2 (choose an instance type): select t2.micro
