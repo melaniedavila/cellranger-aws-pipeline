@@ -72,6 +72,24 @@ Then, on the left menu, click on "AWS Marketplace".
 - Step 3 (skip)
 - Step 4 (add storage): Two entries must be made as per [this AWS tutorial](https://aws.amazon.com/blogs/compute/building-high-throughput-genomic-batch-workflows-on-aws-batch-layer-part-3-of-4/)
 Follow the screenshot they provide.
+
+**IMPORTANT:** Although 2 storage units are defined in the tutorial (one with 22GB and other with 1000GB):
+![AWS AMI Storage Setup](batch_ecs_setup.png)
+
+After running the proposed list of commands:
+
+```
+sudo yum -y update
+sudo mkfs -t ext4 /dev/xvdb
+sudo mkdir /docker_scratch
+sudo echo -e '/dev/xvdb\t/docker_scratch\text4\tdefaults\t0\t0' | sudo tee -a /etc/fstab
+sudo mount –a
+sudo stop ecs
+sudo rm -rf /var/lib/ecs/data/ecs_agent_data.json
+```
+
+If you run `df -h`, only the first mounted storage unit (in their case, the 22BG image) will be listed.
+
 - Final Step (only steps 1, 2, and 4 needed prior to this): Click "Review and 
 Launch" and then "Launch". You will be prompted to select an existing key pair 
 or create a new pair. 
