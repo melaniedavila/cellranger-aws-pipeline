@@ -47,7 +47,7 @@ from common_utils.job_utils import generate_working_dir, delete_working_dir
 
 
 # check available disk space
-cmd = "df -h"
+cmd = 'df -h'
 subprocess.check_call(shlex.split(cmd))
 
 directory = 'scratch/tenant_1'
@@ -61,46 +61,47 @@ os.chdir('scratch/tenant_1')
 ###########################################
 
 # refdata
-inst_bucket = 'cellranger_bucket'
-s3_folder = 'refdata-cellranger-GRCh38-1.2.0'
-s3_path = 's3://'+inst_bucket + '/' + s3_folder
-download_folder(s3_path, 'refdata-cellranger-GRCh38-1.2.0')
+bucket = '10x-pipeline'
+s3_folder = 'reference_transcriptome'
+version = '1.2.0'
+ref_trans = 'GRCh38'
+s3_path = f"s3://{bucket}/{s3_folder}/{version}"
+download_folder(s3_path, ref_trans)
 
 # tiny-bcl
-inst_bucket = 'cellranger_bucket'
 s3_folder = 'tiny-bcl'
-s3_path = 's3://'+inst_bucket + '/' + s3_folder
-download_folder(s3_path, 'tiny-bcl')
+s3_path = f"s3://{bucket}/{s3_folder}"
+download_folder(s3_path, 'raw_data')
 
 # check refdata
-cmd = "ls -l refdata-cellranger-GRCh38-1.2.0"
+cmd = f"ls -l {ref_trans}"
 subprocess.check_call(shlex.split(cmd))
 
 # Run Cellranger MKFASTQ and COUNT
 ############################################
 
-# cellranger mkfastqs
-cmd = 'cellranger mkfastq --id=tiny-bcl-output --run=tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv'
-subprocess.check_call(shlex.split(cmd))
+# # cellranger mkfastqs
+# cmd = 'cellranger mkfastq --id=tiny-bcl-output --run=tiny-bcl/cellranger-tiny-bcl-1.2.0/ --csv=tiny-bcl/cellranger-tiny-bcl-samplesheet-1.2.0.csv'
+# subprocess.check_call(shlex.split(cmd))
 
-#
-# use full path for reference transcriptome
-#
+# #
+# # use full path for reference transcriptome
+# #
 
-# cellranger count
-cmd = 'cellranger count --id=test_sample --fastqs=tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --localmem=3 --chemistry=SC3Pv2 --transcriptome=refdata-cellranger-GRCh38-1.2.0'
-subprocess.check_call(shlex.split(cmd))
+# # cellranger count
+# cmd = 'cellranger count --id=test_sample --fastqs=tiny-bcl-output/outs/fastq_path/p1/s1 --sample=test_sample --expect-cells=1000 --localmem=3 --chemistry=SC3Pv2 --transcriptome=refdata-cellranger-GRCh38-1.2.0'
+# subprocess.check_call(shlex.split(cmd))
 
 
-# # Copy data back to S3
-# ###########################
+# # # Copy data back to S3
+# # ###########################
 
-# copy mkfastq outputs
-s3_path = 's3://'+inst_bucket + '/tiny-bcl-output'
-fcs_files_path = 'tiny-bcl-output'
-upload_folder(s3_path, fcs_files_path)
+# # copy mkfastq outputs
+# s3_path = 's3://' + bucket + '/tiny-bcl-output'
+# fcs_files_path = 'tiny-bcl-output'
+# upload_folder(s3_path, fcs_files_path)
 
-# copy count outputs
-s3_path = 's3://'+inst_bucket + '/test_sample'
-fcs_files_path = 'test_sample'
-upload_folder(s3_path, fcs_files_path)
+# # copy count outputs
+# s3_path = 's3://' + bucket + '/test_sample'
+# fcs_files_path = 'test_sample'
+# upload_folder(s3_path, fcs_files_path)
