@@ -50,32 +50,33 @@ from common_utils.job_utils import generate_working_dir, delete_working_dir
 cmd = 'df -h'
 subprocess.check_call(shlex.split(cmd))
 
-directory = 'scratch/tenant_1'
+directory = 'scratch'
 if not os.path.exists(directory):
     os.makedirs(directory)
 
 # move into scratch directory
-os.chdir('scratch/tenant_1')
+os.chdir('scratch')
 
 # Copy files from S3
 ###########################################
 
 # refdata
 bucket = '10x-pipeline'
-s3_folder = 'reference_transcriptome'
-version = '1.2.0'
-ref_trans = 'GRCh38'
-s3_path = f"s3://{bucket}/{s3_folder}/{version}"
-download_folder(s3_path, ref_trans)
+# s3_folder = 'reference_transcriptome'
+# version = '1.2.0'
+# ref_trans = 'GRCh38'
+# s3_path = f"s3://{bucket}/{s3_folder}/{version}"
+# download_folder(s3_path, ref_trans)
 
 # tiny-bcl
+# TODO: change so that we are dealing with tar.gz raw_data
 s3_folder = 'tiny-bcl'
-s3_path = f"s3://{bucket}/{s3_folder}"
+s3_path = f"s3://{bucket}/{s3_folder}/raw_data"
 download_folder(s3_path, 'raw_data')
 
 # check refdata
-cmd = f"ls -l {ref_trans}"
-subprocess.check_call(shlex.split(cmd))
+# cmd = f"ls -l {ref_trans}"
+# subprocess.check_call(shlex.split(cmd))
 
 # Run Cellranger MKFASTQ and COUNT
 ############################################
