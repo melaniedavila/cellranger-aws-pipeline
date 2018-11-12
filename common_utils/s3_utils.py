@@ -8,10 +8,12 @@ s3 = boto3.resource('s3')
 
 
 def download_folder(s3_path, directory_to_download):
+    print('downloading ' + directory_to_download)
     """
     Downloads a folder from s3
     :param s3_path: s3 folder path
-    :param directory_to_download: path to download the directory to
+    :param directory_to_download: path to download the directory to; directory that 
+    will be created to house s3_path contents
     :return: directory that was downloaded
     """
     cmd = 'aws s3 cp --recursive %s %s' % (s3_path, directory_to_download)
