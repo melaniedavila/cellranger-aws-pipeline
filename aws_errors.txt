@@ -1,5 +1,0 @@
-I got the following error after submitting cellranger-dockerhub-nick-3GB job.
-
-  CannotPullContainerError: write /var/lib/docker/tmp/GetImageBlob425523236: no space left on device
-
-The docker image is ~18GB.
