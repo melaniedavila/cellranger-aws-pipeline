@@ -21,7 +21,7 @@ RUN apt-get update \
  && rm bcl2fastq2*.deb bcl2fastq2*.rpm bcl2fastq2*.zip
 
 # TODO: update to version 2.2.0
-COPY software/cellranger-2.1.0.tar.gz /tmp
+COPY cellranger-2.1.0.tar.gz /tmp
 
 # Install cellranger
 RUN cd /tmp/ && \
