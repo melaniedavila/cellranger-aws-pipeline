@@ -154,7 +154,7 @@
             ]
           },
           "Vcpus": 1,
-          "Memory": 10000,
+          "Memory": 64000,
 
           "Command": [
             "python3.6",
@@ -186,7 +186,7 @@
     "JobQueue": {
       "Type": "AWS::Batch::JobQueue",
       "Properties": {
-        "Priority": 1,
+        "Priority": 10,
         "ComputeEnvironmentOrder": [
           {
             "Order": 1,
