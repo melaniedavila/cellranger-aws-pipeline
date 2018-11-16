@@ -1,0 +1,2 @@
+himc_pool,run_name,experiment_name,sample_name,sample_index_location,targeted_cell_recovery,reference_transcriptome,reference_transcriptome_version
+himc_0,run_tiny_bcl,run_tiny_bcl_himc_0_181116,test_sample,SI-P03-C9,100,GRCh38,1.2.0

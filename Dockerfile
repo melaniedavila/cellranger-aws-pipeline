@@ -21,9 +21,7 @@ RUN apt-get update \
  && rm bcl2fastq2*.deb bcl2fastq2*.rpm bcl2fastq2*.zip
 
 # TODO: update to version 2.2.0
-COPY cellranger-2.1.0.tar.gz /tmp
-# COPY tiny-bcl /tiny-bcl/
-# COPY refdata-cellranger/refdata-cellranger-GRCh38-1.2.0 refdata-cellranger-GRCh38-1.2.0/
+COPY software/cellranger-2.1.0.tar.gz /tmp
 
 # Install cellranger
 RUN cd /tmp/ && \
@@ -38,8 +36,8 @@ RUN pip3 install botocore==1.7.13
 RUN pip3 install awscli --upgrade
 RUN pip3 install pandas
 
-COPY common_utils /common_utils
-COPY run_cellranger_pipeline.py /
+COPY scripts/common_utils /common_utils
+COPY scripts/run_cellranger_pipeline.py /
 
 # path
 ENV PATH /opt/cellranger-2.1.0:$PATH
