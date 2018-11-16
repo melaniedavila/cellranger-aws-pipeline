@@ -26,9 +26,7 @@ for inst_resource in resources:
 # single-sample-job initialization
 ####################################
 # TODO: update
-base_name = 'cellranger-download-raw-data'
-params = {}
-params['bucket'] = 'tiny-bcl'
+base_name = 'cellranger-mkfastq'
 
 # # job 1
 # #########################
@@ -36,9 +34,6 @@ batch_job_name = base_name + '-64GB'
 job_response = client_batch.submit_job(jobDefinition=job_def_id_1,
                                        jobName=batch_job_name,
                                        jobQueue=job_queue_id)
-
-
-
 
 job_id_1 = job_response['jobId']
 print('submitted job 1: ' + batch_job_name)
