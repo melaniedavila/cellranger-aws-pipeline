@@ -78,8 +78,7 @@ print('FILEPATH: ' + filepath)
 command = f"tar -xvzf {filepath} -C raw_data"
 run_bash_command(command)
 
-## NEXT: make line below work, then transfer non gz file to s3 bucket. then on
-# to config file
+## NEXT: make line below work. then on to config file
 subprocess.check_call(shlex.split('ls raw_data'))
 
 # print('ls -l *')
