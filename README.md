@@ -25,9 +25,9 @@ The steps required to submit jobs to AWS batch are discussed below.
 
   The following commands can be used to create and update the stack on AWS using the `cf_cellranger.json` cloudformation
 
-  `$ aws cloudformation create-stack --template-body file://cf_cellranger.json --stack-name cellranger-job --capabilities CAPABILITY_NAMED_IAM`
+  `$ aws cloudformation create-stack --template-body file://config/cf_cellranger.json --stack-name cellranger-job --capabilities CAPABILITY_NAMED_IAM`
 
-  `$ aws cloudformation update-stack --template-body file://cf_cellranger.json --stack-name cellranger-job --capabilities CAPABILITY_NAMED_IAM`
+  `$ aws cloudformation update-stack --template-body file://config/cf_cellranger.json --stack-name cellranger-job --capabilities CAPABILITY_NAMED_IAM`
 
   The cloudformation template sets up the mounted volume for the jobs (see jobdefinition in template) and tells batch to use a custom AMI that has a mounted 1TB volume for the compute environment. See [aws-batch-genomics](https://aws.amazon.com/blogs/compute/building-high-throughput-genomic-batch-workflows-on-aws-batch-layer-part-3-of-4/) part 3 to see how to make a custom AMI. Also see the [cloudformation docs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-batch-computeenvironment.html) for an exmaple of how to use a custom AMI as a compute environment for AWS batch. Additional helpful links:
   
@@ -74,7 +74,7 @@ Then, on the left menu, click on "AWS Marketplace".
 Follow the screenshot they provide.
 
 **IMPORTANT:** Although 2 storage units are defined in the tutorial (one with 22GB and other with 1000GB):
-![AWS AMI Storage Setup](batch_ecs_setup.png)
+![AWS AMI Storage Setup](docs/batch_ecs_setup.png)
 
 After running the proposed list of commands:
 
