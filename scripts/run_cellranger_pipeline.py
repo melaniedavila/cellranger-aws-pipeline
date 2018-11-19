@@ -3,12 +3,13 @@
 # from common_utils.s3_utils import download_file, upload_file, download_folder, upload_folder
 # from common_utils.job_utils import generate_working_dir, delete_working_dir
 
-import re
-import yaml
+# import re
+# import yaml
 import pandas as pd
-import glob
-import json
-import sys
+# import glob
+# import json
+# import sys
+import tarfile
 import boto3
 import botocore
 import os
@@ -75,17 +76,41 @@ print('FILEPATH: ' + filepath)
 filepath = filepath.rstrip('\n')
 print('FILEPATH: ' + filepath)
 
-command = f"tar -xvzf {filepath} -C raw_data"
-run_bash_command(command)
+tar = tarfile.open('raw_data/cellranger-tiny-bcl-1.2.0.tar.gz')
+tar.extractall('raw_data')
+tar.close()
 
-## NEXT: make line below work. then on to config file
-subprocess.check_call(shlex.split('ls raw_data'))
+# print('os.lisdir(raw_data)')
+# print(os.listdir('raw_data'))
 
-# print('ls -l *')
-# subprocess.check_call(shlex.split('ls -l *'))
+# 2. Download config file and extract sample_name and sample_index_location 
+# parameters
+s3_path = f"s3://{bucket}/{s3_folder}/config"
+download_folder(s3_path, 'config')
+os.listdir('config')
+config = pd.read_csv('config/config.csv')
 
+# sample_names = config['sample_name'].values
+# print(sample_names)
 
+samplesheet = pd.DataFrame(columns=['Lane','Sample_ID','Sample_Name','index'])
 
+for index, row in config.iterrows():
+    lane = ''
+    sample_id = row['sample_index_location']
+    sample_name = row['sample_name']
+    index = sample_id
+    row = pd.Series([lane, sample_id, sample_name, index], index = ['Lane', 
+    									'Sample_ID', 'Sample_Name', 'index'])
+    samplesheet = samplesheet.append(row, ignore_index=True)    
+
+print(samplesheet)
+
+#3. Run cellranger mkfastq
+
+# cellranger mkfastq \
+# --run=/sc/orga/projects/HIMC/chromium/run448_himc54_092518/raw_data/180925_NS500672_0448_AH25MLBGX9 \
+# --samplesheet=/sc/orga/projects/HIMC/chromium/run448_himc54_092518/samplesheets/ss_092518_gex.csv
 
 ###########################################
 
