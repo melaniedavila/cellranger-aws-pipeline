@@ -115,20 +115,9 @@ upload_file(s3_path, 'ss_gex.csv')
 
 run = [file for file in os.listdir('raw_data') if not file.endswith('.tar.gz')][0]
 run_path = f"raw_data/{run}"
-print('RUN_PATH: '+ run_path)
 samplesheet_filename = 'ss_gex.csv'
-print('samplesheet_filename: ' + samplesheet_filename)
-
-
 
 #3. Run cellranger mkfastq
-# TODO: in future, perhaps change id to the sample_id/fastqs/run_id. that way,
-# files will be saved in the same manner that we will store them in. This also
-# means that we may have to run separate mkfastq invocations... Or we can try changing
-# our single samplsheet to look like the below with a Sample_Project directory:
-# [Data]
-# Lane,Sample_ID,index,Sample_Project
-# 1,Sample1,SI-P03-C9,tiny-bcl
 cmd = f"cellranger mkfastq --id=fastqs_gex --run={run_path} --samplesheet={samplesheet_filename}"
 print(cmd)
 subprocess.check_call(shlex.split(cmd))
@@ -138,14 +127,9 @@ print(os.listdir('fastqs_gex/outs/'))
 print(os.listdir('fastqs_gex/outs/fastq_path'))
 
 
-
-
-
-
-
-
-
-
+## NEXT: create proper s3 bucket layout (mimicking backup patterns). maybe make 
+# this step 0 so that at this point we can just focus on uploading fastq files
+# also ready for cellranger count transition based of python5 example
 
 
 
