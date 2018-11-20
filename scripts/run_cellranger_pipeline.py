@@ -3,20 +3,15 @@
 # from common_utils.s3_utils import download_file, upload_file, download_folder, upload_folder
 # from common_utils.job_utils import generate_working_dir, delete_working_dir
 
-# import re
-# import yaml
 import pandas as pd
-# import glob
-# import json
-# import sys
 import tarfile
 import boto3
-import botocore
+import botocore # TODO: needed?
 import os
 import shlex
 import subprocess
 from common_utils.s3_utils import download_file, upload_file, download_folder, upload_folder
-from common_utils.job_utils import generate_working_dir, delete_working_dir
+from common_utils.job_utils import generate_working_dir, delete_working_dir, run_bash_command
 
 # check available disk space
 subprocess.check_call(shlex.split('df -h'))
@@ -48,20 +43,6 @@ os.chdir('scratch')
 # 		- expect-cells
 # 		- reference reference_transcriptome
 
-
-def run_bash_command(command):
-	print('In-Progress: ' + command + '\n\n')
-	completed_process = subprocess.run(
-	args = command.split(' '),
-	stdout = subprocess.PIPE,
-	stderr = subprocess.STDOUT,
-	)
-
-	completed_process.check_returncode()
-	completed_process_stdout = completed_process.stdout.decode('utf-8')
-	return completed_process_stdout
-
-
 bucket = '10x-pipeline'
 # 1. Download and decompress raw data:
 s3_folder = 'run_tiny_bcl_himc_0_181116'
@@ -69,31 +50,33 @@ s3_path = f"s3://{bucket}/{s3_folder}/raw_data"
 download_folder(s3_path, 'raw_data')
 
 raw_data_filename = run_bash_command('ls raw_data')
-print('RAW DATA FILENAME: ' + raw_data_filename)
+# print('RAW DATA FILENAME: ' + raw_data_filename)
 filepath = ('/').join(['raw_data', raw_data_filename])
-print('FILEPATH: ' + filepath)
+# print('FILEPATH: ' + filepath)
 
 filepath = filepath.rstrip('\n')
-print('FILEPATH: ' + filepath)
+# print('FILEPATH: ' + filepath)
 
 tar = tarfile.open('raw_data/cellranger-tiny-bcl-1.2.0.tar.gz')
 tar.extractall('raw_data')
 tar.close()
 
 # print('os.lisdir(raw_data)')
-# print(os.listdir('raw_data'))
+print(os.listdir('raw_data'))
 
 # 2. Download config file and extract sample_name and sample_index_location 
 # parameters
 s3_path = f"s3://{bucket}/{s3_folder}/config"
 download_folder(s3_path, 'config')
-os.listdir('config')
 config = pd.read_csv('config/config.csv')
 
 # sample_names = config['sample_name'].values
 # print(sample_names)
 
 samplesheet = pd.DataFrame(columns=['Lane','Sample_ID','Sample_Name','index'])
+row = pd.Series(['Lane', 'Sample_ID', 'Sample_Name', 'index'], index = ['Lane', 'Sample_ID', 'Sample_Name', 'index'])
+samplesheet = samplesheet.append(row, ignore_index=True)  
+
 
 for index, row in config.iterrows():
     lane = ''
@@ -104,9 +87,73 @@ for index, row in config.iterrows():
     									'Sample_ID', 'Sample_Name', 'index'])
     samplesheet = samplesheet.append(row, ignore_index=True)    
 
+samplesheet.columns = ['[Data]', '', '', '']
+
+
+# samplesheet.set_index('Lane', inplace=True)
+
+# samplesheet = pd.DataFrame(columns=['Sample_Project', 'Lane','Sample_ID','index'])
+
+# for index, row in config.iterrows():
+#     sample_project = ''
+#     lane = ''
+#     sample_id = row['sample_name']
+#     index = row['sample_index_location']
+#     row = pd.Series([sample_project, lane, sample_id, index], index = ['Sample_Project', 'Lane', 'Sample_ID', 'index'])
+#     samplesheet = samplesheet.append(row, ignore_index=True)    
+
+# samplesheet.set_index('Sample_Project', inplace=True)
+
 print(samplesheet)
+samplesheet.to_csv('ss_gex.csv', index=False)
+
+
+# TODO: determine if we want to continue saving the samplesheet to s3. maybe keep 
+# just in early phases of AWS pipeline to help with debugging.
+s3_path = f"s3://{bucket}/{s3_folder}/samplesheets/"
+upload_file(s3_path, 'ss_gex.csv')
+
+run = [file for file in os.listdir('raw_data') if not file.endswith('.tar.gz')][0]
+run_path = f"raw_data/{run}"
+print('RUN_PATH: '+ run_path)
+samplesheet_filename = 'ss_gex.csv'
+print('samplesheet_filename: ' + samplesheet_filename)
+
+
 
 #3. Run cellranger mkfastq
+# TODO: in future, perhaps change id to the sample_id/fastqs/run_id. that way,
+# files will be saved in the same manner that we will store them in. This also
+# means that we may have to run separate mkfastq invocations... Or we can try changing
+# our single samplsheet to look like the below with a Sample_Project directory:
+# [Data]
+# Lane,Sample_ID,index,Sample_Project
+# 1,Sample1,SI-P03-C9,tiny-bcl
+cmd = f"cellranger mkfastq --id=fastqs_gex --run={run_path} --samplesheet={samplesheet_filename}"
+print(cmd)
+subprocess.check_call(shlex.split(cmd))
+print(os.listdir())
+print(os.listdir('fastqs_gex/'))
+print(os.listdir('fastqs_gex/outs/'))
+print(os.listdir('fastqs_gex/outs/fastq_path'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Transfer all non-undetermined fastqs to S3
 
 # cellranger mkfastq \
 # --run=/sc/orga/projects/HIMC/chromium/run448_himc54_092518/raw_data/180925_NS500672_0448_AH25MLBGX9 \
