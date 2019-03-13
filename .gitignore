@@ -76,3 +76,5 @@ clustergrammer
 refdata-cellranger
 
 docker_scratch
+
+config/*pem
