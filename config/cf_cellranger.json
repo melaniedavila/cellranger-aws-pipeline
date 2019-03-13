@@ -6,7 +6,7 @@
     "ImageId": {
        "Type": "AWS::EC2::Image::Id",
        "Description": "AMI you want your AWS Batch Compute Environment to use",
-       "Default": "ami-01056e33538d38a98"
+       "Default": "ami-042685a1dcea2a93c"
     }
   },
 
@@ -223,7 +223,7 @@
           "InstanceRole": {
             "Ref": "IamInstanceProfile"
           },
-          "ImageId": "ami-01056e33538d38a98"
+          "ImageId": "ami-042685a1dcea2a93c"
         },
 
         "ServiceRole": {
