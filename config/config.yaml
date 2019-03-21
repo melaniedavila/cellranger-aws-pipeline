@@ -1,0 +1,43 @@
+# This config file describes an experiment.
+# An experiment is "a collection of samples that need to be processed and analyzed together."
+
+# Or, an experiment is "what I want to do with one or more samples."
+# That's what this format is describing.
+
+# experiment:
+# * processing (optional, we may already have fastqs)
+# * analysis   (optional, if the processing is bc2lfastq)
+
+# These things are global; they do not change on a per-sample basis.
+experiment:
+  bcl2fastq_version: "2.20.0"                  # Determines what image to run
+  cellranger_version: "2.2.0"                  # Determines what image to run
+  experiment_name: run_tiny_bcl_himc_0_181116  # Corresponds exactly
+                                               # to locations in:
+                                               # * s3://10x-data-backup/${experiment_name}
+                                               # * s3://10x-pipeline/configs/${experiment_name}.yml
+  run_id: run_tiny_bcl                         # Metadata
+  himc_pool: himc_0                            # Metadata
+
+# Either
+# * Nothing
+# * bc2lfastq
+# * mkfastq
+# * mkfastq & bc2lfastq
+processing:
+  mkfastq:
+    samples:
+      - name: test_sample
+        index_location: SI-P03-C9    
+
+analyses:
+  - # WHAT:
+    sample_name: test_sample                     # Argument passed directly to `cellranger {count,vdj}`
+    # HOW:
+    job_type: count                              # One of:
+                                                 # * count
+                                                 # * vdj
+    chemistry: null                              # Argument passed directly to `cellranger {count,vdj}`
+    reference_transcriptome: GRCh38              # Argument passed directly to `cellranger {count,vdj}`
+    reference_transcriptome_version: 1.2.0       # Argument passed directly to `cellranger {count,vdj}`
+    target_cell_count: 100                       # Argument passed to `cellranger count`
