@@ -32,7 +32,7 @@ RUN wget https://s3.amazonaws.com/10x-pipeline/software/cellranger/cellranger-2.
 ENV PATH /opt/cellranger-2.2.0:$PATH
 
 RUN groupadd -g 999 user && \
-    useradd -r -u 999 -g user user
+  useradd -r -u 999 -g user user
 USER user
 
 # We add an entrypoint in order to avoid entering a python REPL upon running the docker image.
