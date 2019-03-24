@@ -19,11 +19,11 @@ build:
 		--label commit=$(GIT_COMMIT) \
 		--no-cache=$(NOCACHE) .
 
-push: build test
+push: build
 	@printf '* Pushing %s\n' "$(REGISTRY)/$(IMAGE):$(GIT_COMMIT)"
 	@docker push $(REGISTRY)/$(IMAGE):$(GIT_COMMIT)
 
-push-latest: build test
+push-latest: build
 	@printf '* Pushing %s\n' "$(REGISTRY)/$(IMAGE)"
 	@docker push $(REGISTRY)/$(IMAGE)
 
