@@ -1,13 +1,9 @@
-# SOFTWARE VERSIONS:
-# bcl2fastq: 2.20.0
-# cellranger: 2.2.0
-
 FROM python:3.6
 
 MAINTAINER MSSM HIMC
 
 RUN pip3 install --upgrade \
-  awscli
+  awscli \
   pyyaml
 
 # Install bcl2fastq. cellranger mkfastq requires it.
@@ -28,12 +24,11 @@ RUN wget https://s3.amazonaws.com/10x-pipeline/software/cellranger/cellranger-2.
   && tar -xzvf cellranger-2.2.0.tar.gz \
   && rm -f cellranger-2.2.0.tar.gz
 
-# path
 ENV PATH /opt/cellranger-2.2.0:$PATH
 
+# don't run containers as root
 RUN groupadd -g 999 user && \
   useradd -r -u 999 -g user user
 USER user
 
-# We add an entrypoint in order to avoid entering a python REPL upon running the docker image.
-ENTRYPOINT ["echo", "hello"]
+ENTRYPOINT ["bash"]
