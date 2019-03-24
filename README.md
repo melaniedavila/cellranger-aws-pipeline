@@ -1,23 +1,31 @@
 # Cellranger AWS Pipeline
 
+We deploy the 10X Genomics cellranger pipeline on AWS. This branch builds upon 
+previous work done by Nick (following the AWS batch genomics example) and 
+office hour suggestions from solutions architects at the AWS loft in SOHO.
+
+For a walkthrough of the steps taken to build the pipeline, visit 
+[this document](./docs/Building_the_Pipeline.md)
+
+# High-Level Architecture
+
+# Steps Taken to Build Pipeline
+
+# Running the Pipeline
+
+
+### Next Steps:
+- Automatically migrate fastq files from S3 to Glacier after 1 year
+- Automatically migrate bcl file from S3 to Glacier after 1 month
+
+
+
+
+
+
   This repo is working towards deploying the 10X cellranger pipeline on AWS. In a separate repo, [dockerized-cellranger](https://github.com/ismms-himc/dockerized_cellranger), we ran `cellranger mkfastq` and `cellranger count` in a docker container using the `tiny-bcl` example dataset (the image ran successfully on linux but not on mac). However, the reference transcriptome (e.g. GRCh38) was included in the docker iamge, which made the image ~18GB and this is too large to run on AWS batch. We are working on a docker image that uses `boto` to copy the reference from S3 to a 1TB mounted volume (see `docker_scratch` below).
 
   Currently, we can get several jobs to run and share the same `docker_scratch` directory and have access to up to 64GB of memory. Next, we are working on getting jobs to run `cellranger mkfastq` and `cellranger count`.
-
-  ## Pipeline Overview
-  * step-1: Download bcl data and reference transcriptome from S3
-  * step-2: Run single `cellranger mkfastq` job on tiny-bcl data
-  * step-3: Run multiple `cellranger count` jobs on the tiny-bcl fastqs (use samplesheet)
-
-  ### To Do
-
-  * get jobs to write to different directories within the 1TB `docker_scratch` directory
-  * set up AMI that can be ssh'd into
-
-  * ~~run cellranger mkfastq and count on tiny-bcl as AWS batch job~~
-  * ~~save cellranger outputs back to S3 bucket~~
-  * ~~set up python script to actually run the cellranger commands~~
-  * ~~test running jobs with higher memory requirements, we need about 30-60GB~~
 
 The steps required to submit jobs to AWS batch are discussed below.
 
