@@ -33,24 +33,24 @@ processing:
         index_location: SI-P03-C9
 
 analyses:
-  # - # WHAT:
-    samples:
-      - name: test_sample                       # Argument passed directly to `cellranger {count,vdj}`
-        job_type: count                         # One of:
-                                                # * count
-                                                # * vdj
-        chemistry: null                         # Argument passed directly to `cellranger {count,vdj}`, optional; it's okay if it's null
-        reference_transcriptome: GRCh38         # Argument passed directly to `cellranger {count,vdj}`
-        reference_transcriptome_version: 1.2.0  # Argument passed directly to `cellranger {count,vdj}`
-        target_cell_count: 100                  # Argument passed to `cellranger count`
-        feature_barcoding: False                # Will help us determine if this is a feature barcoding experiment in which case we'll need to generate more samplesheets
-        pooled_run: False                       # Will help us determine if we need to wait for 2 sets of fastqs, each from different sequencing runs, to run cellranger count
+  # WHAT:
+  samples:
+    - name: test_sample                       # Argument passed directly to `cellranger {count,vdj}`
+      job_type: count                         # One of:
+                                              # * count
+                                              # * vdj
+      chemistry: null                         # Argument passed directly to `cellranger {count,vdj}`, optional; it's okay if it's null
+      reference_transcriptome: GRCh38         # Argument passed directly to `cellranger {count,vdj}`
+      reference_transcriptome_version: 1.2.0  # Argument passed directly to `cellranger {count,vdj}`
+      target_cell_count: 100                  # Argument passed to `cellranger count`
+      feature_barcoding: False                # Will help us determine if this is a feature barcoding experiment in which case we'll need to generate more samplesheets
+      pooled_run: False                       # Will help us determine if we need to wait for 2 sets of fastqs, each from different sequencing runs, to run cellranger count
 
-      - name: test_sample_2
-        job_type: count
-        chemistry: null
-        reference_transcriptome: GRCh38
-        reference_transcriptome_version: 1.2.0
-        target_cell_count: 100
-        feature_barcoding: False
-        pooled_run: False
+    - name: test_sample_2
+      job_type: count
+      chemistry: null
+      reference_transcriptome: GRCh38
+      reference_transcriptome_version: 1.2.0
+      target_cell_count: 100
+      feature_barcoding: False
+      pooled_run: False
