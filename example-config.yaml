@@ -1,9 +1,6 @@
 # This config file describes an experiment.
 # An experiment is "a collection of samples that need to be processed and analyzed together."
 
-# Or, an experiment is "what I want to do with one or more samples."
-# That's what this format is describing.
-
 # experiment:
 # * processing (optional, we may already have fastqs)
 # * analysis   (optional, if the processing is bc2lfastq)
@@ -12,9 +9,9 @@
 experiment:
   bcl2fastq_version: "2.20.0"                  # Determines what image to run
   cellranger_version: "2.2.0"                  # Determines what image to run
-  experiment_name: run_tiny_bcl_himc_0_181116  # Corresponds exactly
+  name: run_tiny_bcl_himc_0_181116             # Corresponds exactly
                                                # to locations in:
-                                               # * s3://10x-data-backup/${experiment_name}
+                                               # * s3://10x-data-backup/${experiment_name}/
                                                # * s3://10x-pipeline/configs/${experiment_name}.yml
   run_id: run_tiny_bcl                         # Metadata
   himc_pool: himc_0                            # Metadata
