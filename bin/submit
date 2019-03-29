@@ -9,28 +9,39 @@ EOF
 }
 
 payload() {
-  local config_yaml
-  config_yaml="$1"
-  cat "$config_yaml" | python -c "import json; import sys; import yaml;
-config_data=yaml.load(sys.stdin.read())
-json_payload=json.dumps({'configuration': config_data})
+  local config_yaml_filename
+  config_yaml_filename="$1"
+  cat "$config_yaml_filename" | python -c "import json; import sys; import yaml;
+config_data = yaml.load(sys.stdin.read())
+json_payload = json.dumps({'configuration': config_data})
 print(f\"'{json_payload}'\")"
 }
 
+validate_schema() {
+  local config_yaml_filename
+  config_yaml_filename="$1"
+  cat "$config_yaml_filename" | python -c "from jsonschema import validate; import json; import sys; import yaml;
+config_data = yaml.load(sys.stdin.read())
+json_schema = json.load(open('config_schema.json'))
+validate(config_data, json_schema)"
+}
+
 main() {
-  local config_yaml
+  local config_yaml_filename
 
   if [[ -z "$1" ]]; then
     usage
     exit 1
   fi
 
-  config_yaml="$1"
+  config_yaml_filename="$1"
+
+  validate_schema "$config_yaml_filename"
 
   echo aws lambda invoke \
       --function-name "test-cellranger-pipeline-submit" \
       --log-type "Tail" \
-      --payload "$(payload "$config_yaml")"
+      --payload "$(payload "$config_yaml_filename")"
 }
 
 main "$@"
