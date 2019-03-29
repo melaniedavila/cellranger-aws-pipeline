@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+usage() {
+  cat <<-EOF
+usage: $0 CONFIGYAML
+EOF
+}
+
+payload() {
+  local config_yaml
+  config_yaml="$1"
+  cat "$config_yaml" | python -c "import json; import sys; import yaml;
+config_data=yaml.load(sys.stdin.read())
+json_payload=json.dumps({'configuration': config_data})
+print(f\"'{json_payload}'\")"
+}
+
+main() {
+  local config_yaml
+
+  if [[ -z "$1" ]]; then
+    usage
+    exit 1
+  fi
+
+  config_yaml="$1"
+
+  echo aws lambda invoke \
+      --function-name "test-cellranger-pipeline-submit" \
+      --log-type "Tail" \
+      --payload "$(payload "$config_yaml")"
+}
+
+main "$@"
