@@ -1,8 +1,10 @@
 {
   "type": "object",
+  "additional_properties": false,
   "properties": {
     "experiment": {
       "type": "object",
+      "additional_properties": false,
       "properties": {
         "bcl2fastq_version": { "type": "string" },
         "cellranger_version": { "type": "string" },
@@ -19,14 +21,14 @@
         "himc_pool",
         "run",
         "sequencing_date"
-      ],
-      "additional_properties": false
+      ]
     },
     "processing": {
       "type": "object",
       "properties": {
         "mkfastq": {
           "type": "object",
+          "additional_properties": false,
           "properties": {
             "samples": {
               "type": "array",
@@ -40,8 +42,7 @@
               }
             }
           },
-          "required": [ "samples" ],
-          "additional_properties": false
+          "required": [ "samples" ]
         }
       }
     },
@@ -53,6 +54,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "additional_properties": false,
             "properties": {
               "name": { "type": "string" },
               "job_type": {
@@ -62,6 +64,7 @@
               "chemistry": { "type": "string" },
               "reference_transcriptome": {
                 "type": "object",
+                "additional_properties": false,
                 "properties": {
                   "name": { "type": "string" },
                   "version": { "type": "string" }
