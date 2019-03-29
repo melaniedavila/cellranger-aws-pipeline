@@ -42,7 +42,7 @@ analyses:
       job_type: count                         # One of:
                                               # * count
                                               # * vdj
-      chemistry: null                         # Argument passed directly to `cellranger {count,vdj}`, optional; it's okay if it's null
+      chemistry: auto                         # Argument passed directly to `cellranger {count,vdj}`, optional; it's okay if it's null
       reference_transcriptome:
         name: GRCh38                          # Argument passed directly to `cellranger {count,vdj}`
         version: 1.2.0                        # Argument passed directly to `cellranger {count,vdj}`
@@ -52,7 +52,7 @@ analyses:
 
     - name: test_sample_2
       job_type: count
-      chemistry: null
+      chemistry: auto
       reference_transcriptome:
         name: GRCh38
         version: 1.2.0
