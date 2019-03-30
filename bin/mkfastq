@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# This script is the entrypoint for all invocations of `cellranger
+# mkfastq`. It pulls the raw data from s3 before invoking a small
+# python wrapper around `cellranger mkfastq`.
+
+COMPRESSED_RAW_DATA_PATH="/tmp/raw_data.tar.gz"
+RAW_DATA_DIR="${HOME}/raw_data"
+
+usage() {
+  echo "$0 CONFIG_JSON"
+}
+
+get_experiment_name() {
+  local config_json
+  config_json="$1"
+  python -c 'import json; import sys;
+print(json.load(sys.stdin)["experiment_name"])' <<<"$config_json"
+}
+
+fetch_raw_data() {
+  local config_json
+  config_json="$1"
+  experiment_name="$(get_experiment_name "$config_json")"
+  aws s3 cp "s3://10x-data-backup/${experiment_name}/raw_data/" "$COMPRESSED_RAW_DATA_PATH" --recursive
+  tar -xvz -C "$RAW_DATA_DIR" --strip 1 -f "$COMPRESSED_RAW_DATA_PATH"
+  rm "$COMPRESSED_RAW_DATA_PATH"
+}
+
+main() {
+  local config_json
+  config_json="$1"
+
+  if [[ -z "$config_json" ]]; then
+    usage
+    exit 1
+  fi
+
+  fetch_raw_data "$config_json"
+
+  cellranger_mkfastq "$config_json" "$RAW_DATA_DIR"
+}
+
+main "$@"

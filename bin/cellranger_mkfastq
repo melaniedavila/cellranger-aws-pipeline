@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+
+# This script expects the raw data to exist on disk. Given the raw
+# data, this script generates samplesheet.csv and invokes `cellranger
+# mkfastq`.
+
+import csv
+import json
+import os
+import sys
+
+OUTPUT_DIR="f'{print(os.environ['HOME'])}/output'"
+SAMPLESHEET_CSV_PATH=f'{print(os.environ['HOME'])}/samplesheet.csv'
+SAMPLESHEET_CSV_HEADER=["[Data]", "", "", ""]
+
+def usage():
+  print(f'{sys.argv[0]] CONFIG_JSON')
+
+def generate_samplesheet_csv(samples):
+  csv_data=[ ["", sample['index_location'], sample['name'], sample['index_location'] ]
+             for sample in samples]
+
+  with open(SAMPLESHEET_CSV_PATH, 'w') as csv_file:
+    writer = csv.writer(csv_file)
+    writer.writerows(SAMPLESHEET_CSV_HEADER)
+    writer.writerows(csv_data)
+# it should look like this
+# [Data],,,
+# Lane,Sample_ID,Sample_Name,index
+# ,SI-P03-C9,test_sample,SI-P03-C9
+# ,SI-P03-C9,test_sample_2,SI-P03-C9
+
+def invoke_cellranger_mkfastq(raw_data_dir):
+  os.makedirs(OUTPUT_DIR, exist_ok=True)
+  os.execvp('cellranger', ['cellranger', 'mkfastq',
+                           '--delete-undetermined',
+                           f'--run={raw_data_dir}',
+                           f'--samplesheet={SAMPLESHEET_CSV_PATH}',
+                           # TODO: don't hardcode this stuff
+                           '--localmem=124', '--localcores=15',
+                           f'--output-dir={OUTPUT_DIR}'])
+
+
+def main():
+  if len(sys.argv) < 2:
+    usage
+    exit(1)
+
+  # config_json=sys.argv[1]
+  # temporary
+  config_json='{"experiment_name": "runtinybcl-himc0-111618", "run": "tinybcl", "samples": {"samples": [{"name": "test_sample", "index_location": "SI-P03-C9"}, {"name": "test_sample_2", "index_location": "SI-P03-C9"}]}}'
+  config=json.reads(config_json)
+  raw_data_dir=sys.argv[2]
+
+  generate_samplesheet_csv(config['samples'])
+  invoke_cellranger_mkfastq(raw_data_dir)
+
+main()
