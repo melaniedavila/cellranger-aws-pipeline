@@ -4,7 +4,7 @@ NOCACHE?=false
 BCL2FASTQ_VERSION?="2.20.0"
 CELLRANGER_VERSION?="2.2.0"
 GIT_COMMIT:=$(shell git rev-parse HEAD | cut -c-7)
-IMAGE=cellranger-$(CELLRANGER_VERSION)-bc2lfastq-$(BCL2FASTQ_VERSION)
+IMAGE=cellranger-$(CELLRANGER_VERSION)-bcl2fastq-$(BCL2FASTQ_VERSION)
 
 .PHONY: all build push push-latest clean test
 
