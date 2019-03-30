@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# A script for invoking the AWS Lambda function that submits the
+# various batch jobs pertaining to an experiment.
+
 set -eo pipefail
 
 usage() {
