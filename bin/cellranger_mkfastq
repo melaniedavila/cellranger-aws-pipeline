@@ -47,4 +47,8 @@ def main(config_json, raw_data_dir):
   generate_samplesheet_csv(config['samples'])
   invoke_cellranger_mkfastq(raw_data_dir)
 
-main(*sys.argv)
+if len(sys.argv) < 2:
+  usage
+  exit(1)
+else:
+  main(*sys.argv)
