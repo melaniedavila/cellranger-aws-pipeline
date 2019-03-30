@@ -4,7 +4,6 @@ MAINTAINER MSSM HIMC
 
 RUN pip3 install --upgrade awscli
 
-
 # Install bcl2fastq. cellranger mkfastq requires it.
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
@@ -24,6 +23,9 @@ RUN wget https://s3.amazonaws.com/10x-pipeline/software/cellranger/cellranger-2.
   && rm -f cellranger-2.2.0.tar.gz
 
 ENV PATH /opt/cellranger-2.2.0:$PATH
+
+COPY bin/mkfastq /usr/local/bin/mkfastq
+COPY bin/cellranger_mkfastq /usr/local/bin/cellranger_mkfastq
 
 # don't run containers as root
 RUN groupadd -g 999 user && \
