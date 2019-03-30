@@ -1,10 +1,9 @@
-FROM python:3.6
+FROM python:3.6-slim
 
 MAINTAINER MSSM HIMC
 
-RUN pip3 install --upgrade \
-  awscli \
-  pyyaml
+RUN pip3 install --upgrade awscli
+
 
 # Install bcl2fastq. cellranger mkfastq requires it.
 RUN export DEBIAN_FRONTEND=noninteractive \
