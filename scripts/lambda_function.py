@@ -1,5 +1,8 @@
 #!/usr/bin/env python3.6
 
+# This script submits experiment jobs to AWS Batch. It may be run
+# either locally or on AWS Lambda.
+
 import boto3
 import datetime as dt
 import json
