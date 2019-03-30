@@ -41,18 +41,10 @@ def invoke_cellranger_mkfastq(raw_data_dir):
                            f'--output-dir={OUTPUT_DIR}'])
 
 
-def main():
-  if len(sys.argv) < 2:
-    usage
-    exit(1)
-
-  # config_json=sys.argv[1]
-  # temporary
-  config_json='{"experiment_name": "runtinybcl-himc0-111618", "run": "tinybcl", "samples": {"samples": [{"name": "test_sample", "index_location": "SI-P03-C9"}, {"name": "test_sample_2", "index_location": "SI-P03-C9"}]}}'
+def main(config_json, raw_data_dir):
   config=json.reads(config_json)
-  raw_data_dir=sys.argv[2]
 
   generate_samplesheet_csv(config['samples'])
   invoke_cellranger_mkfastq(raw_data_dir)
 
-main()
+main(*sys.argv)
