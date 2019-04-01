@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+# This script generates the contents of the samplesheet.csv that will
+# be consumed by `cellranger mkfastq`.
+
+# The samplesheet generated looks something like this:
+# [Data],,,
+# Lane,Sample_ID,Sample_Name,index
+# ,SI-P03-C9,test_sample,SI-P03-C9
+# ,SI-P03-C9,test_sample_2,SI-P03-C9
+
+import csv
+import json
+import os
+import sys
+
+SAMPLESHEET_CSV_HEADERS=[["[Data]", "", "", ""],
+                         ["Lane","Sample_ID","Sample_Name","index"]]
+
+
+def usage():
+  print(f'{sys.argv[0]} CONFIG_JSON SAMPLESHEET_CSV_PATH')
+
+def main(config_json):
+  config=json.loads(config_json)
+  samples=config['samples']
+  csv_data=[ ["", sample['index_location'], sample['name'], sample['index_location'] ]
+             for sample in samples]
+
+  writer = csv.writer(sys.stdout)
+  writer.writerows(SAMPLESHEET_CSV_HEADERS)
+  writer.writerows(csv_data)
+
+if len(sys.argv) < 1:
+  usage
+  exit(1)
+else:
+  main(sys.argv[1])

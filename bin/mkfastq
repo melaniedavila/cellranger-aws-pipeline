@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 
+# This script is the entrypoint for all invocations of `cellranger
+# mkfastq`. It pulls the raw data from s3 and generates
+# samplesheet.csv before invoking `cellranger mkfastq`.
+
 set -euo pipefail
 
-# This script is the entrypoint for all invocations of `cellranger
-# mkfastq`. It pulls the raw data from s3 before invoking a small
-# python wrapper around `cellranger mkfastq`.
+if [[ -n "$DEBUG" ]]; then
+  set -x
+fi
 
 COMPRESSED_RAW_DATA_PATH="/tmp/raw_data.tar.gz"
+LOCALMEM=124 # TODO: don't hardcode
+LOCALCORES=15 # TODO: don't hardcode
+OUTPUT_DIR="${HOME}/output"
 RAW_DATA_DIR="${HOME}/raw_data"
+SAMPLESHEET_CSV_PATH="${HOME}/samplesheet.csv"
 
 usage() {
   echo "$0 CONFIG_JSON"
@@ -21,7 +29,7 @@ print(json.load(sys.stdin)["experiment_name"])' <<<"$config_json"
 }
 
 fetch_raw_data() {
-  local config_json
+  local config_json experiment_name
   config_json="$1"
   experiment_name="$(get_experiment_name "$config_json")"
   aws s3 cp "s3://10x-data-backup/${experiment_name}/raw_data/" "$COMPRESSED_RAW_DATA_PATH" --recursive
@@ -29,18 +37,32 @@ fetch_raw_data() {
   rm "$COMPRESSED_RAW_DATA_PATH"
 }
 
+cellranger_mkfastq() {
+  exec cellranger mkfastq \
+       --delete-undetermined \
+       # TOOD: find out if we really need to pass these when running
+       # in a container
+       #
+       # --localcores="${LOCALCORES}" \
+       # --localmem="${LOCALMEM}" \
+       --output-dir="${OUTPUT_DIR}" \
+       --run="${RAW_DATA_DIR}" \
+       --samplesheet="${SAMPLESHEET_CSV_PATH}"
+}
+
 main() {
   local config_json
-  config_json="$1"
 
-  if [[ -z "$config_json" ]]; then
+  if [[ -z "${1:-}" ]]; then
     usage
     exit 1
   fi
 
-  fetch_raw_data "$config_json"
+  config_json="$1"
 
-  cellranger_mkfastq "$config_json" "$RAW_DATA_DIR"
+  fetch_raw_data "$config_json"
+  generate_samplesheet "$config_json" > "$SAMPLESHEET_CSV_PATH"
+  cellranger_mkfastq "$config_json"
 }
 
 main "$@"
