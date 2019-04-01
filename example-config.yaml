@@ -9,9 +9,24 @@
 experiment:
   bcl2fastq_version: "2.20.0"      # Determines what image to run
   cellranger_version: "2.2.0"      # Determines what image to run
-  run: tinybcl                     # Metadata; used to generate the experiment name
-  himc_pool: "0"                   # Metadata; used to generate the experiment name
-  sequencing_date: "2018-11-16"    # Metadata; used to generate the experiment name
+  sequencing_runs:                 # Metadata; used to generate the
+                                   # experiment name.
+                                   # E.g. "runtinybcl_himc0_111618-runtinybcl47_himc2_111618"
+                                   # Sequencing run names are
+                                   # separated by '-'.
+    - id: tinybcl
+      himc_pool: "0"
+      date: "2018-11-16"
+      bcl_filename: cellranger-tiny-bcl-1.2.0.tar.gz # TODO: should
+                                                     # this be here?
+                                                     # or should it be
+                                                     # specified
+                                                     # separately down
+                                                     # with the other
+                                                     # mkfastq stuff?
+    # - id: tinybcl2
+    #   himc_pool: "0"
+    #   date: "2018-11-16"
                                    # TODO: should this be formatted differently?
   # name: runtinybcl_himc0_111618  # Generated; corresponds exactly
   #                                # to locations in:
