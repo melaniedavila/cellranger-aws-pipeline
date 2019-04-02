@@ -17,13 +17,12 @@ experiment:
     - id: tinybcl
       himc_pool: "0"
       date: "2018-11-16"
-      bcl_filename: cellranger-tiny-bcl-1.2.0.tar.gz # TODO: should
-                                                     # this be here?
-                                                     # or should it be
-                                                     # specified
-                                                     # separately down
-                                                     # with the other
-                                                     # mkfastq stuff?
+      bcl_file: cellranger-tiny-bcl-1.2.0.tar.gz # TODO: should this
+                                                 # be here?  or should
+                                                 # it be specified
+                                                 # separately down
+                                                 # with the other
+                                                 # mkfastq stuff?
     # - id: tinybcl2
     #   himc_pool: "0"
     #   date: "2018-11-16"
