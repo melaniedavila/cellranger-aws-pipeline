@@ -17,7 +17,6 @@ import sys
 SAMPLESHEET_CSV_HEADERS=[["[Data]", "", "", ""],
                          ["Lane","Sample_ID","Sample_Name","index"]]
 
-
 def usage():
   print(f'{sys.argv[0]} CONFIG_JSON SAMPLESHEET_CSV_PATH')
 
