@@ -26,7 +26,7 @@ get_from_config() {
   key="$1"
   config_json="$2"
   python -c "import json; import sys;
-print(json.load(sys.stdin)['${key}])" <<<"$config_json"
+print(json.load(sys.stdin)['${key}'])" <<<"$config_json"
 }
 
 fetch_raw_data() {
