@@ -35,7 +35,8 @@ fetch_raw_data() {
   experiment_name="$(get_from_config experiment_name "$config_json")"
   bcl_file="$(get_from_config bcl_file "$config_json")"
   aws s3 cp "s3://10x-data-backup/${experiment_name}/raw_data/${bcl_file}" "$COMPRESSED_RAW_DATA_PATH"
-  tar -xvz -C "$RAW_DATA_DIR" --strip 1 -f "$COMPRESSED_RAW_DATA_DIR"
+  mkdir -p "$RAW_DATA_DIR"
+  tar -xvz -C "$RAW_DATA_DIR" --strip 1 -f "$COMPRESSED_RAW_DATA_PATH"
   rm "$COMPRESSED_RAW_DATA_PATH"
 }
 
