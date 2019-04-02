@@ -24,8 +24,7 @@ RUN wget https://s3.amazonaws.com/10x-pipeline/software/cellranger/cellranger-2.
 
 ENV PATH /opt/cellranger-2.2.0:$PATH
 
-COPY bin/mkfastq /usr/local/bin/mkfastq
-COPY bin/cellranger_mkfastq /usr/local/bin/cellranger_mkfastq
+COPY bin/ /usr/local/bin/
 
 # don't run containers as root
 RUN groupadd -g 999 user && \
