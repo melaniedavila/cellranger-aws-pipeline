@@ -27,8 +27,11 @@ ENV PATH /opt/cellranger-2.2.0:$PATH
 COPY bin/ /usr/local/bin/
 
 # don't run containers as root
-RUN groupadd -g 999 user && \
-  useradd -r -u 999 -g user user
-USER user
+RUN groupadd -g 999 cellranger \
+  && useradd -r -u 999 -g cellranger cellranger \
+  && mkdir /home/cellranger \
+  && chown -R cellranger:cellranger /home/cellranger
+
+USER cellranger
 
 ENTRYPOINT ["bash"]
