@@ -16,9 +16,16 @@ JOB_NAME = f'{PIPELINE_NAME}-mkfastq' # TODO: remove mkfastq from job name
 
 batch_client = boto3.client('batch')
 
-def generate_experiment_name(run, himc_pool, sequencing_date, **_):
+def generate_sequencing_run_name(sequencing_run):
+    run_id=sequencing_run['id']
+    himc_pool=sequencing_run['himc_pool']
+    sequencing_date=sequencing_run['date']
     sequencing_date_object = dt.datetime.strptime(sequencing_date, "%Y-%m-%d").date()
-    return f'run{run}-himc{himc_pool}-{sequencing_date_object.strftime("%m%d%y")}'
+    return f'run{run_id}_himc{himc_pool}_{sequencing_date_object.strftime("%m%d%y")}'
+
+def generate_experiment_name(sequencing_runs, **_):
+    sequencing_run_names=map(generate_sequencing_run_name, sequencing_runs)
+    return '-'.join(sequencing_run_names)
 
 def submit_analysis(sample, experiment, depends_on = []):
     experiment_name = generate_experiment_name(**experiment)
@@ -32,6 +39,7 @@ def submit_analysis(sample, experiment, depends_on = []):
     }
     job_configuration = {
         "experiment_name": experiment_name,
+        "run": experiment["run"],
         "sample": sample
     }
     parameters = {
@@ -62,7 +70,7 @@ def submit_analysis(sample, experiment, depends_on = []):
         print(message)
         raise Exception(message)
 
-def submit_mkfastq(samples, experiment):
+def submit_mkfastq(bcl_file, experiment, run_id, samples):
     experiment_name = generate_experiment_name(**experiment)
     container_overrides = {
         "environment": [
@@ -73,8 +81,9 @@ def submit_mkfastq(samples, experiment):
         ]
     }
     job_configuration = {
+        "bcl_file": bcl_file,
         "experiment_name": experiment_name,
-        "run": experiment["run"],
+        "run_id": run_id,
         "samples": samples
     }
     parameters = {
@@ -109,11 +118,15 @@ def lambda_handler(event, context):
     processing_job_ids = []
 
     if processing['mkfastq']:
-        print(f'info: processing: mkfastq: submitting')
-        mkfastq_job_id = submit_mkfastq(processing['mkfastq'],
-                                        experiment=experiment)
-        processing_job_ids.append(mkfastq_job_id)
-        print(f'info: processing: mkfastq: submitted')
+        samples=processing['mkfastq']['samples']
+        for bcl_file, run_id in [[sequencing_run['bcl_file'], sequencing_run['id']] for sequencing_run in experiment['sequencing_runs']]:
+            print(f'info: processing: mkfastq: submitting: ${bcl_file}')
+            mkfastq_job_id = submit_mkfastq(bcl_file=bcl_file,
+                                            experiment=experiment,
+                                            run_id=run_id,
+                                            samples=samples)
+            processing_job_ids.append(mkfastq_job_id)
+            print(f'info: processing: mkfastq: submitted: ${bcl_file}')
 
     if configuration['analyses']:
         for sample in configuration['analyses']['samples']:
