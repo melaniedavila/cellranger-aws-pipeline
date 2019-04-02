@@ -120,13 +120,13 @@ def lambda_handler(event, context):
     if processing['mkfastq']:
         samples=processing['mkfastq']['samples']
         for bcl_file, run_id in [[sequencing_run['bcl_file'], sequencing_run['id']] for sequencing_run in experiment['sequencing_runs']]:
-            print(f'info: processing: mkfastq: submitting: ${bcl_file}')
+            print(f'info: processing: mkfastq: submitting: {bcl_file}')
             mkfastq_job_id = submit_mkfastq(bcl_file=bcl_file,
                                             experiment=experiment,
                                             run_id=run_id,
                                             samples=samples)
             processing_job_ids.append(mkfastq_job_id)
-            print(f'info: processing: mkfastq: submitted: ${bcl_file}')
+            print(f'info: processing: mkfastq: submitted: {bcl_file}')
 
     if configuration['analyses']:
         for sample in configuration['analyses']['samples']:
