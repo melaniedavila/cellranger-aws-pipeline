@@ -3,7 +3,7 @@
 
 # experiment:
 # * processing (optional, we may already have fastqs)
-# * analysis   (optional, if the processing is bc2lfastq)
+# * analysis   (optional, if the processing is bcl2fastq)
 
 # These things are global; they do not change on a per-sample basis.
 experiment:
@@ -41,9 +41,9 @@ experiment:
 
 # Either
 # * Nothing
-# * bc2lfastq
+# * bcl2fastq
 # * mkfastq
-# * mkfastq & bc2lfastq
+# * mkfastq & bcl2fastq
 processing:
   mkfastq:
     samples:

@@ -42,8 +42,8 @@ If you're pushing an image for a new version combination, say
 cellranger `3.0.2` and bcl2fastq `2.20.0`, for the very first time,
 you'' see an error like this in the output from `make push`:
 
-    name unknown: The repository with name 'cellranger-3.0.2-bc2lfastq-2.20.0' does not exist in the registry with id '402084680610'
+    name unknown: The repository with name 'cellranger-3.0.2-bcl2fastq-2.20.0' does not exist in the registry with id '402084680610'
 
 In that case, you'll need to run this command before pushing:
 
-    aws ecr create-repository --repository-name 'cellranger-3.0.2-bc2lfastq-2.20.0'
+    aws ecr create-repository --repository-name 'cellranger-3.0.2-bcl2fastq-2.20.0'
