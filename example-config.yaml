@@ -36,6 +36,8 @@ experiment:
   #                                # * run
   #                                # * himc pool number
   #                                # * sequencing date (mmddyy)
+  meta:
+    debug: true # boolean; defaults to false
 
 # Either
 # * Nothing
