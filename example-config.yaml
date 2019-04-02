@@ -53,7 +53,6 @@ processing:
         index_location: SI-P03-C9
 
 analyses:
-  # WHAT:
   samples:
     - name: test_sample                       # Argument passed directly to `cellranger {count,vdj}`
       job_type: count                         # One of:
