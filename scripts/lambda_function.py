@@ -22,6 +22,14 @@ def generate_experiment_name(run, himc_pool, sequencing_date, **_):
 
 def submit_analysis(sample, experiment, depends_on = []):
     experiment_name = generate_experiment_name(**experiment)
+    container_overrides = {
+        "environment": [
+            {
+                "name": "DEBUG",
+                "value": str(experiment.get('meta', {}).get('debug', False) is True).lower()
+            }
+        ]
+    }
     job_configuration = {
         "experiment_name": experiment_name,
         "sample": sample
@@ -38,6 +46,7 @@ def submit_analysis(sample, experiment, depends_on = []):
     print()
     try:
         response = batch_client.submit_job(
+            containerOverrides=container_overrides,
             dependsOn=depends_on,
             jobDefinition=f'{JOB_NAME}',
             jobName=f'{JOB_NAME}-{experiment_name}-{sample["job_type"]}-{sample["job_name"]}',
@@ -55,6 +64,14 @@ def submit_analysis(sample, experiment, depends_on = []):
 
 def submit_mkfastq(samples, experiment):
     experiment_name = generate_experiment_name(**experiment)
+    container_overrides = {
+        "environment": [
+            {
+                "name": "DEBUG",
+                "value": str(experiment.get('meta', {}).get('debug', False) is True).lower()
+            }
+        ]
+    }
     job_configuration = {
         "experiment_name": experiment_name,
         "run": experiment["run"],
@@ -67,6 +84,7 @@ def submit_mkfastq(samples, experiment):
 
     try:
         response = batch_client.submit_job(
+            containerOverrides=container_overrides,
             jobDefinition=f'{JOB_NAME}',
             jobName=f'{JOB_NAME}-{experiment_name}-mkfastq',
             jobQueue=JOB_QUEUE,
