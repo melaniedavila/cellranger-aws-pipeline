@@ -17,6 +17,10 @@ OUTPUT_DIR="${HOME}/output"
 RAW_DATA_DIR="${HOME}/raw_data"
 SAMPLESHEET_CSV_PATH="${HOME}/samplesheet.csv"
 
+msg() {
+  echo "$@" >&2
+}
+
 usage() {
   echo "$0 CONFIG_JSON"
 }
@@ -40,16 +44,40 @@ fetch_raw_data() {
 }
 
 cellranger_mkfastq() {
-  exec cellranger mkfastq \
-       --delete-undetermined \
-       # TOOD: find out if we really need to pass these when running
-       # in a container
-       #
-       # --localcores="${LOCALCORES}" \
-       # --localmem="${LOCALMEM}" \
-       --output-dir="${OUTPUT_DIR}" \
-       --run="${RAW_DATA_DIR}" \
-       --samplesheet="${SAMPLESHEET_CSV_PATH}"
+  # TOOD: find out if we really need to pass these when running in a
+  # container. hoping that it defaults to no maxes
+  #
+  # --localcores="${LOCALCORES}" \
+  # --localmem="${LOCALMEM}" \
+  local stderr_log
+
+  # the subshell allows us to properly scope this trap.
+  (
+    trap mkfastq_error_handler err
+    cellranger mkfastq \
+               --delete-undetermined \
+               --run="${RAW_DATA_DIR}" \
+               --output-dir="${OUTPUT_DIR}" \
+               --samplesheet="${SAMPLESHEET_CSV_PATH}" \
+      | tee mkfastq.log
+  )
+}
+
+mkfastq_error_handler() {
+  if grep -E '_stderr$' mkfastq.log; then
+    # Assume that it's telling us where to read error logs.
+    stderr_log="$(grep -E '_stderr$' mkfastq.log)"
+    msg "reading error log $stderr_log:"
+    cat "$stderr_log"
+  else
+    msg "cellranger_mkfastq: error. Attempting to read error log."
+    find "$HOME" -name _errors
+    find "$HOME" -name _errors | xargs head -n99999
+  fi
+
+  exit 1
+}
+
 }
 
 main() {
