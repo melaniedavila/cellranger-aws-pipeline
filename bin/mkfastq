@@ -22,18 +22,17 @@ usage() {
 }
 
 get_from_config() {
-  local key config_json
+  local key
   key="$1"
-  config_json="$2"
   python -c "import json; import sys;
-print(json.load(sys.stdin)['${key}'])" <<<"$config_json"
+print(json.load(sys.stdin)['${key}'])"
 }
 
 fetch_raw_data() {
   local config_json experiment_name bcl_filename
   config_json="$1"
-  experiment_name="$(get_from_config experiment_name "$config_json")"
-  bcl_file="$(get_from_config bcl_file "$config_json")"
+  experiment_name="$(get_from_config experiment_name <<<"$config_json")"
+  bcl_file="$(get_from_config bcl_file <<<"$config_json")"
   aws s3 cp "s3://10x-data-backup/${experiment_name}/raw_data/${bcl_file}" "$COMPRESSED_RAW_DATA_PATH"
   mkdir -p "$RAW_DATA_DIR"
   tar -xvz -C "$RAW_DATA_DIR" --strip 1 -f "$COMPRESSED_RAW_DATA_PATH"
