@@ -15,17 +15,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && rm bcl2fastq2*.deb bcl2fastq2*.rpm bcl2fastq2*.zip \
   && apt-get remove -y alien
 
-# Install cellranger
-RUN wget https://s3.amazonaws.com/10x-pipeline/software/cellranger/cellranger-2.2.0.tar.gz \
-  && mv cellranger-2.2.0.tar.gz /opt/ \
-  && cd /opt/ \
-  && tar -xzvf cellranger-2.2.0.tar.gz \
-  && rm -f cellranger-2.2.0.tar.gz
-
-ENV PATH /opt/cellranger-2.2.0:$PATH
-
-COPY bin/ /usr/local/bin/
-
 # don't run containers as root
 RUN groupadd -g 999 cellranger \
   && useradd -r -u 999 -g cellranger cellranger \
@@ -33,5 +22,16 @@ RUN groupadd -g 999 cellranger \
   && chown -R cellranger:cellranger /home/cellranger
 
 USER cellranger
+
+# Install cellranger
+RUN mkdir /home/cellranger/bin \
+  && cd /home/cellranger/bin \
+  && wget -O - https://s3.amazonaws.com/10x-pipeline/software/cellranger/cellranger-2.2.0.tar.gz | tar -xzvf -
+
+ENV PATH /home/cellranger/bin:/home/cellranger/bin/cellranger-2.2.0:$PATH
+
+COPY bin/ /home/cellranger/bin/
+
+WORKDIR /home/cellranger/
 
 ENTRYPOINT ["bash"]
