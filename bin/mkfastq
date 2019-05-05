@@ -78,6 +78,20 @@ mkfastq_error_handler() {
   exit 1
 }
 
+upload_results() {
+  # FIXME:
+  local sample_id experiment_name
+  experiment_name="$(get_from_config experiment_name <<<"$config_json")"
+  ls "$OUTPUT_DIR"
+  # output:
+  # Reports
+  # Stats
+  # test_sample_S1_L001_I1_001.fastq.gz
+  # test_sample_S1_L001_R1_001.fastq.gz
+  # test_sample_S1_L001_R2_001.fastq.gz
+  for fastq in "$OUTPUT_DIR"/*; do
+    aws s3 cp "$fastq" s3://10x-data-backup/${experiment_name}/${sample_id}/
+  done
 }
 
 main() {
@@ -93,6 +107,7 @@ main() {
   fetch_raw_data "$config_json"
   generate_samplesheet "$config_json" > "$SAMPLESHEET_CSV_PATH"
   cellranger_mkfastq "$config_json"
+  upload_results
 }
 
 main "$@"
