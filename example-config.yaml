@@ -48,8 +48,10 @@ processing:
     samples:
       - name: test_sample
         index_location: SI-P03-C9
-      - name: test_sample_2
-        index_location: SI-P03-C9
+      # FIXME: we can't test with two identical samples; bcl2fastq
+      # refuses to process it.
+      # - name: test_sample_2
+      #   index_location: SI-P03-C9
 
 analyses:
   samples:
@@ -65,12 +67,12 @@ analyses:
       feature_barcoding: False                # Will help us determine if this is a feature barcoding experiment in which case we'll need to generate more samplesheets
       pooled_run: False                       # Will help us determine if we need to wait for 2 sets of fastqs, each from different sequencing runs, to run cellranger count
 
-    - name: test_sample_2
-      job_type: count
-      chemistry: auto
-      reference_transcriptome:
-        name: GRCh38
-        version: 1.2.0
-      target_cell_count: 100
-      feature_barcoding: False
-      pooled_run: False
+    # - name: test_sample_2
+    #   job_type: count
+    #   chemistry: auto
+    #   reference_transcriptome:
+    #     name: GRCh38
+    #     version: 1.2.0
+    #   target_cell_count: 100
+    #   feature_barcoding: False
+    #   pooled_run: False
