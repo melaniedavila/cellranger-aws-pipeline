@@ -78,19 +78,26 @@ mkfastq_error_handler() {
   exit 1
 }
 
+sample_names() {
+  python -c "import json; import sys;
+for sample in json.load(sys.stdin)['samples']:
+  print(sample['name'])"
+}
+
 upload_results() {
   # FIXME:
-  local sample_id experiment_name
+  local config_json experiment_name fastqs
+  config_json="$1"
   experiment_name="$(get_from_config experiment_name <<<"$config_json")"
-  ls "$OUTPUT_DIR"
-  # output:
-  # Reports
-  # Stats
-  # test_sample_S1_L001_I1_001.fastq.gz
-  # test_sample_S1_L001_R1_001.fastq.gz
-  # test_sample_S1_L001_R2_001.fastq.gz
-  for fastq in "$OUTPUT_DIR"/*; do
-    aws s3 cp "$fastq" s3://10x-data-backup/${experiment_name}/${sample_id}/
+
+  for sample_name in $(sample_names <<<"$config_json"); do
+    for fastq in ${OUTPUT_DIR}/${sample_name}_S*fastq.gz; do
+      aws s3 cp "$fastq" "${S3_BUCKET}/${experiment_name}/${sample_name}/"
+    done
+  done
+
+  for dir in Reports Stats; do
+    aws s3 cp --recursive ${OUTPUT_DIR}/${dir} ${S3_BUCKET}/${experiment_name}/fastqs/gex/${dir}
   done
 }
 
@@ -107,7 +114,7 @@ main() {
   fetch_raw_data "$config_json"
   generate_samplesheet "$config_json" > "$SAMPLESHEET_CSV_PATH"
   cellranger_mkfastq "$config_json"
-  upload_results
+  upload_results "$config_json"
 }
 
 main "$@"
