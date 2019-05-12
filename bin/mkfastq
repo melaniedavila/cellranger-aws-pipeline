@@ -84,7 +84,6 @@ for sample in json.load(sys.stdin)['samples']:
 }
 
 upload_results() {
-  # FIXME:
   local config_json experiment_name fastqs
   config_json="$1"
   experiment_name="$(get_from_config experiment_name <<<"$config_json")"
