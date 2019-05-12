@@ -11,8 +11,6 @@ if [[ "${DEBUG-false}" == "true" ]]; then
 fi
 
 COMPRESSED_RAW_DATA_PATH="/tmp/raw_data.tar.gz"
-LOCALMEM=124 # TODO: don't hardcode
-LOCALCORES=15 # TODO: don't hardcode
 OUTPUT_DIR="${HOME}/output"
 RAW_DATA_DIR="${HOME}/raw_data"
 SAMPLESHEET_CSV_PATH="${HOME}/samplesheet.csv"
