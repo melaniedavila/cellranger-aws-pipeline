@@ -28,10 +28,16 @@ RUN mkdir /home/cellranger/bin \
   && cd /home/cellranger/bin \
   && wget -O - https://s3.amazonaws.com/10x-pipeline/software/cellranger/cellranger-2.2.0.tar.gz | tar -xzvf -
 
+# TODO: move this layer up
+RUN wget -O /home/cellranger/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64
+RUN chmod +x /home/cellranger//bin/dumb-init
+
 ENV PATH /home/cellranger/bin:/home/cellranger/bin/cellranger-2.2.0:$PATH
 
 COPY bin/ /home/cellranger/bin/
 
 WORKDIR /home/cellranger/
 
-ENTRYPOINT ["bash"]
+ENTRYPOINT ["/home/cellranger/bin/dumb-init"]
+
+CMD ["bash"]
