@@ -1,1 +1,4 @@
+# a directory that may contain local copies of software used in the pipeline.
 software/
+# a directory that may contain local copies of data consumed by the pipeline.
+data/
