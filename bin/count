@@ -91,6 +91,20 @@ cellranger_count() {
   popd
 }
 
+upload_results() {
+  local config_json experiment_name sample_id reference_transcriptome_name
+  config_json="$1"
+  experiment_name="$(get_from_config experiment_name <<<"$config_json")"
+  sample_id="$(get_from_sample name <<<"$config_json")"
+  reference_transcriptome_name="$(get_from_reference_transcriptome name <<<"$config_json")"
+
+  aws s3 cp \
+      "${OUTPUT_DIR}/${sample_id}" \
+      "${S3_BUCKET}/${experiment_name}/${sample_id}/cellranger_count_output/${reference_transcriptome_name}"/ \
+      --exclude "SC_RNA_COUNTER_CS/*" \
+      --recursive
+}
+
 main() {
   local config_json
 
@@ -104,6 +118,7 @@ main() {
   fetch_fastqs "$config_json"
   fetch_transcriptome "$config_json"
   cellranger_count "$config_json"
+  upload_results "$config_json"
 }
 
 main "$@"
