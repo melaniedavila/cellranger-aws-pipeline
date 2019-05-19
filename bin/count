@@ -64,14 +64,16 @@ fetch_fastqs() {
 
 fetch_transcriptome() {
   local config_json version name
+  config_json="$1"
   version="$(get_from_reference_transcriptome version <<<"$config_json")"
   name="$(get_from_reference_transcriptome name <<<"$config_json")"
-  config_json="$1"
+
+  mkdir -p "$TRANSCRIPTOME_DIR"
+
   aws s3 cp \
-      # TODO: fix how we store this stuff?
-      "s3://10x-pipeline/reference_transcriptome/${name}/${version}/" \
-      "$TRANSCRIPTOME_DIR" \
-      --recursive
+      "s3://10x-pipeline/reference_transcriptome/${name}/refdata-cellranger-${name}-${version}.tar.gz" \
+      - \
+    | tar -C "$TRANSCRIPTOME_DIR" --strip-components=1 -xvzf -
 }
 
 cellranger_count() {
