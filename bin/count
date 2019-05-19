@@ -25,7 +25,7 @@ get_from_reference_transcriptome(){
   local key
   key="$1"
   python -c "import json; import sys;
-print(json.load(sys.stdin)['sample']['reference_transcriptome]['${key}'])"
+print(json.load(sys.stdin)['sample']['reference_transcriptome']['${key}'])"
 }
 
 get_from_sample() {
