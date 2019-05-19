@@ -52,11 +52,6 @@ def submit_analysis(sample, experiment, depends_on = []):
         "configuration": json.dumps(job_configuration)
     }
 
-    print()
-    print()
-    print(depends_on)
-    print()
-    print()
     try:
         response = batch_client.submit_job(
             containerOverrides=container_overrides,
