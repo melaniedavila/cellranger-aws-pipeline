@@ -48,7 +48,7 @@ def submit_analysis(sample, experiment, depends_on = []):
     }
     job_configuration = {
         "experiment_name": experiment_name,
-        "run": experiment["run"],
+        "runs": [sequencing_run['id'] for sequencing_run in experiment['sequencing_runs']],
         "sample": sample
     }
     parameters = {
