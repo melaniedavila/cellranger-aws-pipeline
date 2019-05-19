@@ -136,10 +136,9 @@ def lambda_handler(event, context):
     if configuration['analyses']:
         for sample in configuration['analyses']['samples']:
             print(f'info: analyses: submitting: {sample["name"]}')
-            # submit_analysis(sample,
-            #                 experiment=experiment,
-            #                 depends_on= [ {"jobId": job_id} for job_id in processing_job_ids ])
-            print('FIXME: PRETENDING TO SUBMIT')
+            submit_analysis(sample,
+                            experiment=experiment,
+                            depends_on=[ {"jobId": job_id} for job_id in processing_job_ids ])
             print(f'info: analyses: submitted: {sample["name"]}')
 
     print("info: all jobs submitted successfully.")
