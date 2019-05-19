@@ -39,20 +39,27 @@ get_from_config() {
   local key
   key="$1"
   python -c "import json; import sys;
-print(json.load(sys.stdin)['${key}'])"
+value=json.load(sys.stdin)['${key}']
+if type(value) == list:
+   print(*value)
+else:
+   print(value)"
 }
 
 fetch_fastqs() {
   local config_json experiment_name sample_name runs
   config_json="$1"
   experiment_name="$(get_from_config experiment_name <<<"$config_json")"
-  runs="$(get_from_config runs <<<"$config_json")"
   sample_name="$(get_from_sample name <<<"$config_json")"
-  aws s3 cp \
-      "s3://10x-data-backup/${experiment_name}/${sample_name}/fastqs/${run}/" \
-      "$FASTQS_DIR" \
-      --include "*_R[1,2]_*.tar.gz" \
-      --recursive
+  runs="$(get_from_config runs <<<"$config_json")"
+
+  for run in $runs; do
+    aws s3 cp \
+        "${S3_BUCKET}/${experiment_name}/${sample_name}/fastqs/${run}/" \
+        "$FASTQS_DIR/${run}/" \
+        --include "*_R[1,2]_*.tar.gz" \
+        --recursive
+  done
 }
 
 fetch_transcriptome() {
