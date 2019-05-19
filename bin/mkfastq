@@ -10,10 +10,12 @@ if [[ "${DEBUG-false}" == "true" ]]; then
   set -x
 fi
 
-COMPRESSED_RAW_DATA_PATH="/tmp/raw_data.tar.gz"
-OUTPUT_DIR="${HOME}/output"
-RAW_DATA_DIR="${HOME}/raw_data"
-SAMPLESHEET_CSV_PATH="${HOME}/samplesheet.csv"
+# SCRATCH_DIR is a 1TB volume.
+SCRATCH_DIR="$HOME/scratch"
+COMPRESSED_RAW_DATA_PATH="${SCRATCH_DIR}/raw_data.tar.gz"
+OUTPUT_DIR="${SCRATCH_DIR}/output"
+RAW_DATA_DIR="${SCRATCH_DIR}/raw_data"
+SAMPLESHEET_CSV_PATH="${SCRATCH_DIR}/samplesheet.csv"
 S3_BUCKET="s3://10x-data-backup"
 
 msg() {
