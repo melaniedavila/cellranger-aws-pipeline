@@ -10,9 +10,12 @@ if [[ "${DEBUG-false}" == "true" ]]; then
   set -x
 fi
 
-FASTQS_DIR="$HOME/fastqs"
-JOBMODE="${JOBMODE:-local}"
-TRANSCRIPTOME_DIR="$HOME/transcriptome"
+# SCRATCH_DIR is a 1TB volume.
+SCRATCH_DIR="$HOME/scratch"
+FASTQS_DIR="$SCRATCH_DIR/fastqs"
+OUTPUT_DIR="$SCRATCH_DIR/output/"
+TRANSCRIPTOME_DIR="$SCRATCH_DIR/transcriptome"
+S3_BUCKET=s3://10x-data-backup
 
 usage() {
   echo "$0 CONFIG_JSON"
