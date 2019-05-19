@@ -52,7 +52,7 @@ def submit_analysis(sample, experiment, depends_on = []):
         "sample": sample
     }
     parameters = {
-        "command": "analysis",
+        "command": "count", # FIXME: handle vdj too
         "configuration": json.dumps(job_configuration)
     }
 
