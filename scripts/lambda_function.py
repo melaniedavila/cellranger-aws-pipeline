@@ -39,6 +39,10 @@ def submit_analysis(sample, experiment, depends_on = []):
             {
                 "name": "DEBUG",
                 "value": str(experiment.get('meta', {}).get('debug', False) is True).lower()
+            },
+            {
+                "name": "POOLED",
+                "value": str(sample['pooled_run'])
             }
         ]
     }
