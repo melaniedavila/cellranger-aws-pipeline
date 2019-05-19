@@ -57,7 +57,7 @@ def submit_analysis(sample, experiment, depends_on = []):
             containerOverrides=container_overrides,
             dependsOn=depends_on,
             jobDefinition=f'{JOB_NAME}',
-            jobName=f'{JOB_NAME}-{experiment_name}-{sample["job_type"]}-{sample["job_name"]}',
+            jobName=f'{JOB_NAME}-{experiment_name}-{sample["job_type"]}-{sample["name"]}',
             jobQueue=JOB_QUEUE,
             parameters=parameters
         )
