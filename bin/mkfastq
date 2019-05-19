@@ -55,6 +55,7 @@ cellranger_mkfastq() {
   (
     trap mkfastq_error_handler err
     cellranger mkfastq \
+               --disable-ui \
                --delete-undetermined \
                --run="${RAW_DATA_DIR}" \
                --output-dir="${OUTPUT_DIR}" \
