@@ -53,7 +53,8 @@ cellranger_mkfastq() {
 
   # the subshell allows us to properly scope this trap.
   (
-    trap mkfastq_error_handler err
+    # think of this as a try/catch or begin/rescue'.
+    trap log_mkfastq_error err
     cellranger mkfastq \
                --disable-ui \
                --delete-undetermined \
@@ -64,7 +65,11 @@ cellranger_mkfastq() {
   )
 }
 
-mkfastq_error_handler() {
+log_mkfastq_error() {
+  # Cellranger logs to disk - we need to read the error log from disk
+  # before the container exits and is gone for good, as otherwise the
+  # error will be lost.
+
   if grep -E '_stderr$' mkfastq.log; then
     # Assume that it's telling us where to read error logs.
     stderr_log="$(grep -E '_stderr$' mkfastq.log)"
