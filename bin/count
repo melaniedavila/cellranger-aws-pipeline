@@ -77,16 +77,19 @@ fetch_transcriptome() {
 }
 
 cellranger_count() {
-  local config_json sample_id
+  local config_json sample_name chemistry
   config_json="$1"
+  sample_name="$(get_from_sample name <<<"$config_json")"
+  chemistry="$(get_from_sample chemistry <<<"$config_json")"
 
-  pushd "OUTPUT_DIR"; \
+  mkdir -p "$OUTPUT_DIR"
+  pushd "$OUTPUT_DIR"; \
     cellranger count \
                --disable-ui \
-               --chemistry="$(get_from_sample chemistry <<<"$config_json")" \
+               --chemistry="$chemistry" \
                --fastqs="$FASTQS_DIR" \
-               --id="$sample_id" \
-               --sample="$(get_from_sample name <<<"$config_json")" \
+               --id="$sample_name" \
+               --sample="$sample_name" \
                --transcriptome="$TRANSCRIPTOME_DIR"
   popd
 }
