@@ -55,7 +55,7 @@ fetch_fastqs() {
 
   for run in $runs; do
     aws s3 cp \
-        "${S3_BUCKET}/${experiment_name}/${sample_name}/fastqs/${run}/" \
+        "${S3_BUCKET}/${experiment_name}/${sample_name}/fastqs/run${run}/" \
         "$FASTQS_DIR/${run}/" \
         --include "*_R[1,2]_*.tar.gz" \
         --recursive
