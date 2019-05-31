@@ -87,7 +87,7 @@ cellranger_count() {
     cellranger count \
                --disable-ui \
                --chemistry="$chemistry" \
-               --fastqs="$FASTQS_DIR" \
+               --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
                --id="$sample_name" \
                --sample="$sample_name" \
                --transcriptome="$TRANSCRIPTOME_DIR"
