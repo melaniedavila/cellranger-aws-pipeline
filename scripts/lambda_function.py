@@ -13,23 +13,23 @@ AWS_ECR_REGISTRY = '402084680610.dkr.ecr.us-east-1.amazonaws.com'
 PIPELINE_NAME = 'test-cellranger-pipeline'
 JOB_QUEUE = 'test-10xpipeline'
 JOB_NAME = f'{PIPELINE_NAME}-mkfastq' # TODO: remove mkfastq from job name
-SEQUENCING_RUN_NAME_DELIMITER="-"
-SEQUENCING_RUN_FIELD_DELIMITER="_"
+SEQUENCING_RUN_NAME_DELIMITER = "-"
+SEQUENCING_RUN_FIELD_DELIMITER = "_"
 
 batch_client = boto3.client('batch')
 
 def generate_sequencing_run_name(sequencing_run):
-    run_id=sequencing_run['id']
-    himc_pool=sequencing_run['himc_pool']
-    sequencing_date=sequencing_run['date']
+    run_id = sequencing_run['id']
+    himc_pool = sequencing_run['himc_pool']
+    sequencing_date = sequencing_run['date']
     sequencing_date_object = dt.datetime.strptime(sequencing_date, "%Y-%m-%d").date()
-    sequencing_run_fields=[f'run{run_id}',
-                           f'himc{himc_pool}',
-                           sequencing_date_object.strftime("%m%d%y")]
+    sequencing_run_fields = [f'run{run_id}',
+                             f'himc{himc_pool}',
+                             sequencing_date_object.strftime("%m%d%y")]
     return SEQUENCING_RUN_FIELD_DELIMITER.join(sequencing_run_fields)
 
 def generate_experiment_name(sequencing_runs, **_):
-    sequencing_run_names=map(generate_sequencing_run_name, sequencing_runs)
+    sequencing_run_names = map(generate_sequencing_run_name, sequencing_runs)
     return SEQUENCING_RUN_NAME_DELIMITER.join(sequencing_run_names)
 
 def submit_analysis(sample, experiment, depends_on = []):
@@ -122,7 +122,7 @@ def lambda_handler(event, context):
     processing_job_ids = []
 
     if processing['mkfastq']:
-        samples=processing['mkfastq']['samples']
+        samples = processing['mkfastq']['samples']
         for bcl_file, run_id in [[sequencing_run['bcl_file'], sequencing_run['id']] for sequencing_run in experiment['sequencing_runs']]:
             print(f'info: processing: mkfastq: submitting: {bcl_file}')
             mkfastq_job_id = submit_mkfastq(bcl_file=bcl_file,
