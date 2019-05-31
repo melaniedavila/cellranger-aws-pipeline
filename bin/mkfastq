@@ -13,6 +13,12 @@ fi
 # SCRATCH_DIR is a 1TB volume.
 SCRATCH_DIR="$HOME/scratch"
 COMPRESSED_RAW_DATA_PATH="${SCRATCH_DIR}/raw_data.tar.gz"
+# we might not actually need to specify these if we don't care about
+# the process consuming all of the available resources. containers are
+# a better abstraction for limiting resource consumption than whatever
+# this does.
+# LOCALMEM=124 # TODO: don't hardcode
+# LOCALCORES=15 # TODO: don't hardcode
 OUTPUT_DIR="${SCRATCH_DIR}/output"
 RAW_DATA_DIR="${SCRATCH_DIR}/raw_data"
 SAMPLESHEET_CSV_PATH="${SCRATCH_DIR}/samplesheet.csv"
@@ -100,14 +106,14 @@ upload_results() {
     for fastq in ${OUTPUT_DIR}/${sample_name}_S*fastq.gz; do
       aws s3 cp \
           "$fastq" \
-          "${S3_BUCKET}/${experiment_name}/${sample_name}/fastqs/${run_id}/$(basename "$fastq")"
+          "${S3_BUCKET}/${experiment_name}/${sample_name}/fastqs/run${run_id}/$(basename "$fastq")"
     done
   done
 
   for dir in Reports Stats; do
     aws s3 cp \
         ${OUTPUT_DIR}/${dir} \
-        ${S3_BUCKET}/${experiment_name}/fastqs_metadata/gex/${dir} \
+        ${S3_BUCKET}/${experiment_name}/fastqs_metadata/gex/run${run_id}/${dir} \
         --recursive
   done
 }
