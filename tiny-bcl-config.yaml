@@ -59,13 +59,13 @@ analyses:
       job_type: count                         # One of:
                                               # * count
                                               # * vdj
-      chemistry: auto                         # Argument passed directly to `cellranger {count,vdj}`, optional; it's okay if it's not provided, because this will default to 'auto'.
+      chemistry: threeprime                   # Argument passed directly to `cellranger {count,vdj}`, optional; it's okay if it's not provided, because this will default to 'auto'.
       reference_transcriptome:
         name: GRCh38                          # Argument passed directly to `cellranger {count,vdj}`
         version: 1.2.0                        # Argument passed directly to `cellranger {count,vdj}`
       target_cell_count: 100                  # Argument passed to `cellranger count`
       feature_barcoding: False                # Will help us determine if this is a feature barcoding experiment in which case we'll need to generate more samplesheets
-      pooled_run: False                       # Will help us determine if we need to wait for 2 sets of fastqs, each from different sequencing runs, to run cellranger count
+      pooled_run: False                       # TODO: explain what this is useful for
 
     # - name: test_sample_2
     #   job_type: count
