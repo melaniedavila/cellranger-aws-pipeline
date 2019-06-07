@@ -51,7 +51,7 @@ def submit_analysis(sample, experiment, cellranger_version, depends_on = []):
         "sample": sample
     }
     parameters = {
-        "command": "count", # FIXME: handle vdj too
+        "command": "run_analysis", # FIXME: handle vdj too
         "configuration": json.dumps(job_configuration)
     }
 
@@ -93,7 +93,7 @@ def submit_mkfastq(bcl_file, experiment, run_id, samples, cellranger_version):
         "samples": samples
     }
     parameters = {
-        "command": "mkfastq",
+        "command": "run_mkfastq",
         "configuration": json.dumps(job_configuration)
     }
 
@@ -105,6 +105,48 @@ def submit_mkfastq(bcl_file, experiment, run_id, samples, cellranger_version):
             containerOverrides=container_overrides,
             jobDefinition=job_definition,
             jobName=f'{experiment_name}-mkfastq',
+            jobQueue=JOB_QUEUE,
+            parameters=parameters
+        )
+        # Log response from AWS Batch
+        print("debug: " + json.dumps(response, indent=2))
+        return response['jobId']
+    except Exception as e:
+        print(e)
+        message = 'Error getting Batch Job status'
+        print(message)
+        raise Exception(message)
+
+def submit_bcl2fastq(bcl_file, experiment, run_id, samples):
+    experiment_name = generate_experiment_name(**experiment)
+    container_overrides = {
+        "environment": [
+            {
+                "name": "DEBUG",
+                "value": str(experiment.get('meta', {}).get('debug', False) is True).lower()
+            }
+        ]
+    }
+    job_configuration = {
+        "bcl_file": bcl_file,
+        "experiment_name": experiment_name,
+        "run_id": run_id,
+        "samples": samples
+    }
+    parameters = {
+        "command": "run_bcl2fastq",
+        "configuration": json.dumps(job_configuration)
+    }
+
+
+    # We don't necessarily even need the cellranger software. Either v2.2.0 or v.3.0.2 is ok
+    job_definition = f"{PIPELINE_BASE_NAME}-cellranger-2_2_0-bcl2fastq-2_20_0"
+
+    try:
+        response = batch_client.submit_job(
+            containerOverrides=container_overrides,
+            jobDefinition=job_definition,
+            jobName=f'{experiment_name}-bcl2fastq',
             jobQueue=JOB_QUEUE,
             parameters=parameters
         )
@@ -137,6 +179,17 @@ def lambda_handler(event, context):
                                             cellranger_version=cellranger_version)
             processing_job_ids.append(mkfastq_job_id)
             print(f'info: processing: mkfastq: submitted: {bcl_file}')
+
+    if processing and processing['bcl2fastq']:
+        samples = processing['bcl2fastq']['samples']
+        for bcl_file, run_id in [[sequencing_run['bcl_file'], sequencing_run['id']] for sequencing_run in experiment['sequencing_runs']]:
+            print(f'info: processing: bcl2fastq: submitting: {bcl_file}')
+            bcl2fastq_job_id = submit_bcl2fastq(bcl_file=bcl_file,
+                                                experiment=experiment,
+                                                run_id=run_id,
+                                                samples=samples)
+            processing_job_ids.append(bcl2fastq_job_id)
+            print(f'info: processing: bcl2fastq: submitted: {bcl_file}')
 
     if configuration['analyses']:
         for sample in configuration['analyses']['samples']:
