@@ -141,7 +141,7 @@ main() {
   config_json="$1"
 
   fetch_raw_data "$config_json"
-  generate_samplesheet "$config_json" > "$SAMPLESHEET_CSV_PATH"
+  generate_samplesheet_mkfastq "$config_json" > "$SAMPLESHEET_CSV_PATH"
   cellranger_mkfastq "$config_json"
   upload_results "$config_json"
 }
