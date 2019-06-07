@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+
+# This script generates the contents of the samplesheet.csv that will
+# be consumed by `cellranger mkfastq`.
+
+# The samplesheet generated looks something like this:
+# [Header],,,,,,,
+# IEMFileVersion,4,,,,,,
+# InvestigatorName,Regeneron,,,,,,
+# ExperimentName,RunRegeneron10,,,,,,
+# Date,05/28/19,,,,,,
+# Workflow,GenerateFASTQ,,,,,,
+# Description,HIMCRegeneron10,,,,,,
+# Chemistry,Default,,,,,,
+# ,,,,,,,
+# [Settings],,,,,,,
+# ,,,,,,,
+# [Data],,,,,,,
+# Sample_ID,Sample_Name,Sample_Plate,Sample_Well,I7_Index_ID,index,Sample_Project,Description
+# 8001v2A-A,8001v2A-A,,,,ATCACGAT,,
+# 8001v2B-A,8001v2B-A,,,,CGATGTAT,,
+
+import csv
+import json
+import os
+import sys
+import boto3
+
+# We use default fillers in the headers since we don't actually use this info
+SAMPLESHEET_CSV_HEADERS=[["[Header]", "", "", "", "", "", "","", ""],
+                        ["IEMFileVersion","4","","","","","",""],
+                        ["InvestigatorName","HIMC","","","","","",""],
+                        ["ExperimentName","HIMC","","","","","",""],
+                        ["Date","06/07/19","","","","","",""],
+                        ["Workflow","GenerateFASTQ","","","","","",""],
+                        ["Description","HIMC","","","","","",""],
+                        ["Chemistry","Default","","","","","",""],
+                        ["","","","","","","",""],
+                        ["[Settings]","","","","","","",""],
+                        ["","","","","","","",""],
+                        ["[Data]","","","","","","",""],
+                        ["Sample_ID","Sample_Name","Sample_Plate","Sample_Well","I7_Index_ID","index","Sample_Project","Description"]]
+
+def usage():
+  print(f'{sys.argv[0]} CONFIG_JSON SAMPLESHEET_CSV_PATH')
+
+def get_sample_index_bc_sequence(oligos, bc_seqs, index_location):
+  oligo_index = oligos.index(index_location)
+  bc_sequence = bc_seqs[oligo_index]
+
+  # We add an `AT` to the end of RPI sequences so that we can process
+  # ADTS (which use RPI indices) and HTOs in the same bcl2fastq invocation
+  if index_location.startswith('RPI'):
+    index_location += 'AT'
+
+  return index_location
+
+def main(config_json):
+  config=json.loads(config_json)
+  samples=config['samples']
+
+  s3 = boto3.client('s3')
+  s3.download_file('10x-pipeline', 'oligo_sequences/citeseq_sample_indices.csv', 'citeseq_sample_indices.csv')
+
+  with open('citeseq_sample_indices.csv') as csvfile:
+    rows = csv.reader(csvfile)
+    res = list(zip(*rows))
+
+  oligos = list(res[0][1:])
+  bc_seqs = list(res[1][1:])
+
+  csv_data=[ [sample['name'], sample['name'], "", "", "", get_sample_index_bc_sequence(oligos, bc_seqs, sample['index_location']), "", "" ]
+             for sample in samples]
+
+  writer = csv.writer(sys.stdout)
+  writer.writerows(SAMPLESHEET_CSV_HEADERS)
+  writer.writerows(csv_data)
+  print(SAMPLESHEET_CSV_HEADERS)
+  print(csv_data)
+
+if len(sys.argv) < 1:
+  usage
+  exit(1)
+else:
+  main(sys.argv[1])
