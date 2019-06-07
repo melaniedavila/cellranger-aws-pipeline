@@ -50,12 +50,24 @@ fetch_raw_data() {
 }
 
 cellranger_mkfastq() {
-  # TOOD: find out if we really need to pass these when running in a
+  # TODO: find out if we really need to pass these when running in a
   # container. hoping that it defaults to no maxes
   #
   # --localcores="${LOCALCORES}" \
   # --localmem="${LOCALMEM}" \
-  local stderr_log
+  local stderr_log raw_data_dir
+
+  # Because we get bcl files from different sources, RAW_DATA_DIR may have a different
+  # structure. Ultimately, we are looking for the directory with a floatin RTAComplete.txt
+  # file.
+
+  if [ -e "${RAW_DATA_DIR}/RTAComplete.txt" ]; then
+    echo "RTAComplete.txt file found"
+    raw_data_dir="$RAW_DATA_DIR"
+  else
+    # update raw_data_dir
+    raw_data_dir="$(dirname "$(find "${RAW_DATA_DIR}" -name "RTAComplete.txt")")"
+  fi
 
   # the subshell allows us to properly scope this trap.
   (
@@ -64,7 +76,7 @@ cellranger_mkfastq() {
     cellranger mkfastq \
                --disable-ui \
                --delete-undetermined \
-               --run="${RAW_DATA_DIR}" \
+               --run="${raw_data_dir}" \
                --output-dir="${OUTPUT_DIR}" \
                --samplesheet="${SAMPLESHEET_CSV_PATH}" \
       | tee mkfastq.log
