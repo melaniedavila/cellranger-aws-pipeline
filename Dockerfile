@@ -5,7 +5,7 @@ MAINTAINER MSSM HIMC
 ARG CELLRANGER_VERSION
 ARG BCL2FASTQ_VERSION
 
-RUN pip3 install --upgrade awscli
+RUN pip3 install --upgrade awscli boto3
 
 # Install bcl2fastq. cellranger mkfastq requires it.
 RUN export DEBIAN_FRONTEND=noninteractive \
