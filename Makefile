@@ -16,6 +16,8 @@ build:
 		-t $(IMAGE) \
 		-t $(REGISTRY)/$(IMAGE) \
 		-t $(REGISTRY)/$(IMAGE):$(GIT_COMMIT) \
+		--build-arg CELLRANGER_VERSION=$(CELLRANGER_VERSION) \
+		--build-arg BCL2FASTQ_VERSION=$(BCL2FASTQ_VERSION) \
 		--label commit=$(GIT_COMMIT) \
 		--no-cache=$(NOCACHE) .
 
