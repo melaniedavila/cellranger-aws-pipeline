@@ -10,9 +10,8 @@ import sys
 
 AWS_ECR_REGISTRY = '402084680610.dkr.ecr.us-east-1.amazonaws.com'
 
-PIPELINE_NAME = 'test-cellranger-pipeline'
+PIPELINE_BASE_NAME = 'test-cellranger-pipeline'
 JOB_QUEUE = 'test-10xpipeline'
-JOB_NAME = f'{PIPELINE_NAME}-mkfastq' # TODO: remove mkfastq from job name
 SEQUENCING_RUN_NAME_DELIMITER = "-"
 SEQUENCING_RUN_FIELD_DELIMITER = "_"
 
@@ -32,7 +31,7 @@ def generate_experiment_name(sequencing_runs, **_):
     sequencing_run_names = map(generate_sequencing_run_name, sequencing_runs)
     return SEQUENCING_RUN_NAME_DELIMITER.join(sequencing_run_names)
 
-def submit_analysis(sample, experiment, depends_on = []):
+def submit_analysis(sample, experiment, cellranger_version, depends_on = []):
     experiment_name = generate_experiment_name(**experiment)
     container_overrides = {
         "environment": [
@@ -56,12 +55,15 @@ def submit_analysis(sample, experiment, depends_on = []):
         "configuration": json.dumps(job_configuration)
     }
 
+
+    job_definition = f"{PIPELINE_BASE_NAME}-cellranger-{cellranger_version.replace('.', '_')}-bcl2fastq-2_20_0"
+
     try:
         response = batch_client.submit_job(
             containerOverrides=container_overrides,
             dependsOn=depends_on,
-            jobDefinition=f'{JOB_NAME}',
-            jobName=f'{JOB_NAME}-{experiment_name}-{sample["job_type"]}-{sample["name"]}',
+            jobDefinition=job_definition,
+            jobName=f'{experiment_name}-{sample["job_type"]}-{sample["name"]}',
             jobQueue=JOB_QUEUE,
             parameters=parameters
         )
@@ -74,7 +76,7 @@ def submit_analysis(sample, experiment, depends_on = []):
         print(message)
         raise Exception(message)
 
-def submit_mkfastq(bcl_file, experiment, run_id, samples):
+def submit_mkfastq(bcl_file, experiment, run_id, samples, cellranger_version):
     experiment_name = generate_experiment_name(**experiment)
     container_overrides = {
         "environment": [
@@ -95,11 +97,14 @@ def submit_mkfastq(bcl_file, experiment, run_id, samples):
         "configuration": json.dumps(job_configuration)
     }
 
+
+    job_definition = f"{PIPELINE_BASE_NAME}-cellranger-{cellranger_version.replace('.', '_')}-bcl2fastq-2_20_0"
+
     try:
         response = batch_client.submit_job(
             containerOverrides=container_overrides,
-            jobDefinition=f'{JOB_NAME}',
-            jobName=f'{JOB_NAME}-{experiment_name}-mkfastq',
+            jobDefinition=job_definition,
+            jobName=f'{experiment_name}-mkfastq',
             jobQueue=JOB_QUEUE,
             parameters=parameters
         )
@@ -121,14 +126,15 @@ def lambda_handler(event, context):
     processing = configuration['processing']
     processing_job_ids = []
 
-    if processing['mkfastq']:
+    if processing and processing['mkfastq']:
         samples = processing['mkfastq']['samples']
         for bcl_file, run_id in [[sequencing_run['bcl_file'], sequencing_run['id']] for sequencing_run in experiment['sequencing_runs']]:
             print(f'info: processing: mkfastq: submitting: {bcl_file}')
             mkfastq_job_id = submit_mkfastq(bcl_file=bcl_file,
                                             experiment=experiment,
                                             run_id=run_id,
-                                            samples=samples)
+                                            samples=samples,
+                                            cellranger_version=cellranger_version)
             processing_job_ids.append(mkfastq_job_id)
             print(f'info: processing: mkfastq: submitted: {bcl_file}')
 
@@ -137,6 +143,7 @@ def lambda_handler(event, context):
             print(f'info: analyses: submitting: {sample["name"]}')
             submit_analysis(sample,
                             experiment=experiment,
+                            cellranger_version=cellranger_version,
                             depends_on=[ {"jobId": job_id} for job_id in processing_job_ids ])
             print(f'info: analyses: submitted: {sample["name"]}')
 
