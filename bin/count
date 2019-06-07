@@ -13,7 +13,7 @@ fi
 # SCRATCH_DIR is a 1TB volume.
 SCRATCH_DIR="$HOME/scratch"
 FASTQS_DIR="$SCRATCH_DIR/fastqs"
-OUTPUT_DIR="$SCRATCH_DIR/output/"
+OUTPUT_DIR="$SCRATCH_DIR/output"
 TRANSCRIPTOME_DIR="$SCRATCH_DIR/transcriptome"
 S3_BUCKET=s3://10x-data-backup
 
@@ -52,7 +52,7 @@ fetch_fastqs() {
   experiment_name="$(get_from_config experiment_name <<<"$config_json")"
   sample_name="$(get_from_sample name <<<"$config_json")"
   runs="$(get_from_config runs <<<"$config_json")"
-
+  
   for run in $runs; do
     aws s3 cp \
         "${S3_BUCKET}/${experiment_name}/${sample_name}/fastqs/run${run}/" \
@@ -60,6 +60,8 @@ fetch_fastqs() {
         --include "*_R[1,2]_*.tar.gz" \
         --recursive
   done
+
+  ls -la $FASTQS_DIR
 }
 
 fetch_transcriptome() {
@@ -80,20 +82,35 @@ cellranger_count() {
   local config_json sample_name chemistry target_cell_count
   config_json="$1"
   sample_name="$(get_from_sample name <<<"$config_json")"
-  chemistry="$(get_from_sample chemistry <<<"$config_json")"
-  target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
-
+  job_type="$(get_from_sample job_type <<<"$config_json")"
   mkdir -p "$OUTPUT_DIR"
-  pushd "$OUTPUT_DIR"; \
-    cellranger count \
-               --disable-ui \
-               --chemistry="$chemistry" \
-               --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
-               --id="$sample_name" \
-               --sample="$sample_name" \
-               --expect-cells="$target_cell_count" \
-               --transcriptome="$TRANSCRIPTOME_DIR"
-  popd
+
+  if [[ "$job_type" == "count" ]]; then
+    chemistry="$(get_from_sample chemistry <<<"$config_json")"
+    target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
+
+    pushd "$OUTPUT_DIR"; \
+      cellranger count \
+                 --disable-ui \
+                 --chemistry="$chemistry" \
+                 --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
+                 --id="$sample_name" \
+                 --sample="$sample_name" \
+                 --expect-cells="$target_cell_count" \
+                 --transcriptome="$TRANSCRIPTOME_DIR"
+    popd
+  fi
+
+  if [[ "$job_type" == "vdj" ]]; then
+    pushd "$OUTPUT_DIR"; \
+      cellranger vdj \
+                 --disable-ui \
+                 --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
+                 --id="$sample_name" \
+                 --sample="$sample_name" \
+                 --reference="$TRANSCRIPTOME_DIR"
+    popd
+  fi
 }
 
 upload_results() {
