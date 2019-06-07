@@ -78,14 +78,20 @@ fetch_transcriptome() {
     | tar -C "$TRANSCRIPTOME_DIR" --strip-components=1 -xvzf -
 }
 
-cellranger_count() {
+cellranger_analyze() {
   local config_json sample_name chemistry target_cell_count
   config_json="$1"
   sample_name="$(get_from_sample name <<<"$config_json")"
   job_type="$(get_from_sample job_type <<<"$config_json")"
+  feature_barcoding="$(get_from_sample feature_barcoding <<<"$config_json")"
+  feature_barcoding_enabled = feature_barcoding['enabled']
+  echo 'feature_barcoding_enabled'
+  echo feature_barcoding_enabled
+  echo'----------------'
+
   mkdir -p "$OUTPUT_DIR"
 
-  if [[ "$job_type" == "count" ]]; then
+  if [[ "$job_type" == "count" && feauture_barcoding_enabled == 'False' ]]; then
     chemistry="$(get_from_sample chemistry <<<"$config_json")"
     target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
 
@@ -100,6 +106,22 @@ cellranger_count() {
                  --transcriptome="$TRANSCRIPTOME_DIR"
     popd
   fi
+
+  # if [[ "$job_type" == "count" && feauture_barcoding_enabled == 'True' ]]; then
+  #   chemistry="$(get_from_sample chemistry <<<"$config_json")"
+  #   target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
+
+  #   pushd "$OUTPUT_DIR"; \
+  #     cellranger count \
+  #                --disable-ui \
+  #                --chemistry="$chemistry" \
+  #                --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
+  #                --id="$sample_name" \
+  #                --sample="$sample_name" \
+  #                --expect-cells="$target_cell_count" \
+  #                --transcriptome="$TRANSCRIPTOME_DIR"
+  #   popd
+  # fi
 
   if [[ "$job_type" == "vdj" ]]; then
     pushd "$OUTPUT_DIR"; \
@@ -122,7 +144,7 @@ upload_results() {
 
   aws s3 cp \
       "${OUTPUT_DIR}/${sample_id}" \
-      "${S3_BUCKET}/${experiment_name}/${sample_id}/cellranger_count_output/${reference_transcriptome_name}"/ \
+      "${S3_BUCKET}/${experiment_name}/${sample_id}/cellranger_analyze_output/${reference_transcriptome_name}"/ \
       --exclude "SC_RNA_COUNTER_CS/*" \
       --recursive
 }
@@ -139,7 +161,7 @@ main() {
 
   fetch_fastqs "$config_json"
   fetch_transcriptome "$config_json"
-  cellranger_count "$config_json"
+  cellranger_analyze "$config_json"
   upload_results "$config_json"
 }
 
