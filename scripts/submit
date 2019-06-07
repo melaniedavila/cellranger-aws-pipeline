@@ -23,10 +23,7 @@ print(f\"{json_payload}\")"
 }
 
 validate_schema() {
-  local config_yaml_filename
-  config_yaml_filename="$1"
-  cat "$config_yaml_filename" \
-    | python -c "from jsonschema import validate; import json; import sys; import yaml;
+  python -c "from jsonschema import validate; import json; import sys; import yaml;
 config_data = yaml.load(sys.stdin.read())
 json_schema = json.load(open('config_schema.json'))
 validate(config_data, json_schema)"
@@ -42,13 +39,17 @@ main() {
 
   config_yaml_filename="$1"
 
-  validate_schema "$config_yaml_filename"
+  # fix this
+  # validate_schema < "$config_yaml_filename"
 
-  aws lambda invoke \
-      --function-name "test-cellranger-pipeline-submit" \
-      --log-type "Tail" \
-      --payload "$(payload "$config_yaml_filename")" \
-      -
+  # FIXME: lambda function accepts json, not yaml
+  payload "$config_yaml_filename" | ./scripts/lambda_function.py
+
+  # aws lambda invoke \
+  #     --function-name "test-cellranger-pipeline-submit" \
+  #     --log-type "Tail" \
+  #     --payload "$(payload "$config_yaml_filename")" \
+  #     -
 }
 
 main "$@"
