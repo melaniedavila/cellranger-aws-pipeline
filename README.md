@@ -17,7 +17,11 @@ the Docker images on AWS ECR.
 
 `./make-all-versions.sh push-latest && ./scripts/submit configs/config.yaml`
 
-For more information on setting up your configuration file, please visit [this document](./docs/configuration_files.md)
+For more information on setting up your configuration file, please visit these
+annotated exaple configuration files:
+ - [simple example](./docs/example-config-simple.yaml)
+ - [feature barcoding & pooled sequencing runs example](./docs/example-config-pooled-feature-barcoding.yaml)
+
 
 ## Development
 
