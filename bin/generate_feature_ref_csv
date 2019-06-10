@@ -1,0 +1,72 @@
+#!/usr/bin/env python
+
+# This script generates the contents of the feature_reference.csv that will
+# be consumed by `cellranger count` if we are utilizing feature barcoding.
+
+# The samplesheet generated looks something like this:
+# id,name,read,pattern,sequence,feature_type
+# HTO_5p_1_pat_3P,HTO_5p_1_pat_3P,R2,(BC)3P,GTCAACTCTTTAGCG,Custom
+# HTO_5p_2_pat_3P,HTO_5p_2_pat_3P,R2,(BC)3P,TGATGGCCTATTGGG,Custom
+# HTO_5p_3_pat_3P,HTO_5p_3_pat_3P,R2,(BC)3P,TTCCGCCTCTCTTTG,Custom
+
+# pattern will be 5P(BC) for 3p samples and (BC)3P for 5p samples
+
+import csv
+import json
+import os
+import sys
+import boto3
+
+FEATURE_REF_CSV_HEADERS = [["id", "name", "read", "pattern", "sequence", "feature_type"]]
+def usage():
+  print(f'{sys.argv[0]} CONFIG_JSON FEATURE_REF_CSV_PATH')
+
+
+def get_target_oligo_bc_sequence(oligos, bc_seqs, target_oligo):
+  oligo_index = oligos.index(target_oligo)
+  bc_sequence = bc_seqs[oligo_index]
+
+  return bc_sequence
+
+
+def main(config_json):
+  config = json.loads(config_json)
+
+  s3 = boto3.client('s3')
+  s3.download_file('10x-pipeline', 'oligo_sequences/adt_hto_bc_sequences.csv', 'adt_hto_bc_sequences.csv')
+  with open('adt_hto_bc_sequences.csv') as csvfile:
+    rows = csv.reader(csvfile)
+    res = list(zip(*rows))
+  oligos = list(res[0][1:])
+  bc_seqs = list(res[1][1:])
+
+  sample = config['sample']
+  feature_type = sample['feature_barcoding']['feature_type']
+  directionality = sample['feature_barcoding']['directionality']
+  if directionality == '3p':
+    pattern = '5P(BC)'
+  else:
+    pattern = '(BC)3P'
+
+  target_oligo_group = sample['feature_barcoding']['oligo_group']
+  oligo_groups = config['oligo_groups']
+  target_oligos = oligo_groups[str(target_oligo_group)]
+
+  csv_data = []
+  for oligo in target_oligos:
+    bc_seq = get_target_oligo_bc_sequence(oligos, bc_seqs, oligo)
+    if not oligo.upper().startswith('HTO'):
+      oligo = f'adt_{oligo}'
+
+    oligo_data = [oligo, oligo, 'R2', pattern, bc_seq, feature_type]
+    csv_data.append(oligo_data)
+
+  writer = csv.writer(sys.stdout)
+  writer.writerows(FEATURE_REF_CSV_HEADERS)
+  writer.writerows(csv_data)
+
+if len(sys.argv) < 1:
+  usage
+  exit(1)
+else:
+  main(sys.argv[1])
