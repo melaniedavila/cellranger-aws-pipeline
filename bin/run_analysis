@@ -148,9 +148,8 @@ cellranger_analyze() {
                  --disable-ui \
                  --chemistry="$chemistry" \
                  --id="$sample_name" \
-                 --sample="$sample_name" \
                  --expect-cells="$target_cell_count" \
-                 --transcriptome="$TRANSCRIPTOME_DIR" \ 
+                 --transcriptome="$TRANSCRIPTOME_DIR" \
                  --libraries="$LIBRARIES_CSV_PATH" \
                  --feature-ref="$FEATURE_REF_CSV_PATH"
 
