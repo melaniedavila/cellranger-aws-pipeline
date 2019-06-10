@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+
+# This script generates the contents of the libraries.csv that will
+# be consumed by `cellranger count` if we are utilizing feature barcoding.
+
+# The libraries.csv file generated looks something like this:
+# fastqs,sample,library_type
+# /sc/orga/projects/HIMC/chromium/runregeneron0_himcregeneron0_020519/fastqs_gex_2/H5YKMBGX9/outs/fastq_path/,7001TN5A,Gene Expression
+# /sc/orga/projects/HIMC/chromium/runregeneron0_himcregeneron0_020519/fastqs_citeseq/7001TN5A-H_HIMCRegeneron0_020519/,7001TN5A-H,Custom
+# /sc/orga/projects/HIMC/chromium/runregeneron0_himcregeneron0_020519/fastqs_gex_2/H5YKMBGX9/outs/fastq_path,7001TN5B/,Gene Expression
+# /sc/orga/projects/HIMC/chromium/runregeneron0_himcregeneron0_020519/fastqs_citeseq/7001TN5B-H_HIMCRegeneron0_020519/,7001TN5B-H,Custom
+
+import csv
+import json
+import os
+import sys
+
+LIBRARIES_CSV_HEADERS=[["fastqs", "sample", "library_type"]]
+FASTQS_DIR="/home/cellranger/scratch/fastqs"
+def usage():
+  print(f'{sys.argv[0]} CONFIG_JSON LIBRARIES_CSV_PATH')
+
+
+def get_fastq_paths(sample_name):
+  fastq_paths = []
+
+  fastq_subdirs = os.listdir(FASTQS_DIR)
+  for subdir in fastq_subdirs:
+    fastq_filenames = os.listdir(f'{FASTQS_DIR}/{subdir}/')
+    fastq_matches = [filename.startswith(f'{sample_name}_S') for filename in fastq_filenames]
+    if any(fastq_matches):
+      fastq_paths.append(f'{FASTQS_DIR}/{subdir}/')
+
+  return (',').join(fastq_paths)
+
+def main(config_json):
+  config=json.loads(config_json)
+  sample=config['sample']
+
+  # Add GEX sample data
+  csv_data = [] 
+  csv_data.append([get_fastq_paths(sample['name']), sample['name'], 'Gene Expression'])
+
+  # Add CITE-seq sample data
+  citeseq_samples = sample['feature_barcoding']['samples']
+  library_type = sample['feature_barcoding']['feature_type']
+  for citeseq_sample in citeseq_samples:
+    citeseq_sample_data = [get_fastq_paths(citeseq_sample['name']), citeseq_sample['name'], library_type]
+    csv_data.append(citeseq_sample_data)
+
+  writer = csv.writer(sys.stdout)
+  writer.writerows(LIBRARIES_CSV_HEADERS)
+  writer.writerows(csv_data)
+
+if len(sys.argv) < 1:
+  usage
+  exit(1)
+else:
+  main(sys.argv[1])
