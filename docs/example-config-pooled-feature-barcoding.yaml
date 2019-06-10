@@ -1,0 +1,187 @@
+# This config file describes an experiment.
+# An experiment is "a collection of samples that need to be processed and analyzed together."
+
+# The information under `experiment` is global; it does not change on a per-sample basis.
+experiment:
+  bcl2fastq_version: "2.20.0"      # Determines what image to run. Current Options: 2.20.10
+  cellranger_version: "3.0.2"      # Determines what image to run Current Options: 2.2.0, 3.0.2
+  # sequencing_runs metadata is used to generate the experiment name.
+  # Based off the `sequencing_runs` data below, our generated experiment name would 
+  # be "run1_himc1_032519-run2_himc2_032519"
+  # Sequencing run names are separated by '-'. We may have 1 or more sequencing 
+  # runs. When there is more than 1 run, we refer to them as "pooled runs"
+  sequencing_runs:                 
+    - id: 1
+      himc_pool: 1
+      date: "2019-03-25" 
+      bcl_file: "190325_NB501426_0271_AH2J72BGXB.tar.gz"
+    - id: 2
+      himc_pool: 2
+      date: "2019-03-26" # YYYY-MM-DD
+      bcl_file: "190326_NB501426_0272_AH2J75BGXY.tar.gz"
+  meta:
+    debug: true # boolean; defaults to false
+
+# Either
+# * Nothing
+# * bcl2fastq
+# * mkfastq
+# * mkfastq & bcl2fastq
+# The mkfastq and bcl2fastq keys MUST exist to avoid errors. They may be left
+# without values where appropriate.
+processing:
+  mkfastq: # This key must exist but can have no values
+    samples:
+      - name: 7002v3A
+        index_location: SI-GA-E12
+      - name: 7002v3B
+        index_location: SI-GA-E11
+  bcl2fastq:  # This key must exist but can have no values
+    samples:
+      - name: 7002v3A-A
+        index_location: RPI9
+      - name: 7002v3A-H
+      # The `_s` suffix here is necessary so that we can accurately match the index_location
+      # to a proper sequence in from our citeseq_sample_indices.csv file
+        index_location: D709_s
+      - name: 7002v3B-A
+        index_location: RPI10
+      - name: 7002v3B-H
+      # The `_s` suffix here is necessary so that we can accurately match the index_location
+      # to a proper sequence from our citeseq_sample_indices.csv file
+        index_location: D710_s 
+
+analyses:
+  samples:
+    - name: 7002v3A
+      job_type: count # may be count or vdj
+      # a defauly chemistry of auto is usually sufficient to run cellranger count;
+      # however, if errors are thrown, you may specify the chemistry
+      # as per the 10x documentation: https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/count
+      chemistry: auto
+      reference_transcriptome:
+        # may also be hg19, mm10, or vdj; see 10x-pipeline/reference_transcriptome
+        # s3 bucket for currently available options for name and version. You may also reference
+        # ./docs/Building_the_Pipeline.md
+        name: GRCh38
+        version: 1.2.0
+      target_cell_count: 10000
+      feature_barcoding:
+        feature_type: Custom # other options include `Antibody Capture`
+        directionality: 3p # may be 3p or 5p
+        enabled: True # will be False if we're not performing feature barcoding
+        samples: 
+        # We nest related CITE-seq samples under the "parent" GEX sample (e.g. 7002v3A)
+          - name: 7002v3A-A
+          - name: 7002v3A-H
+        oligo_group: 1 # Refers to a specific group of oligos under the `oligo_groups` key
+      pooled_run: True # will be False if we only have 1 sequencing run
+    - name: 7002v3B
+      job_type: count
+      chemistry: auto
+      reference_transcriptome:
+        name: GRCh38
+        version: 1.2.0
+      target_cell_count: 10000
+      feature_barcoding:
+        feature_type: Custom
+        directionality: 3p
+        enabled: True 
+        samples: 
+          - name: 7002v3B-A
+          - name: 7002v3B-H
+        oligo_group: 1
+      pooled_run: True 
+  oligo_groups:  # This key must exist but can have no values if we're not performing feature barcoding
+    1:
+      # HTO oligos must be prefixed with an 'HTO'. Our pipeline will automatically
+      # prefix the ADTs with `adt_` so the ADT names should not be prefixed here.
+      # These will be matched to a proper sequence from our adt_hto_bc_sequences.csv 
+      # file
+      - CD86
+      - CD274_PD-L1
+      - CD26
+      - CD40
+      - CD3
+      - CD4
+      - CD8
+      - CD45
+      - CD19
+      - CD14
+      - CD33
+      - CD11c
+      - CD138
+      - CD38
+      - CD117
+      - CD10
+      - CD45RA
+      - CD123
+      - CD127
+      - CD194_CCR4
+      - CD16
+      - CD56
+      - CD25
+      - CD279_PD-1
+      - CD20
+      - IgD
+      - CD183_CXCR3
+      - CD195_CCR5
+      - CD196_CCR6
+      - CD185_CXCR5
+      - CD103
+      - CD69
+      - CD62L
+      - CD197_CCR7
+      - CD161
+      - CD28
+      - CD27
+      - HLA-DR
+      - CD1c
+      - CD11b
+      - CD141
+      - CD66b
+      - CD57
+      - CD278_ICOS
+      - CD24
+      - CD206
+      - CD169
+      - CD370
+      - CD314_NKG2D
+      - TIGIT_VSTM3
+      - CD273_PD-L2
+      - CD5
+      - XCR1
+      - CD163
+      - CD58
+      - TCR_gamma_delta
+      - CD272_BTLA
+      - CD29
+      - CD254
+      - CD146
+      - CD140a_PDGFRalpha
+      - CD140b_PDGFRbeta
+      - CD90_Thy1
+      - CD105
+      - CD326_Ep-CAM
+      - CD44
+      - CD31
+      - CD134_OX40
+      - CD223_LAG-3
+      - CD152_CTLA-4
+      - HLA-ABC
+      - CD39
+      - CD244_2B4
+      - CD226_DNAM-1
+      - CD115_CSF-1R
+      - CD34
+      - Podoplanin
+      - CD54
+      - CD9
+      - FAP-IH
+      - IgG4-IH
+      - HTO_1
+      - HTO_2
+      - HTO_3
+      - HTO_4
+      - HTO_5
+      - HTO_Mouse_A20
