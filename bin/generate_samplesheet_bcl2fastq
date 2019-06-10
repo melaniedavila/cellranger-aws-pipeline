@@ -27,7 +27,7 @@ import sys
 import boto3
 
 # We use default fillers in the headers since we don't actually use this info
-SAMPLESHEET_CSV_HEADERS=[["[Header]", "", "", "", "", "", "","", ""],
+SAMPLESHEET_CSV_HEADERS=[["[Header]", "", "", "", "", "", "",""],
                         ["IEMFileVersion","4","","","","","",""],
                         ["InvestigatorName","HIMC","","","","","",""],
                         ["ExperimentName","HIMC","","","","","",""],
@@ -51,9 +51,9 @@ def get_sample_index_bc_sequence(oligos, bc_seqs, index_location):
   # We add an `AT` to the end of RPI sequences so that we can process
   # ADTS (which use RPI indices) and HTOs in the same bcl2fastq invocation
   if index_location.startswith('RPI'):
-    index_location += 'AT'
+    bc_sequence += 'AT'
 
-  return index_location
+  return bc_sequence
 
 def main(config_json):
   config=json.loads(config_json)
@@ -75,8 +75,6 @@ def main(config_json):
   writer = csv.writer(sys.stdout)
   writer.writerows(SAMPLESHEET_CSV_HEADERS)
   writer.writerows(csv_data)
-  print(SAMPLESHEET_CSV_HEADERS)
-  print(csv_data)
 
 if len(sys.argv) < 1:
   usage
