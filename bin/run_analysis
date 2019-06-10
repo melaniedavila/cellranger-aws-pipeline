@@ -15,7 +15,11 @@ SCRATCH_DIR="$HOME/scratch"
 FASTQS_DIR="$SCRATCH_DIR/fastqs"
 OUTPUT_DIR="$SCRATCH_DIR/output"
 TRANSCRIPTOME_DIR="$SCRATCH_DIR/transcriptome"
-S3_BUCKET=s3://10x-data-backup
+S3_BUCKET="s3://10x-data-backup"
+
+LIBRARIES_CSV_PATH="${SCRATCH_DIR}/libraries.csv"
+FEATURE_REF_CSV_PATH="${SCRATCH_DIR}/feature_reference.csv"
+
 
 usage() {
   echo "$0 CONFIG_JSON"
@@ -46,8 +50,14 @@ else:
    print(value)"
 }
 
+get_citeseq_sample_names() {
+  python -c "import json; import sys; 
+sample_names = [sample['name'] for sample in json.load(sys.stdin)['sample']['feature_barcoding']['samples']]
+print(*sample_names)"
+}
+
 fetch_fastqs() {
-  local config_json experiment_name sample_name runs
+  local config_json experiment_name sample_name runs citeseq_sample_names
   config_json="$1"
   experiment_name="$(get_from_config experiment_name <<<"$config_json")"
   sample_name="$(get_from_sample name <<<"$config_json")"
@@ -61,7 +71,19 @@ fetch_fastqs() {
         --recursive
   done
 
-  ls -la $FASTQS_DIR
+  if feature_barcoding_enabled "$config_json"; then
+    for citeseq_sample_name in $(get_citeseq_sample_names <<<"$config_json"); do
+      for run in $runs; do
+        aws s3 cp \
+            "${S3_BUCKET}/${experiment_name}/${citeseq_sample_name}/fastqs/run${run}/" \
+            "$FASTQS_DIR/${run}/" \
+            --include "*_R[1,2]_*.tar.gz" \
+            --recursive
+      done
+    done
+  fi
+
+  ls -la $FASTQS_DIR # TODO: Remove; for debugging only
 }
 
 fetch_transcriptome() {
@@ -78,20 +100,25 @@ fetch_transcriptome() {
     | tar -C "$TRANSCRIPTOME_DIR" --strip-components=1 -xvzf -
 }
 
+feature_barcoding_enabled() {
+  local config_json enabled
+  config_json="$1"
+  enabled="$(echo "$config_json" | python -c "import json; import sys; 
+print(json.load(sys.stdin)['sample']['feature_barcoding']['enabled'])")"
+
+  [[ "$enabled" == "True" ]]
+}
+
 cellranger_analyze() {
-  local config_json sample_name chemistry target_cell_count
+  local config_json sample_name chemistry target_cell_count job_type experiment_name
   config_json="$1"
   sample_name="$(get_from_sample name <<<"$config_json")"
   job_type="$(get_from_sample job_type <<<"$config_json")"
-  feature_barcoding="$(get_from_sample feature_barcoding <<<"$config_json")"
-  feature_barcoding_enabled = feature_barcoding['enabled']
-  echo 'feature_barcoding_enabled'
-  echo feature_barcoding_enabled
-  echo'----------------'
+  experiment_name="$(get_from_config experiment_name <<<"$config_json")"
 
   mkdir -p "$OUTPUT_DIR"
 
-  if [[ "$job_type" == "count" && feauture_barcoding_enabled == 'False' ]]; then
+  if [[ "$job_type" == "count" ]] && ! feature_barcoding_enabled "$config_json"; then
     chemistry="$(get_from_sample chemistry <<<"$config_json")"
     target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
 
@@ -107,21 +134,28 @@ cellranger_analyze() {
     popd
   fi
 
-  # if [[ "$job_type" == "count" && feauture_barcoding_enabled == 'True' ]]; then
-  #   chemistry="$(get_from_sample chemistry <<<"$config_json")"
-  #   target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
+  if [[ "$job_type" == "count" ]] && feature_barcoding_enabled "$config_json"; then
+    chemistry="$(get_from_sample chemistry <<<"$config_json")"
+    target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
+    generate_libraries_csv "$config_json" > "$LIBRARIES_CSV_PATH"
+    aws s3 cp "$LIBRARIES_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/libraries.csv"
 
-  #   pushd "$OUTPUT_DIR"; \
-  #     cellranger count \
-  #                --disable-ui \
-  #                --chemistry="$chemistry" \
-  #                --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
-  #                --id="$sample_name" \
-  #                --sample="$sample_name" \
-  #                --expect-cells="$target_cell_count" \
-  #                --transcriptome="$TRANSCRIPTOME_DIR"
-  #   popd
-  # fi
+    generate_feature_ref_csv "$config_json" > "$FEATURE_REF_CSV_PATH"
+    aws s3 cp "$FEATURE_REF_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/feature_reference.csv"
+
+    pushd "$OUTPUT_DIR"; \
+      cellranger count \
+                 --disable-ui \
+                 --chemistry="$chemistry" \
+                 --id="$sample_name" \
+                 --sample="$sample_name" \
+                 --expect-cells="$target_cell_count" \
+                 --transcriptome="$TRANSCRIPTOME_DIR" \ 
+                 --libraries="$LIBRARIES_CSV_PATH" \
+                 --feature-ref="$FEATURE_REF_CSV_PATH"
+
+    popd
+  fi
 
   if [[ "$job_type" == "vdj" ]]; then
     pushd "$OUTPUT_DIR"; \
