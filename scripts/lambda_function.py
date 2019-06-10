@@ -31,7 +31,7 @@ def generate_experiment_name(sequencing_runs, **_):
     sequencing_run_names = map(generate_sequencing_run_name, sequencing_runs)
     return SEQUENCING_RUN_NAME_DELIMITER.join(sequencing_run_names)
 
-def submit_analysis(sample, experiment, cellranger_version, depends_on = []):
+def submit_analysis(sample, experiment, oligo_groups, cellranger_version, depends_on = []):
     experiment_name = generate_experiment_name(**experiment)
     container_overrides = {
         "environment": [
@@ -48,13 +48,13 @@ def submit_analysis(sample, experiment, cellranger_version, depends_on = []):
     job_configuration = {
         "experiment_name": experiment_name,
         "runs": [sequencing_run['id'] for sequencing_run in experiment['sequencing_runs']],
-        "sample": sample
+        "sample": sample,
+        "oligo_groups": oligo_groups
     }
     parameters = {
-        "command": "run_analysis", # FIXME: handle vdj too
+        "command": "run_analysis", 
         "configuration": json.dumps(job_configuration)
     }
-
 
     job_definition = f"{PIPELINE_BASE_NAME}-cellranger-{cellranger_version.replace('.', '_')}-bcl2fastq-2_20_0"
 
@@ -194,8 +194,10 @@ def lambda_handler(event, context):
     if configuration['analyses']:
         for sample in configuration['analyses']['samples']:
             print(f'info: analyses: submitting: {sample["name"]}')
+            oligo_groups = configuration['analyses']['oligo_groups']
             submit_analysis(sample,
                             experiment=experiment,
+                            oligo_groups=oligo_groups,
                             cellranger_version=cellranger_version,
                             depends_on=[ {"jobId": job_id} for job_id in processing_job_ids ])
             print(f'info: analyses: submitted: {sample["name"]}')
