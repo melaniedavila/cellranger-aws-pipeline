@@ -15,8 +15,8 @@ import json
 import os
 import sys
 
-LIBRARIES_CSV_HEADERS=[["fastqs", "sample", "library_type"]]
-FASTQS_DIR="/home/cellranger/scratch/fastqs"
+LIBRARIES_CSV_HEADERS = [["fastqs", "sample", "library_type"]]
+FASTQS_DIR = "/home/cellranger/scratch/fastqs"
 def usage():
   print(f'{sys.argv[0]} CONFIG_JSON LIBRARIES_CSV_PATH')
 
@@ -34,8 +34,8 @@ def get_fastq_paths(sample_name):
   return (',').join(fastq_paths)
 
 def main(config_json):
-  config=json.loads(config_json)
-  sample=config['sample']
+  config = json.loads(config_json)
+  sample = config['sample']
 
   # Add GEX sample data
   csv_data = [] 
