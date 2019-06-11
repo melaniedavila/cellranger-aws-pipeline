@@ -1,0 +1,195 @@
+# Architecture
+
+## S3
+
+1. Establish an S3 bucket `10x-pipeline` with the following structure:
+
+```
+10x-pipeline
+	reference_transcriptome
+		GRCh38
+			refdata-cellranger-GRCh38-1.2.0.tar.gz
+			refdata-cellranger-GRCh38-3.0.0.tar.gz
+		hg19
+			refdata-cellranger-hg19-1.2.0.tar.gz
+			refdata-cellranger-hg19-3.0.0.tar.gz
+		mm10
+			refdata-cellranger-mm10-1.2.0.tar.gz
+			refdata-cellranger-mm10-3.0.0.tar.gz
+		vdj
+			refdata-cellranger-vdj-2.0.0.tar.gz
+	software
+		bcl2fastq
+			bcl2fastq2-v2.20.0-linux-x86-64.zip
+		cellranger
+			cellranger-2.2.0.tar.gz
+			cellranger-3.0.2.tar.gz
+	oligo_sequences
+		adt_hto_bc_sequences.csv
+		citeseq_sample_indices.csv
+```
+
+Many of the ref-data files can be downloaded from the 10x genomics
+site [here][10x-genomics-downloads]. Ultimately, when decompressed,
+you'll be left with a directory including the following top-level
+items:
+
+- `fasta/`
+- `genes/`
+- `pickle/`
+- `star/`
+- `README.BEFORE.MODIFYING`
+- `reference.json`
+- `version`
+
+The software can be downloaded from [10X Genomics][10x-genomics-downloads] and [Illumina][illumina-downloads], respectively.
+
+The files under `oligo_sequences` can be found under this repo's own
+`oligo_sequences` directory. These files include sample index and
+ADT/HTO oligo sequences.
+
+2. Establish a `10-data-backup` bucket with the following structure. Of note, our
+pipeline itself will export data in a way that conforms with our desired structure.
+We only need to add the bcl fil(s) in the `10-data-backup/raw_data/` directory.
+
+```
+10x-data-backup
+	experiment_name
+		raw_data
+			bcl_filename_run1.tar.gz
+			bcl_filename_run2.tar.gz
+		sample_id_A
+			fastqs
+				run1
+					...fastq.gz
+				run2
+					...fastq.gz
+			cellranger_count_output
+				reference_transcriptome
+					outs/
+						...
+					...
+		sample_id_B
+			fastqs
+				run1
+					...fastq.gz
+				run2
+					...fastq.gz
+			cellranger_count_output
+				reference_transcriptome
+					outs/
+						...
+					...
+		sample_id_A-A
+			fastqs
+				run1
+					...fastq.gz
+				run2
+					...fastq.gz
+		sample_id_A-H
+			fastqs
+				run1
+					...fastq.gz
+				run2
+					...fastq.gz
+	fastqs_metadata
+		citeseq
+			run1
+				Stats
+				Reports
+			run2
+				Stats
+				Reports
+		gex
+			run1
+				Stats
+				Reports
+			run2
+				Stats
+				Reports
+
+```
+
+## Docker
+
+The pipeline runs by running code in containers on AWS. Our
+`cellranger-$CELLRANGER_VERSION-bcl2fastq-$BCL2FASTQ_VERSION` images
+contain those softwares (at the version named) and the executables in
+this repo's top-level `bin` directory. These images are run by AWS
+Batch.
+
+### `Makefile`
+
+The `Makefile` enables easier docker builds; the `Makefile` commands
+are short, easy to remember, and consistent.
+
+In production, we pin the version of the code that is being used;
+namely, we enforce that the pipeline runs the code in this repo as of
+a particular commit (for example, `abc123`). This is helpful, because
+we can tell just by glancing at the AWS Batch console, what code is
+running in our production pipeline; if we were always using `latest`,
+then it would be more difficult to determine the version of the code
+being run. For development, `latest` is useful for making a tighter
+feedback loop.
+
+### `Dockerfile`
+
+The `Dockerfile` is parameterized with `CELLRANGER_VERSION` and
+`BCL2FASTQ_VERSION`. This makes sense for us, because we need
+different images that contain different versions of those softwares,
+and also because everything else about the images should be the
+same. This is DRYer than having two nearly identical `Dockerfile`s.
+
+## ECR repository
+
+The AWS ECR repository enables us to distribute our images; namely,
+when we push our images to ECR, AWS Batch can then pull them and use
+them.
+
+## AMI
+
+We use an ECS-optimized AMI with 1TB storage.
+
+TODO: write manual steps for creating/updating AMI.
+TODO: define AMI in code?
+
+## IAM roles
+
+AWS Batch runs our containers with an IAM role, `cellranger-pipeline`,
+that allows the container to interact with S3. That role provides:
+
+- read and write access to `10x-data-backup` S3 bucket (via the
+  `s3-10x-data-backup-read-write` IAM policy)
+- read access to `10x-pipeline` S3 bucket (via the
+  `s3-10x-pipeline-read` IAM policy)
+
+There are also some default IAM roles that we assign to AWS Batch
+resources, for example the role that allows AWS Batch to pull our
+images from ECR.
+
+## Batch
+
+These jobs run our Docker images with 124GB of memory and 16 CPUs, and
+make use of the 1TB of disk provided by the AMI.
+
+### Compute Environment
+TODO: write manual steps for creating Compute Environment
+
+### Job Queue
+TODO: write manual steps for creating Job Queue
+
+### Job Definition
+TODO: write manual steps for creating Job Definition
+
+
+## Scripting
+Our pipeline relies on various python and bash scripts which can be found in the 
+top-level, `scripts`, and `bin` directories. These scripts are responsible for
+tasks including the following:
+	- submitting jobs to AWS Batch
+	- pushing Dockerfile changes to AWS ECR
+	- validating our yaml config file
+	- running `mkfastq`, `bcl2fastq`, `count`, and `vdj`
+
+[10x-genomics-downloads](https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest)
+[illumina-downloads](https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software/downloads.html)
