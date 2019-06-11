@@ -174,10 +174,11 @@ upload_results() {
   experiment_name="$(get_from_config experiment_name <<<"$config_json")"
   sample_id="$(get_from_sample name <<<"$config_json")"
   reference_transcriptome_name="$(get_from_reference_transcriptome name <<<"$config_json")"
+  job_type="$(get_from_sample job_type <<<"$config_json")"
 
   aws s3 cp \
       "${OUTPUT_DIR}/${sample_id}" \
-      "${S3_BUCKET}/${experiment_name}/${sample_id}/cellranger_analyze_output/${reference_transcriptome_name}"/ \
+      "${S3_BUCKET}/${experiment_name}/${sample_id}/cellranger_${job_type}_output/${reference_transcriptome_name}"/ \
       --exclude "SC_RNA_COUNTER_CS/*" \
       --recursive
 }
