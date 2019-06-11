@@ -57,12 +57,13 @@ print(*sample_names)"
 }
 
 feature_barcoding_enabled() {
-  local config_json enabled
+  local config_json job_type enabled
   config_json="$1"
+  job_type="$(get_from_sample job_type <<<"$config_json")"
   enabled="$(echo "$config_json" | python -c "import json; import sys;
 print(json.load(sys.stdin)['sample']['feature_barcoding']['enabled'])")"
 
-  [[ "$enabled" == "True" ]]
+  [[ "$job_type" == "count" ]] && [[ "$enabled" == "True" ]]
 }
 
 fetch_fastqs() {
