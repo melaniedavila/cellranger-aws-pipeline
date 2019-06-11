@@ -1,7 +1,9 @@
 #!/usr/bin/env python3.6
 
-# This script submits experiment jobs to AWS Batch. It may be run
-# either locally or on AWS Lambda.
+# This script submits experiment jobs to AWS Batch.
+
+# TODO: this script should upload pipeline config yamls to S3
+# TODO: this script should be combined with the submit shell script
 
 import boto3
 import datetime as dt
@@ -159,7 +161,7 @@ def submit_bcl2fastq(bcl_file, experiment, run_id, samples):
         print(message)
         raise Exception(message)
 
-def lambda_handler(event, context):
+def main(event, context):
     configuration = event['configuration']
     experiment = configuration['experiment']
     bcl2fastq_version = experiment['bcl2fastq_version']
@@ -211,4 +213,4 @@ def lambda_handler(event, context):
 
 if __name__ == "__main__":
     event = json.load(sys.stdin)
-    lambda_handler(event, None)
+    main(event, None)

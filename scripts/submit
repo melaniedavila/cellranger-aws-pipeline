@@ -43,7 +43,7 @@ main() {
   # validate_schema < "$config_yaml_filename"
 
   # FIXME: lambda function accepts json, not yaml
-  payload "$config_yaml_filename" | ./scripts/lambda_function.py
+  payload "$config_yaml_filename" | ./scripts/submit.py
 
   # aws lambda invoke \
   #     --function-name "test-cellranger-pipeline-submit" \
