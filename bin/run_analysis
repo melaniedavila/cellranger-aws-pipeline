@@ -101,7 +101,7 @@ fetch_transcriptome() {
 feature_barcoding_enabled() {
   local config_json enabled
   config_json="$1"
-  enabled="$(echo "$config_json" | python -c "import json; import sys; 
+  enabled="$(echo "$config_json" | python -c "import json; import sys;
 print(json.load(sys.stdin)['sample']['feature_barcoding']['enabled'])")"
 
   [[ "$enabled" == "True" ]]
