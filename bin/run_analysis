@@ -51,7 +51,7 @@ else:
 }
 
 get_citeseq_sample_names() {
-  python -c "import json; import sys; 
+  python -c "import json; import sys;
 sample_names = [sample['name'] for sample in json.load(sys.stdin)['sample']['feature_barcoding']['samples']]
 print(*sample_names)"
 }
@@ -62,7 +62,7 @@ fetch_fastqs() {
   experiment_name="$(get_from_config experiment_name <<<"$config_json")"
   sample_name="$(get_from_sample name <<<"$config_json")"
   runs="$(get_from_config runs <<<"$config_json")"
-  
+
   for run in $runs; do
     aws s3 cp \
         "${S3_BUCKET}/${experiment_name}/${sample_name}/fastqs/run${run}/" \
