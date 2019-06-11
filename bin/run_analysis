@@ -138,10 +138,10 @@ cellranger_analyze() {
     chemistry="$(get_from_sample chemistry <<<"$config_json")"
     target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
     generate_libraries_csv "$config_json" > "$LIBRARIES_CSV_PATH"
-    aws s3 cp "$LIBRARIES_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/libraries.csv"
+    aws s3 cp "$LIBRARIES_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/${sample_name}_libraries.csv"
 
     generate_feature_ref_csv "$config_json" > "$FEATURE_REF_CSV_PATH"
-    aws s3 cp "$FEATURE_REF_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/feature_reference.csv"
+    aws s3 cp "$FEATURE_REF_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/${sample_name}_feature_reference.csv"
 
     pushd "$OUTPUT_DIR"; \
       cellranger count \
