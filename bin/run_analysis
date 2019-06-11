@@ -82,8 +82,6 @@ fetch_fastqs() {
       done
     done
   fi
-
-  ls -la $FASTQS_DIR # TODO: Remove; for debugging only
 }
 
 fetch_transcriptome() {
