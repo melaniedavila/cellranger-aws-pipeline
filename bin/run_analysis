@@ -107,6 +107,23 @@ fetch_transcriptome() {
     | tar -C "$TRANSCRIPTOME_DIR" --strip-components=1 -xvzf -
 }
 
+generate_csvs() {
+  local config_json experiment_name sample_name
+  config_json="$1"
+  experiment_name="$(get_from_config experiment_name <<<"$config_json")"
+  sample_name="$(get_from_sample name <<<"$config_json")"
+
+  if ! feature_barcoding_enabled "$config_json"; then
+    return 0
+  fi
+
+  generate_libraries_csv "$config_json" > "$LIBRARIES_CSV_PATH"
+  aws s3 cp "$LIBRARIES_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/${sample_name}_libraries.csv"
+
+  generate_feature_ref_csv "$config_json" > "$FEATURE_REF_CSV_PATH"
+  aws s3 cp "$FEATURE_REF_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/${sample_name}_feature_reference.csv"
+}
+
 cellranger_analyze() {
   local config_json sample_name job_type experiment_name chemistry target_cell_count
   config_json="$1"
@@ -135,11 +152,6 @@ cellranger_analyze() {
   if [[ "$job_type" == "count" ]] && feature_barcoding_enabled "$config_json"; then
     chemistry="$(get_from_sample chemistry <<<"$config_json")"
     target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
-    generate_libraries_csv "$config_json" > "$LIBRARIES_CSV_PATH"
-    aws s3 cp "$LIBRARIES_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/${sample_name}_libraries.csv"
-
-    generate_feature_ref_csv "$config_json" > "$FEATURE_REF_CSV_PATH"
-    aws s3 cp "$FEATURE_REF_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/${sample_name}_feature_reference.csv"
 
     pushd "$OUTPUT_DIR"; \
       cellranger count \
@@ -193,6 +205,7 @@ main() {
 
   fetch_fastqs "$config_json"
   fetch_transcriptome "$config_json"
+  generate_csvs "$config_json"
   cellranger_analyze "$config_json"
   upload_results "$config_json"
 }
