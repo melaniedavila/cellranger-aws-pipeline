@@ -125,57 +125,58 @@ generate_csvs() {
   aws s3 cp "$FEATURE_REF_CSV_PATH" "${S3_BUCKET}/${experiment_name}/samplesheets/${sample_name}_feature_reference.csv"
 }
 
-cellranger_analyze() {
-  local config_json sample_name job_type experiment_name chemistry target_cell_count
+cellranger_vdj() {
+  local config_json sample_name
   config_json="$1"
   sample_name="$(get_from_sample name <<<"$config_json")"
+
+  pushd "$OUTPUT_DIR"; \
+    cellranger vdj \
+               --disable-ui \
+               --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
+               --id="$sample_name" \
+               --sample="$sample_name" \
+               --reference="$TRANSCRIPTOME_DIR"
+  popd
+}
+
+cellranger_count() {
+  local config_json sample_name chemistry target_cell_count additional_options
+  config_json="$1"
+  sample_name="$(get_from_sample name <<<"$config_json")"
+  chemistry="$(get_from_sample chemistry <<<"$config_json")"
+  target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
+
+  if feature_barcoding_enabled "$config_json"; then
+    additional_options=( --libraries="$LIBRARIES_CSV_PATH"
+                         --feature-ref="$FEATURE_REF_CSV_PATH" )
+  else
+    additional_options=( --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)"
+                         --sample="$sample_name" )
+  fi
+
+  pushd "$OUTPUT_DIR"; \
+    cellranger count \
+               --disable-ui \
+               --chemistry="$chemistry" \
+               --id="$sample_name" \
+               --expect-cells="$target_cell_count" \
+               --transcriptome="$TRANSCRIPTOME_DIR" \
+               "${additional_options[@]}"
+  popd
+}
+
+cellranger_analyze() {
+  local config_json job_type
+  config_json="$1"
   job_type="$(get_from_sample job_type <<<"$config_json")"
-  experiment_name="$(get_from_config experiment_name <<<"$config_json")"
 
   mkdir -p "$OUTPUT_DIR"
 
-  if [[ "$job_type" == "count" ]] && ! feature_barcoding_enabled "$config_json"; then
-    chemistry="$(get_from_sample chemistry <<<"$config_json")"
-    target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
-
-    pushd "$OUTPUT_DIR"; \
-      cellranger count \
-                 --disable-ui \
-                 --chemistry="$chemistry" \
-                 --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
-                 --id="$sample_name" \
-                 --sample="$sample_name" \
-                 --expect-cells="$target_cell_count" \
-                 --transcriptome="$TRANSCRIPTOME_DIR"
-    popd
-  fi
-
-  if [[ "$job_type" == "count" ]] && feature_barcoding_enabled "$config_json"; then
-    chemistry="$(get_from_sample chemistry <<<"$config_json")"
-    target_cell_count="$(get_from_sample target_cell_count <<<"$config_json")"
-
-    pushd "$OUTPUT_DIR"; \
-      cellranger count \
-                 --disable-ui \
-                 --chemistry="$chemistry" \
-                 --id="$sample_name" \
-                 --expect-cells="$target_cell_count" \
-                 --transcriptome="$TRANSCRIPTOME_DIR" \
-                 --libraries="$LIBRARIES_CSV_PATH" \
-                 --feature-ref="$FEATURE_REF_CSV_PATH"
-
-    popd
-  fi
-
-  if [[ "$job_type" == "vdj" ]]; then
-    pushd "$OUTPUT_DIR"; \
-      cellranger vdj \
-                 --disable-ui \
-                 --fastqs="$(echo "${FASTQS_DIR}"/* | tr ' ' ,)" \
-                 --id="$sample_name" \
-                 --sample="$sample_name" \
-                 --reference="$TRANSCRIPTOME_DIR"
-    popd
+  if [[ "$job_type" == "count" ]]; then
+    cellranger_count "$config_json"
+  elif [[ "$job_type" == "vdj" ]]; then
+    cellranger_vdj "$config_json"
   fi
 }
 
