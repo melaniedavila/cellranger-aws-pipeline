@@ -56,6 +56,15 @@ sample_names = [sample['name'] for sample in json.load(sys.stdin)['sample']['fea
 print(*sample_names)"
 }
 
+feature_barcoding_enabled() {
+  local config_json enabled
+  config_json="$1"
+  enabled="$(echo "$config_json" | python -c "import json; import sys;
+print(json.load(sys.stdin)['sample']['feature_barcoding']['enabled'])")"
+
+  [[ "$enabled" == "True" ]]
+}
+
 fetch_fastqs() {
   local config_json experiment_name sample_name runs citeseq_sample_names
   config_json="$1"
@@ -96,15 +105,6 @@ fetch_transcriptome() {
       "s3://10x-pipeline/reference_transcriptome/${name}/refdata-cellranger-${name}-${version}.tar.gz" \
       - \
     | tar -C "$TRANSCRIPTOME_DIR" --strip-components=1 -xvzf -
-}
-
-feature_barcoding_enabled() {
-  local config_json enabled
-  config_json="$1"
-  enabled="$(echo "$config_json" | python -c "import json; import sys;
-print(json.load(sys.stdin)['sample']['feature_barcoding']['enabled'])")"
-
-  [[ "$enabled" == "True" ]]
 }
 
 cellranger_analyze() {
