@@ -108,7 +108,7 @@ fetch_transcriptome() {
 }
 
 cellranger_analyze() {
-  local config_json sample_name chemistry target_cell_count job_type experiment_name
+  local config_json sample_name job_type experiment_name chemistry target_cell_count
   config_json="$1"
   sample_name="$(get_from_sample name <<<"$config_json")"
   job_type="$(get_from_sample job_type <<<"$config_json")"
