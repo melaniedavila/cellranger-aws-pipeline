@@ -170,7 +170,7 @@ def main(event, context):
     processing = configuration['processing']
     processing_job_ids = []
 
-    if processing and processing['mkfastq']:
+    if processing and processing.has_key('mkfastq'):
         samples = processing['mkfastq']['samples']
         for bcl_file, run_id in [[sequencing_run['bcl_file'], sequencing_run['id']] for sequencing_run in experiment['sequencing_runs']]:
             print(f'info: processing: mkfastq: submitting: {bcl_file}')
@@ -182,7 +182,7 @@ def main(event, context):
             processing_job_ids.append(mkfastq_job_id)
             print(f'info: processing: mkfastq: submitted: {bcl_file}')
 
-    if processing and processing['bcl2fastq']:
+    if processing and processing.has_key('bcl2fastq'):
         samples = processing['bcl2fastq']['samples']
         for bcl_file, run_id in [[sequencing_run['bcl_file'], sequencing_run['id']] for sequencing_run in experiment['sequencing_runs']]:
             print(f'info: processing: bcl2fastq: submitting: {bcl_file}')
