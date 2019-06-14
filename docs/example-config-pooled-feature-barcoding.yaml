@@ -27,16 +27,14 @@ experiment:
 # * bcl2fastq
 # * mkfastq
 # * mkfastq & bcl2fastq
-# The mkfastq and bcl2fastq keys MUST exist to avoid errors. They may be left
-# without values where appropriate.
 processing:
-  mkfastq: # This key must exist but can have no values
+  mkfastq: 
     samples:
       - name: 7002v3A
         index_location: SI-GA-E12
       - name: 7002v3B
         index_location: SI-GA-E11
-  bcl2fastq:  # This key must exist but can have no values
+  bcl2fastq:  
     samples:
       - name: 7002v3A-A
         index_location: RPI9
