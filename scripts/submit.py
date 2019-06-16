@@ -9,6 +9,7 @@ import boto3
 import datetime as dt
 import json
 import sys
+import yaml
 
 AWS_ECR_REGISTRY = '402084680610.dkr.ecr.us-east-1.amazonaws.com'
 
@@ -18,6 +19,13 @@ SEQUENCING_RUN_NAME_DELIMITER = "-"
 SEQUENCING_RUN_FIELD_DELIMITER = "_"
 
 batch_client = boto3.client('batch')
+
+def usage():
+    print(f"""
+usage: {sys.argv[0]} CONFIG_YAML_FILENAME
+
+CONFIG_YAML_FILENAME: path to config yaml relative to the user's pwd.
+""")
 
 def generate_sequencing_run_name(sequencing_run):
     run_id = sequencing_run['id']
@@ -161,8 +169,13 @@ def submit_bcl2fastq(bcl_file, experiment, run_id, samples):
         print(message)
         raise Exception(message)
 
-def main(event, context):
-    configuration = event['configuration']
+def load_config(filename):
+    with open(filename) as config_yaml:
+        return yaml.load(config_yaml)
+
+def main(config_yaml_filename):
+    configuration = load_config(config_yaml_filename)
+
     experiment = configuration['experiment']
     bcl2fastq_version = experiment['bcl2fastq_version']
     cellranger_version = experiment['cellranger_version']
@@ -206,11 +219,9 @@ def main(event, context):
 
     print("info: all jobs submitted successfully.")
 
-    return {
-        'statusCode': 200,
-        'body': {}
-    }
-
 if __name__ == "__main__":
-    event = json.load(sys.stdin)
-    main(event, None)
+    if len(sys.argv) < 2:
+        usage()
+        exit(1)
+
+    main(sys.argv[1])
