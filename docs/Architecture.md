@@ -2,32 +2,53 @@
 
 ## S3
 
-1. Establish an S3 bucket `10x-pipeline` with the following structure:
+### `10x-pipeline`
+
+We have an S3 bucket called `10x-pipeline`. At the top-level, there
+are three keys: `reference_transcriptome`, `software`, and
+`oligo_sequences`.
+
+For example:
 
 ```
-10x-pipeline
-	reference_transcriptome
-		GRCh38
-			refdata-cellranger-GRCh38-1.2.0.tar.gz
-			refdata-cellranger-GRCh38-3.0.0.tar.gz
-		hg19
-			refdata-cellranger-hg19-1.2.0.tar.gz
-			refdata-cellranger-hg19-3.0.0.tar.gz
-		mm10
-			refdata-cellranger-mm10-1.2.0.tar.gz
-			refdata-cellranger-mm10-3.0.0.tar.gz
-		vdj
-			refdata-cellranger-vdj-2.0.0.tar.gz
-	software
-		bcl2fastq
-			bcl2fastq2-v2.20.0-linux-x86-64.zip
-		cellranger
-			cellranger-2.2.0.tar.gz
-			cellranger-3.0.2.tar.gz
-	oligo_sequences
+10x-pipeline/
+	oligo_sequences/
 		adt_hto_bc_sequences.csv
 		citeseq_sample_indices.csv
+	reference_transcriptome/
+		GRCh38/
+			refdata-cellranger-GRCh38-1.2.0.tar.gz
+			refdata-cellranger-GRCh38-3.0.0.tar.gz
+		hg19/
+			refdata-cellranger-hg19-1.2.0.tar.gz
+			refdata-cellranger-hg19-3.0.0.tar.gz
+		mm10/
+			refdata-cellranger-mm10-1.2.0.tar.gz
+			refdata-cellranger-mm10-3.0.0.tar.gz
+		vdj/
+			refdata-cellranger-vdj-2.0.0.tar.gz
+	software/
+		bcl2fastq/
+			bcl2fastq2-v2.20.0-linux-x86-64.zip
+		cellranger/
+			cellranger-2.2.0.tar.gz
+			cellranger-3.0.2.tar.gz
 ```
+
+#### `oligo_sequences`
+
+This is the source of truth for up-to-date oligo sequences CSVs. New
+oligo sequence must be added to these files for use with the
+cellranger pipeline. These files include sample index and ADT/HTO
+oligo sequences.
+
+#### `reference_transcriptome`
+
+Under `reference_transcriptome`, there are keys are the names of
+reference transcriptomes, each of which contain `tar.gz` files for
+different versions of the reference transcriptome. The `tar.gz` files
+are named consistently so that obtaining different versions of a
+reference transcriptome is just a matter of construci
 
 Many of the ref-data files can be downloaded from the 10x genomics
 site [here][10x-genomics-downloads]. Ultimately, when decompressed,
@@ -42,16 +63,36 @@ items:
 - `reference.json`
 - `version`
 
-The software can be downloaded from [10X Genomics][10x-genomics-downloads] and [Illumina][illumina-downloads], respectively.
+Our executables expect unarchived reference transcriptomes to have
+this directory structure.
 
-The files under `oligo_sequences` can be found under this repo's own
-`oligo_sequences` directory. These files include sample index and
-ADT/HTO oligo sequences.
+#### `software`
 
-2. Establish a `10-data-backup` bucket with the following structure. Of note, our
-pipeline itself will export data in a way that conforms with our desired structure.
-We only need to add the bcl fil(s) in the `10-data-backup/raw_data/` directory.
+The software can be downloaded from [10X
+Genomics][10x-genomics-downloads] and [Illumina][illumina-downloads],
+respectively. We mirror these files in our S3 bucket to provide a
+consistent and reliable way of downloading these softwares for use in
+our automation.
 
+### `10-data-backup`
+
+We have an s3 bucket called `10-data-backup`. The cellranger pipeline
+reads raw data from this bucket, exports processed data and analysis
+results to this bucket. The cellranger pipeline consumes raw data on a
+per-experiment basis by downloading the files under
+`10-data-backup/<experiment_name>/raw_data/`.
+
+We sometimes start with fastqs, instead of bcls, in which case:
+
+- we don't need to run a processing step;
+- and the fastq files must be uploaded manually according to our
+  naming convention.
+
+TODO: document naming convetions for experiment name, fastqs
+
+Note that we do not have any naming conventions around bcl archives.
+
+For example:
 ```
 10x-data-backup
 	experiment_name
@@ -109,6 +150,10 @@ We only need to add the bcl fil(s) in the `10-data-backup/raw_data/` directory.
 				Reports
 
 ```
+
+#### `fastqs_metdata`
+
+TODO:
 
 ## Docker
 
