@@ -159,7 +159,7 @@ TODO:
 
 The pipeline runs by running code in containers on AWS. Our
 `cellranger-$CELLRANGER_VERSION-bcl2fastq-$BCL2FASTQ_VERSION` images
-contain those softwares (at the version named) and the executables in
+contain those softwares (at the versions named) and the executables in
 this repo's top-level `bin` directory. These images are run by AWS
 Batch.
 
@@ -189,11 +189,12 @@ same. This is DRYer than having two nearly identical `Dockerfile`s.
 
 The AWS ECR repository enables us to distribute our images; namely,
 when we push our images to ECR, AWS Batch can then pull them and use
-them.
+them. Images can be pushed to ECR by running `make push` from the root
+of this repo.
 
 ## AMI
 
-We use an ECS-optimized AMI with 1TB storage.
+We use an ECS-optimized AMI with 1TB storage at `/docker_scratch`.
 
 TODO: write manual steps for creating/updating AMI.
 TODO: define AMI in code?
@@ -218,23 +219,33 @@ These jobs run our Docker images with 124GB of memory and 16 CPUs, and
 make use of the 1TB of disk provided by the AMI.
 
 ### Compute Environment
-TODO: write manual steps for creating Compute Environment
+
+The compute environment is a resource (CPU, memory) pool. The compute
+environment defines the minimum resources available and the maximum
+resources available. If we are using all of the compute environment's
+resources, then jobs will be queued, having to wait until running jobs
+complete until they can be started.
 
 ### Job Queue
-TODO: write manual steps for creating Job Queue
+
+The job queue associates a job with a compute environment. The job
+queue is transparent unless the compute environment is at full capacity
+and jobs must wait to be run.
 
 ### Job Definition
-TODO: write manual steps for creating Job Definition
 
+The job definition is a template that we use when submitting jobs.
 
 ## Scripting
-Our pipeline relies on various python and bash scripts which can be found in the 
-top-level, `scripts`, and `bin` directories. These scripts are responsible for
-tasks including the following:
-	- submitting jobs to AWS Batch
-	- pushing Dockerfile changes to AWS ECR
-	- validating our yaml config file
-	- running `mkfastq`, `bcl2fastq`, `count`, and `vdj`
+
+Our pipeline relies on various python and bash scripts which can be
+found in the top-level, `scripts`, and `bin` directories. These
+scripts are responsible for tasks including the following:
+
+- submitting jobs to AWS Batch
+- pushing Dockerfile changes to AWS ECR
+- validating our yaml config file
+- running `mkfastq`, `bcl2fastq`, `count`, and `vdj`
 
 [10x-genomics-downloads](https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest)
 [illumina-downloads](https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software/downloads.html)
