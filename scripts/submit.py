@@ -170,6 +170,29 @@ def submit_bcl2fastq(bcl_file, experiment, run_id, samples):
         print(message)
         raise Exception(message)
 
+def upload_config(configuration):
+    # 10x-pipeline/configs/
+    # OR
+    # 10x-data-backup/experiment_name/configs/
+
+    # consider that some experiments might need to use multiple
+    # versions of the cellranger software, in which case we would need
+    # to define multiple config yamls.
+
+    # this script decides on the naming convetion for the config yamls
+
+    # this script should not overwrite config yamls. if this script
+    # sees an existing config yaml, then it should bail and notify the
+    # user to fix the problem themselves/
+
+    # TODO: implement this
+
+    # if file_exists():
+    #     raise Exception("file exists!!! TODO: include the s3 path here")
+
+    # upload_file(config):
+    return
+
 def load_config(filename):
     with open(filename) as config_yaml:
         return yaml.load(config_yaml)
@@ -189,6 +212,8 @@ def main(config_yaml_filename):
 
     processing = configuration['processing']
     processing_job_ids = []
+
+    upload_config(configuration)
 
     if processing and processing.has_key('mkfastq'):
         samples = processing['mkfastq']['samples']
