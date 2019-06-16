@@ -6,3 +6,9 @@
 
 # local copies of cellranger and associated software; do not commit
 software
+
+# configs should not be checked in.
+# the source of truth for experiment configs is s3.
+# this directory is useful for pipeline operators.
+/configs/*
+!/configs/.gitkeep
