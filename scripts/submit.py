@@ -8,6 +8,7 @@
 import boto3
 import datetime as dt
 import json
+from jsonschema import validate
 import sys
 import yaml
 
@@ -173,8 +174,14 @@ def load_config(filename):
     with open(filename) as config_yaml:
         return yaml.load(config_yaml)
 
+def validate_configuration(configuration):
+    json_schema = json.load(open('config_schema.json'))
+    validate(configuration, json_schema)
+
 def main(config_yaml_filename):
     configuration = load_config(config_yaml_filename)
+
+    validate_configuration(configuration)
 
     experiment = configuration['experiment']
     bcl2fastq_version = experiment['bcl2fastq_version']
