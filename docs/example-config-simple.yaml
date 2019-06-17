@@ -6,14 +6,14 @@ experiment:
   bcl2fastq_version: "2.20.0"      # Determines what image to run. Current Options: 2.20.10
   cellranger_version: "3.0.2"      # Determines what image to run Current Options: 2.2.0, 3.0.2
   # sequencing_runs metadata is used to generate the experiment name.
-  # Based off the `sequencing_runs` data below, our generated experiment name would 
+  # Based off the `sequencing_runs` data below, our generated experiment name would
   # be "run1_himc1_032519-run2_himc2_032519"
-  # Sequencing run names are separated by '-'. We may have 1 or more sequencing 
+  # Sequencing run names are separated by '-'. We may have 1 or more sequencing
   # runs. When there is more than 1 run, we refer to them as "pooled runs"
-  sequencing_runs:                 
+  sequencing_runs:
     - id: 1
       himc_pool: 1
-      date: "2019-03-25" 
+      date: "2019-03-25"
       bcl_file: "190325_NB501426_0271_AH2J72BGXB.tar.gz"
   meta:
     debug: true # boolean; defaults to false
@@ -24,7 +24,7 @@ experiment:
 # * mkfastq
 # * mkfastq & bcl2fastq
 processing:
-  mkfastq: 
+  mkfastq:
     samples:
       - name: 7002v3A
         index_location: SI-GA-E12
@@ -43,7 +43,7 @@ processing:
       - name: 7002v3B-H
       # The `_s` suffix here is necessary so that we can accurately match the index_location
       # to a proper sequence from our citeseq_sample_indices.csv file
-        index_location: D710_s 
+        index_location: D710_s
 
 analyses:
   samples:
@@ -57,7 +57,7 @@ analyses:
         # may also be hg19, mm10, or vdj; see 10x-pipeline/reference_transcriptome
         # s3 bucket for currently available options for name and version. You may also reference
         # ./docs/Building_the_Pipeline.md
-        name: GRCh38 
+        name: GRCh38
         version: 1.2.0
       target_cell_count: 10000
       feature_barcoding:
@@ -71,7 +71,5 @@ analyses:
         version: 1.2.0
       target_cell_count: 10000
       feature_barcoding:
-        enabled: False 
+        enabled: False
       pooled_run: False
-  oligo_groups:  # This key must exist but can have no values if we're not performing feature barcoding
-   

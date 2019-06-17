@@ -6,14 +6,14 @@ experiment:
   bcl2fastq_version: "2.20.0"      # Determines what image to run. Current Options: 2.20.10
   cellranger_version: "3.0.2"      # Determines what image to run Current Options: 2.2.0, 3.0.2
   # sequencing_runs metadata is used to generate the experiment name.
-  # Based off the `sequencing_runs` data below, our generated experiment name would 
+  # Based off the `sequencing_runs` data below, our generated experiment name would
   # be "run1_himc1_032519-run2_himc2_032519"
-  # Sequencing run names are separated by '-'. We may have 1 or more sequencing 
+  # Sequencing run names are separated by '-'. We may have 1 or more sequencing
   # runs. When there is more than 1 run, we refer to them as "pooled runs"
-  sequencing_runs:                 
+  sequencing_runs:
     - id: 1
       himc_pool: 1
-      date: "2019-03-25" 
+      date: "2019-03-25"
       bcl_file: "190325_NB501426_0271_AH2J72BGXB.tar.gz"
     - id: 2
       himc_pool: 2
@@ -28,13 +28,13 @@ experiment:
 # * mkfastq
 # * mkfastq & bcl2fastq
 processing:
-  mkfastq: 
+  mkfastq:
     samples:
       - name: 7002v3A
         index_location: SI-GA-E12
       - name: 7002v3B
         index_location: SI-GA-E11
-  bcl2fastq:  
+  bcl2fastq:
     samples:
       - name: 7002v3A-A
         index_location: RPI9
@@ -47,7 +47,7 @@ processing:
       - name: 7002v3B-H
       # The `_s` suffix here is necessary so that we can accurately match the index_location
       # to a proper sequence from our citeseq_sample_indices.csv file
-        index_location: D710_s 
+        index_location: D710_s
 
 analyses:
   samples:
@@ -68,7 +68,7 @@ analyses:
         feature_type: Custom # other options include `Antibody Capture`
         directionality: 3p # may be 3p or 5p
         enabled: True # will be False if we're not performing feature barcoding
-        samples: 
+        samples:
         # We nest related CITE-seq samples under the "parent" GEX sample (e.g. 7002v3A)
           - name: 7002v3A-A
           - name: 7002v3A-H
@@ -84,17 +84,17 @@ analyses:
       feature_barcoding:
         feature_type: Custom
         directionality: 3p
-        enabled: True 
-        samples: 
+        enabled: True
+        samples:
           - name: 7002v3B-A
           - name: 7002v3B-H
         oligo_group: 1
-      pooled_run: True 
-  oligo_groups:  # This key must exist but can have no values if we're not performing feature barcoding
+      pooled_run: True
+  oligo_groups:
     1:
       # HTO oligos must be prefixed with an 'HTO'. Our pipeline will automatically
       # prefix the ADTs with `adt_` so the ADT names should not be prefixed here.
-      # These will be matched to a proper sequence from our adt_hto_bc_sequences.csv 
+      # These will be matched to a proper sequence from our adt_hto_bc_sequences.csv
       # file
       - CD86
       - CD274_PD-L1

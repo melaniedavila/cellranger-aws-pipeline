@@ -245,7 +245,7 @@ def main(config_yaml_filename):
     if configuration['analyses']:
         for sample in configuration['analyses']['samples']:
             print(f'info: analyses: submitting: {sample["name"]}')
-            oligo_groups = configuration['analyses']['oligo_groups']
+            oligo_groups = 'oligo_groups' in configuration['analyses'] and configuration['analyses']['oligo_groups']
             submit_analysis(sample,
                             experiment=experiment,
                             oligo_groups=oligo_groups,
