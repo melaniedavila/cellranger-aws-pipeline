@@ -1,0 +1,2476 @@
+{
+    "jobDefinitions": [
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "docker",
+                "vcpus": 512,
+                "memory": 3072,
+                "command": [
+                    "run",
+                    "--cpus",
+                    "15360",
+                    "--memory",
+                    "124g",
+                    "Ref::image_name",
+                    "mkfastq",
+                    "Ref::config_json"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/var/run/docker.sock"
+                        },
+                        "name": "/var/run/docker.sock"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:14",
+            "revision": 14,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "scratch"
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [
+                    {
+                        "containerPath": "/home/cellranger/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "scratch"
+                    }
+                ],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:13",
+            "revision": 13,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "scratch"
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [
+                    {
+                        "containerPath": "/home/cellranger/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "/docker_scratch"
+                    }
+                ],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:12",
+            "revision": 12,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "scratch"
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [
+                    {
+                        "containerPath": "/home/cellranger/scratch",
+                        "sourceVolume": "scratch"
+                    }
+                ],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:11",
+            "revision": 11,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:10",
+            "revision": 10,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker-scratch"
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [
+                    {
+                        "containerPath": "/home/cellranger/scratch",
+                        "sourceVolume": "docker-scratch"
+                    }
+                ],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:9",
+            "revision": 9,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:8",
+            "revision": 8,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [],
+                "environment": [],
+                "mountPoints": [],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:7",
+            "revision": 7,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/v2/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [],
+                "environment": [],
+                "mountPoints": [],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:6",
+            "revision": 6,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "docker",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [],
+                "environment": [],
+                "mountPoints": [],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:5",
+            "revision": 5,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "docker",
+                "vcpus": 16,
+                "memory": 3072,
+                "command": [
+                    "run",
+                    "--net",
+                    "host",
+                    "--cpu-shares",
+                    "15360",
+                    "--memory",
+                    "124g",
+                    "Ref::image_name",
+                    "mkfastq",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/var/run/docker.sock"
+                        },
+                        "name": "dockersocket"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/var/run/docker.sock",
+                        "sourceVolume": "dockersocket"
+                    }
+                ],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:4",
+            "revision": 4,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "docker",
+                "vcpus": 1,
+                "memory": 3072,
+                "command": [
+                    "run",
+                    "--net",
+                    "host",
+                    "--cpu-shares",
+                    "14848",
+                    "--memory",
+                    "124g",
+                    "Ref::image_name",
+                    "mkfastq",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/var/run/docker.sock"
+                        },
+                        "name": "dockersocket"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/var/run/docker.sock",
+                        "sourceVolume": "dockersocket"
+                    }
+                ],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:3",
+            "revision": 3,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "docker",
+                "vcpus": 512,
+                "memory": 3072,
+                "command": [
+                    "run",
+                    "--net",
+                    "host",
+                    "--cpus",
+                    "15360",
+                    "--memory",
+                    "124g",
+                    "Ref::image_name",
+                    "mkfastq",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/var/run/docker.sock"
+                        },
+                        "name": "dockersocket"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/var/run/docker.sock",
+                        "sourceVolume": "dockersocket"
+                    }
+                ],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-mkfastq",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-mkfastq:2",
+            "revision": 2,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "docker",
+                "vcpus": 512,
+                "memory": 3072,
+                "command": [
+                    "run",
+                    "--net",
+                    "host",
+                    "--cpus",
+                    "15360",
+                    "--memory",
+                    "124g",
+                    "Ref::image_name",
+                    "mkfastq",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/var/run/docker.sock"
+                        },
+                        "name": "/var/run/docker.sock"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [],
+                "privileged": false,
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-cellranger-3_0_2-bcl2fastq-2_20_0",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-cellranger-3_0_2-bcl2fastq-2_20_0:1",
+            "revision": 1,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-3.0.2-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "scratch"
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [
+                    {
+                        "containerPath": "/home/cellranger/scratch",
+                        "sourceVolume": "scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "test-cellranger-pipeline-cellranger-2_2_0-bcl2fastq-2_20_0",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/test-cellranger-pipeline-cellranger-2_2_0-bcl2fastq-2_20_0:1",
+            "revision": 1,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "scratch"
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [
+                    {
+                        "containerPath": "/home/cellranger/scratch",
+                        "sourceVolume": "scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "fetch_and_run",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/fetch_and_run:2",
+            "revision": 2,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/fetch_and_run",
+                "vcpus": 1,
+                "memory": 500,
+                "command": [],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/aws-batch-fetch-and-run",
+                "volumes": [],
+                "environment": [],
+                "mountPoints": [],
+                "ulimits": [],
+                "user": "nobody"
+            }
+        },
+        {
+            "jobDefinitionName": "fetch_and_run",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/fetch_and_run:1",
+            "revision": 1,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/fetch_and_run ",
+                "vcpus": 1,
+                "memory": 500,
+                "command": [
+                    "echo",
+                    "'hello world'"
+                ],
+                "volumes": [],
+                "environment": [],
+                "mountPoints": [],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "cellranger-pipeline-3_0_2",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/cellranger-pipeline-3_0_2:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-3.0.2-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "scratch"
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [
+                    {
+                        "containerPath": "/home/cellranger/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "cellranger-pipeline-3_0_2",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/cellranger-pipeline-3_0_2:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-3.0.2-bcl2fastq-2.20.0",
+                "vcpus": 16,
+                "memory": 126976,
+                "command": [
+                    "Ref::command",
+                    "Ref::configuration"
+                ],
+                "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "scratch"
+                    }
+                ],
+                "environment": [
+                    {
+                        "name": "DEBUG",
+                        "value": "false"
+                    }
+                ],
+                "mountPoints": [
+                    {
+                        "containerPath": "/home/cellranger/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef6-f7c6cccf8ee3a0e",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef6-f7c6cccf8ee3a0e:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef6-f7c6cccf8ee3a0e",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef6-f7c6cccf8ee3a0e:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef6-f7c6cccf8ee3a0e",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef6-f7c6cccf8ee3a0e:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef6-26c3449be98aed1",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef6-26c3449be98aed1:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_mkfastq.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef6-26c3449be98aed1",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef6-26c3449be98aed1:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef6-26c3449be98aed1",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef6-26c3449be98aed1:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef5-22b8d08b659a7eb",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef5-22b8d08b659a7eb:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 30000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef5-22b8d08b659a7eb",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef5-22b8d08b659a7eb:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 30000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef5-22b8d08b659a7eb",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef5-22b8d08b659a7eb:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 30000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef5-136363eac9d299f",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef5-136363eac9d299f:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 30000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_mkfastq.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef5-136363eac9d299f",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef5-136363eac9d299f:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 30000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef5-136363eac9d299f",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef5-136363eac9d299f:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 30000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef4-38d092e58a70d1d",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef4-38d092e58a70d1d:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 25000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_mkfastq.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef4-38d092e58a70d1d",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef4-38d092e58a70d1d:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 25000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef4-38d092e58a70d1d",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef4-38d092e58a70d1d:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 25000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef4-24441b67c32255d",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef4-24441b67c32255d:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 25000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef4-24441b67c32255d",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef4-24441b67c32255d:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 25000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef4-24441b67c32255d",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef4-24441b67c32255d:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 25000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef3-439ccbc219777bc",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef3-439ccbc219777bc:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 20000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_mkfastq.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef3-439ccbc219777bc",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef3-439ccbc219777bc:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 20000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef3-439ccbc219777bc",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef3-439ccbc219777bc:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 20000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef3-2f1053aaead3d74",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef3-2f1053aaead3d74:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 20000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef3-2f1053aaead3d74",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef3-2f1053aaead3d74:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 20000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef3-2f1053aaead3d74",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef3-2f1053aaead3d74:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 20000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef2-e398a68346dae82",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef2-e398a68346dae82:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 15000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_mkfastq.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef2-e398a68346dae82",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef2-e398a68346dae82:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 15000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef2-e398a68346dae82",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef2-e398a68346dae82:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 15000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef2-583172c24f7024b",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef2-583172c24f7024b:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 15000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef2-583172c24f7024b",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef2-583172c24f7024b:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 15000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef2-583172c24f7024b",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef2-583172c24f7024b:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 15000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:15",
+            "revision": 15,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:13",
+            "revision": 13,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:11",
+            "revision": 11,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:9",
+            "revision": 9,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:8",
+            "revision": 8,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:7",
+            "revision": 7,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:6",
+            "revision": 6,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_mkfastq.py",
+                    "Ref::pipeline_arguments"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:5",
+            "revision": 5,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_mkfastq.py",
+                    "--experiment_name='tiny_bcl'"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:4",
+            "revision": 4,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_mkfastq.py --experiment_name='tiny_bcl'"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:3",
+            "revision": 3,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_mkfastq.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:2",
+            "revision": 2,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/aws-cellranger-pipeline-nick:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:1",
+            "revision": 1,
+            "status": "INACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "519400500372.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 10000,
+                "command": [
+                    "python3.5",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:14",
+            "revision": 14,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:12",
+            "revision": 12,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-c45ce337452442c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-c45ce337452442c:10",
+            "revision": 10,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-30e62e1adeccb9c",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-30e62e1adeccb9c:1",
+            "revision": 1,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/r-job-1:latest",
+                "vcpus": 1,
+                "memory": 5000,
+                "command": [
+                    "python3.6",
+                    "run_pipeline.py",
+                    "Ref::inst_argument"
+                ],
+                "volumes": [],
+                "environment": [],
+                "mountPoints": [],
+                "ulimits": []
+            }
+        },
+        {
+            "jobDefinitionName": "JobDef1-0f43fd25e7240a3",
+            "jobDefinitionArn": "arn:aws:batch:us-east-1:402084680610:job-definition/JobDef1-0f43fd25e7240a3:1",
+            "revision": 1,
+            "status": "ACTIVE",
+            "type": "container",
+            "parameters": {},
+            "retryStrategy": {
+                "attempts": 1
+            },
+            "containerProperties": {
+                "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/awsbatch/cellranger-aws-pipeline:latest",
+                "vcpus": 1,
+                "memory": 64000,
+                "command": [
+                    "python3.6",
+                    "run_cellranger_pipeline.py"
+                ],
+                "volumes": [
+                    {
+                        "host": {
+                            "sourcePath": "/docker_scratch"
+                        },
+                        "name": "docker_scratch"
+                    }
+                ],
+                "environment": [],
+                "mountPoints": [
+                    {
+                        "containerPath": "/scratch",
+                        "readOnly": false,
+                        "sourceVolume": "docker_scratch"
+                    }
+                ],
+                "ulimits": []
+            }
+        }
+    ]
+}

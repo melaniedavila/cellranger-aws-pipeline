@@ -12,3 +12,7 @@ software
 # this directory is useful for pipeline operators.
 /configs/*
 !/configs/.gitkeep
+
+# terraform's own docs say not to commit
+# this. https://www.terraform.io/docs/commands/get.html#usage
+infrastructure/.terraform
