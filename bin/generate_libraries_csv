@@ -38,15 +38,19 @@ def main(config_json):
   sample = config['sample']
 
   # Add GEX sample data
-  csv_data = [] 
-  csv_data.append([get_fastq_paths(sample['name']), sample['name'], 'Gene Expression'])
+  csv_data = []
+  fastq_paths = get_fastq_paths(sample['name']).split(',')
+  for fastq_path in fastq_paths:
+    csv_data.append([fastq_path, sample['name'], 'Gene Expression'])
 
   # Add CITE-seq sample data
   citeseq_samples = sample['feature_barcoding']['samples']
   library_type = sample['feature_barcoding']['feature_type']
   for citeseq_sample in citeseq_samples:
-    citeseq_sample_data = [get_fastq_paths(citeseq_sample['name']), citeseq_sample['name'], library_type]
-    csv_data.append(citeseq_sample_data)
+    fastq_paths = get_fastq_paths(citeseq_sample['name']).split(',')
+    for fastq_path in fastq_paths:
+      citeseq_sample_data = [fastq_path, citeseq_sample['name'], library_type]
+      csv_data.append(citeseq_sample_data)
 
   writer = csv.writer(sys.stdout)
   writer.writerows(LIBRARIES_CSV_HEADERS)
