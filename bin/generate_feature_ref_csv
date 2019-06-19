@@ -18,16 +18,15 @@ import sys
 import boto3
 
 FEATURE_REF_CSV_HEADERS = [["id", "name", "read", "pattern", "sequence", "feature_type"]]
+
 def usage():
   print(f'{sys.argv[0]} CONFIG_JSON FEATURE_REF_CSV_PATH')
-
 
 def get_target_oligo_bc_sequence(oligos, bc_seqs, target_oligo):
   oligo_index = oligos.index(target_oligo)
   bc_sequence = bc_seqs[oligo_index]
 
   return bc_sequence
-
 
 def main(config_json):
   config = json.loads(config_json)
