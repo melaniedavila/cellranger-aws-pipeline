@@ -20,7 +20,6 @@ S3_BUCKET="s3://10x-data-backup"
 LIBRARIES_CSV_PATH="${SCRATCH_DIR}/libraries.csv"
 FEATURE_REF_CSV_PATH="${SCRATCH_DIR}/feature_reference.csv"
 
-
 usage() {
   echo "$0 CONFIG_JSON"
 }
