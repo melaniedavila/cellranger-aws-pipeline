@@ -59,6 +59,8 @@ resource "aws_iam_role_policy_attachment" "aws_batch_service_role" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole"
 }
 
+# BEGIN VPC
+
 resource "aws_vpc" "this" {
   cidr_block = "10.0.0.0/16"
 
@@ -67,17 +69,36 @@ resource "aws_vpc" "this" {
   }
 }
 
-resource "aws_subnet" "private" {
+resource "aws_subnet" "public" {
   vpc_id     = aws_vpc.this.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.0.1.0/24"
+  map_public_ip_on_launch = true
 
   tags = {
-    Name = "private"
+    Name = "public"
   }
 }
 
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.this.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.this.id
+  }
+}
+
+resource "aws_route_table_association" "public" {
+  subnet_id = aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_internet_gateway" "this" {
+  vpc_id = aws_vpc.this.id
+}
+
 resource "aws_security_group" "all_outbound" {
-  name   = "test-cellranger-pipeline"
+  name   = "all-inbound"
   vpc_id = aws_vpc.this.id
 }
 
@@ -94,11 +115,33 @@ resource "aws_security_group_rule" "allow_all_outbound" {
   security_group_id = aws_security_group.all_outbound.id
 }
 
+# END VPC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 resource "aws_batch_compute_environment" "cellranger_pipeline" {
   compute_environment_name = "test-cellranger-pipeline"
   type                     = "MANAGED"
 
   compute_resources {
+    # TEMP: debugging purposes
+    ec2_key_pair = "cellranger-aws-pipeline"
+
     image_id = "ami-000f5114abc141b76"
 
     instance_role = aws_iam_instance_profile.ecs_instance_role.arn
@@ -109,7 +152,7 @@ resource "aws_batch_compute_environment" "cellranger_pipeline" {
 
     security_group_ids = [aws_security_group.all_outbound.id]
 
-    subnets = [aws_subnet.private.id]
+    subnets = [aws_subnet.public.id]
 
     tags = {
       # TODO: don't repeat this name, we already defined above
