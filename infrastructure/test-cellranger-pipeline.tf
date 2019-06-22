@@ -78,6 +78,7 @@ resource "aws_subnet" "main" {
 
 resource "aws_security_group" "test-cellranger-pipeline" {
   name = "test-cellranger-pipeline"
+  vpc_id = "${aws_vpc.test-cellranger-pipeline.id}"
 }
 
 resource "aws_batch_compute_environment" "test-cellranger-pipeline" {
