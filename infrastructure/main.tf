@@ -116,23 +116,6 @@ resource "aws_security_group_rule" "allow_all_outbound" {
 
 # END VPC
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 resource "aws_batch_compute_environment" "cellranger_pipeline" {
   compute_environment_name = "${var.environment}-cellranger-pipeline"
   type                     = "MANAGED"
