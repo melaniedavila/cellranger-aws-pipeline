@@ -5,11 +5,9 @@
 
 # The samplesheet generated looks something like this:
 # id,name,read,pattern,sequence,feature_type
-# HTO_5p_1_pat_3P,HTO_5p_1_pat_3P,R2,(BC)3P,GTCAACTCTTTAGCG,Custom
-# HTO_5p_2_pat_3P,HTO_5p_2_pat_3P,R2,(BC)3P,TGATGGCCTATTGGG,Custom
-# HTO_5p_3_pat_3P,HTO_5p_3_pat_3P,R2,(BC)3P,TTCCGCCTCTCTTTG,Custom
-
-# pattern will be 5P(BC) for 3p samples and (BC)3P for 5p samples
+# adt_5B7-H4,adt_5B7-H4,R2,5PNNNNNNNNNN(BC),TGTATGTCTGCCTTG,Custom
+# adt_5CD11a,adt_5CD11a,R2,5PNNNNNNNNNN(BC),TATATCCTTGTGAGC,Custom
+# adt_5CD11b,adt_5CD11b,R2,5PNNNNNNNNNN(BC),GACAAGTGATCTGCA,Custom
 
 import csv
 import json
@@ -42,14 +40,18 @@ def main(config_json):
   sample = config['sample']
   feature_type = sample['feature_barcoding']['feature_type']
   directionality = sample['feature_barcoding']['directionality']
-  if directionality == '3p':
-    pattern = '5P(BC)'
-  else:
-    pattern = '(BC)3P'
 
   target_oligo_group = sample['feature_barcoding']['oligo_group']
   oligo_groups = config['oligo_groups']
-  target_oligos = oligo_groups[str(target_oligo_group)]
+  target_oligos = oligo_groups[str(target_oligo_group)]['oligos']
+  total_seq_b_c = oligo_groups[str(target_oligo_group)]['total_seq_b_c']
+
+  if total_seq_b_c:
+    pattern = '5PNNNNNNNNNN(BC)'
+  elif directionality == '3p':
+    pattern = '5P(BC)'
+  else:
+    pattern = '(BC)3P'
 
   csv_data = []
   for oligo in target_oligos:
