@@ -135,7 +135,7 @@ resource "aws_security_group_rule" "allow_all_outbound" {
 
 
 resource "aws_batch_compute_environment" "cellranger_pipeline" {
-  compute_environment_name = "test-cellranger-pipeline"
+  compute_environment_name = "${var.environment}-cellranger-pipeline"
   type                     = "MANAGED"
 
   compute_resources {
@@ -156,7 +156,7 @@ resource "aws_batch_compute_environment" "cellranger_pipeline" {
 
     tags = {
       # TODO: don't repeat this name, we already defined above
-      "Name" = "test-cellranger-pipeline"
+      "Name" = "${var.environment}-cellranger-pipeline"
     }
 
     type = "EC2"
@@ -169,7 +169,7 @@ resource "aws_batch_compute_environment" "cellranger_pipeline" {
 # END COMPUTE ENVIRONMENT RESOURCES
 
 resource "aws_batch_job_queue" "this" {
-  name                 = "test-cellranger-pipeline"
+  name                 = "${var.environment}-cellranger-pipeline"
   state                = "ENABLED"
   priority             = 10
   compute_environments = [aws_batch_compute_environment.cellranger_pipeline.arn]
@@ -177,7 +177,7 @@ resource "aws_batch_job_queue" "this" {
 
 # TODO: DRY up the job definitions
 resource "aws_batch_job_definition" "cellranger_2_2_0_bcl2fastq_2_20_0" {
-  name = "test-cellranger-pipeline-cellranger-2_2_0-bcl2fastq-2_20_0"
+  name = "${var.environment}-cellranger-pipeline-cellranger-2_2_0-bcl2fastq-2_20_0"
   type = "container"
 
   retry_strategy {
@@ -224,7 +224,7 @@ CONTAINER_PROPERTIES
 }
 
 resource "aws_batch_job_definition" "cellranger_3_0_2_bcl2fastq_2_20_0" {
-  name = "test-cellranger-pipeline-cellranger-3_0_2-bcl2fastq-2_20_0"
+  name = "${var.environment}-cellranger-pipeline-cellranger-3_0_2-bcl2fastq-2_20_0"
   type = "container"
 
   retry_strategy {
