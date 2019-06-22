@@ -81,6 +81,19 @@ resource "aws_security_group" "test-cellranger-pipeline" {
   vpc_id = "${aws_vpc.test-cellranger-pipeline.id}"
 }
 
+resource "aws_security_group_rule" "allow_all_outbound" {
+  # this rule is necessary because batch won't be able to launch
+  # containers without it. see
+  # https://aws.amazon.com/premiumsupport/knowledge-center/batch-job-stuck-runnable-status/
+  type            = "egress"
+  from_port       = 0
+  to_port         = 0
+  protocol        = "all"
+  cidr_blocks     = ["0.0.0.0/0"]
+
+  security_group_id = aws_security_group.test-cellranger-pipeline.id
+}
+
 resource "aws_batch_compute_environment" "test-cellranger-pipeline" {
   compute_environment_name = "test-cellranger-pipeline"
   type = "MANAGED"
@@ -94,7 +107,7 @@ resource "aws_batch_compute_environment" "test-cellranger-pipeline" {
     max_vcpus = 256
     min_vcpus = 0
 
-    security_group_ids = ["${aws_security_group.test-cellranger-pipeline.id}"]
+    security_group_ids = [aws_security_group.test-cellranger-pipeline.id]
 
     subnets = ["${aws_subnet.main.id}"]
 
