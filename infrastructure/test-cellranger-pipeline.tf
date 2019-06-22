@@ -26,13 +26,13 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_instance_role" {
-  role       = "${aws_iam_role.ecs_instance_role.name}"
+  role = aws_iam_role.ecs_instance_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
 resource "aws_iam_instance_profile" "ecs_instance_role" {
   name = "ecsInstanceRole"
-  role = "${aws_iam_role.ecs_instance_role.name}"
+  role = aws_iam_role.ecs_instance_role.name
 }
 
 resource "aws_iam_role" "aws_batch_service_role" {
@@ -55,7 +55,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "aws_batch_service_role" {
-  role       = "${aws_iam_role.aws_batch_service_role.name}"
+  role       = aws_iam_role.aws_batch_service_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole"
 }
 
@@ -68,7 +68,7 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_subnet" "private" {
-  vpc_id = "${aws_vpc.this.id}"
+  vpc_id     = aws_vpc.this.id
   cidr_block = "10.0.0.0/24"
 
   tags = {
@@ -77,31 +77,31 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_security_group" "all_outbound" {
-  name = "test-cellranger-pipeline"
-  vpc_id = "${aws_vpc.this.id}"
+  name   = "test-cellranger-pipeline"
+  vpc_id = aws_vpc.this.id
 }
 
 resource "aws_security_group_rule" "allow_all_outbound" {
   # this rule is necessary because batch won't be able to launch
   # containers without it. see
   # https://aws.amazon.com/premiumsupport/knowledge-center/batch-job-stuck-runnable-status/
-  type            = "egress"
-  from_port       = 0
-  to_port         = 0
-  protocol        = "all"
-  cidr_blocks     = ["0.0.0.0/0"]
+  type        = "egress"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "all"
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = aws_security_group.all_outbound.id
 }
 
 resource "aws_batch_compute_environment" "cellranger_pipeline" {
   compute_environment_name = "test-cellranger-pipeline"
-  type = "MANAGED"
+  type                     = "MANAGED"
 
   compute_resources {
     image_id = "ami-000f5114abc141b76"
 
-    instance_role = "${aws_iam_instance_profile.ecs_instance_role.arn}"
+    instance_role = aws_iam_instance_profile.ecs_instance_role.arn
     instance_type = ["r5.4xlarge"]
 
     max_vcpus = 256
@@ -119,14 +119,14 @@ resource "aws_batch_compute_environment" "cellranger_pipeline" {
     type = "EC2"
   }
 
-  service_role = "${aws_iam_role.aws_batch_service_role.arn}"
+  service_role = aws_iam_role.aws_batch_service_role.arn
   depends_on   = ["aws_iam_role_policy_attachment.aws_batch_service_role"]
 }
 
 # END COMPUTE ENVIRONMENT RESOURCES
 
 resource "aws_batch_job_queue" "this" {
-  name = "test-cellranger-pipeline"
+  name                 = "test-cellranger-pipeline"
   state                = "ENABLED"
   priority             = 10
   compute_environments = [aws_batch_compute_environment.cellranger_pipeline.arn]
