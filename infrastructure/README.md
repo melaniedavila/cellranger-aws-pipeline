@@ -41,10 +41,6 @@ particular resource to create, update, or destroy. This is especially
 useful when sifting through a large batch of changes, so as to not
 apply them all at once.
 
-## TODO
-
-* [Setup remote state.](https://www.terraform.io/docs/state/remote.html)
-
 ## Common errors
 
 ### "Cannot delete, found existing JobQueue relationship"
