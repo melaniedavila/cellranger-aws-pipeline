@@ -134,7 +134,6 @@ resource "aws_batch_compute_environment" "cellranger_pipeline" {
     subnets = [aws_subnet.public.id]
 
     tags = {
-      # TODO: don't repeat this name, we already defined above
       "Name" = "${var.environment}-cellranger-pipeline"
     }
 
@@ -175,7 +174,6 @@ resource "aws_batch_job_definition" "main" {
     attempt_duration_seconds = 129600
   }
 
-  # TODO: can we improve `image` string with format function?
   # TODO: define `cellranger-pipeline` IAM role in terraform
   container_properties = <<CONTAINER_PROPERTIES
 {
