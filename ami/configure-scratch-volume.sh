@@ -2,9 +2,8 @@
 
 # This script formats and mounts a device at /docker_scratch.
 
-set -e
+set -ex
 
-# TODO: confirm that this is a good name.
 update_packages() {
   sudo yum -y update
 }
