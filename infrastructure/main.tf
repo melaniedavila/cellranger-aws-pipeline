@@ -175,13 +175,11 @@ resource "aws_batch_job_queue" "this" {
 resource "aws_batch_job_definition" "main" {
   count = length(var.cellranger_bcl2fastq_version_pairs)
 
-  name = join(
-    "-",
-    [
-      "${var.environment}-cellranger-pipeline",
-      "cellranger-${replace(element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"], ".", "_")}",
-      "bcl2fastq-${replace(element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"], ".", "_")}"
-    ]
+  name = format(
+    "%s-%s-%s",
+    "${var.environment}-cellranger-pipeline",
+    "cellranger-${replace(element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"], ".", "_")}",
+    "bcl2fastq-${replace(element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"], ".", "_")}"
   )
   type = "container"
 
@@ -205,7 +203,12 @@ resource "aws_batch_job_definition" "main" {
           value = "false"
         },
       ]
-      image = "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"]}-bcl2fastq-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"]}"
+      image = format(
+        "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-%s-bcl2fastq-%s",
+        element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"],
+        element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"]
+      )
+
       jobRoleArn = aws_iam_role.pipeline.arn
       memory = 126976
       mountPoints = [
@@ -231,5 +234,9 @@ resource "aws_batch_job_definition" "main" {
 resource "aws_ecr_repository" "main" {
   count = length(var.cellranger_bcl2fastq_version_pairs)
 
-  name = "cellranger-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"]}-bcl2fastq-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"]}"
+  name = format(
+    "cellranger-%s-bcl2fastq-%s",
+    element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"],
+    element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"]
+  )
 }
