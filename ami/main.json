@@ -24,5 +24,11 @@
       "ssh_username": "ubuntu",
       "ami_name": "packer-example {{timestamp}}"
     }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./configure-scratch-volume.sh"
+    }
   ]
 }
