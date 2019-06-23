@@ -37,20 +37,20 @@ resource "aws_iam_instance_profile" "ecs_instance_role" {
 resource "aws_iam_role" "aws_batch_service_role" {
   name               = "AWSBatchServiceRole"
   path               = "/service-role/"
-  assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
+  assume_role_policy = jsonencode(
+    {
+      Statement = [
         {
-            "Action": "sts:AssumeRole",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "batch.amazonaws.com"
-            }
-        }
-    ]
-}
-EOF
+          Action    = "sts:AssumeRole"
+          Effect    = "Allow"
+          Principal = {
+            Service = "batch.amazonaws.com"
+          }
+        },
+      ]
+      Version   = "2012-10-17"
+    }
+  )
 }
 
 resource "aws_iam_role_policy_attachment" "aws_batch_service_role" {
