@@ -1,0 +1,39 @@
+{
+  "variables": {
+    "aws_profile": "{{ env `AWS_PROFILE` }}",
+    "git_sha": "{{ env `GIT_SHA` }}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "profile": "{{ user `aws_profile` }}",
+      "ami_name": "cellranger-pipeline-{{ user `git_sha` }}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "amzn-ami-*-amazon-ecs-optimized",
+          "root-device-type": "ebs"
+        },
+        "owners": ["amazon"],
+        "most_recent": true
+      },
+      "launch_block_device_mappings": [
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/xvdb",
+          "volume_size": "1000",
+          "volume_type": "gp2"
+        }
+      ],
+      "ssh_username": "ec2-user",
+      "instance_type": "t2.micro"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./configure-scratch-volume.sh"
+    }
+  ]
+}
