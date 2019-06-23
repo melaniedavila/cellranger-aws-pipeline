@@ -196,8 +196,7 @@ of this repo.
 
 We use an ECS-optimized AMI with 1TB storage at `/docker_scratch`.
 
-TODO: write manual steps for creating/updating AMI.
-TODO: define AMI in code?
+TODO: define AMI in code
 
 ## IAM roles
 
