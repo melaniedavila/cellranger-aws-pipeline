@@ -157,9 +157,17 @@ resource "aws_batch_job_queue" "this" {
   compute_environments = [aws_batch_compute_environment.cellranger_pipeline.arn]
 }
 
-# TODO: DRY up the job definitions
-resource "aws_batch_job_definition" "cellranger_2_2_0_bcl2fastq_2_20_0" {
-  name = "${var.environment}-cellranger-pipeline-cellranger-2_2_0-bcl2fastq-2_20_0"
+resource "aws_batch_job_definition" "main" {
+  count = length(var.cellranger_bcl2fastq_version_pairs)
+
+  name = join(
+    "-",
+    [
+      "${var.environment}-cellranger-pipeline",
+      "cellranger-${replace(element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"], ".", "_")}",
+      "bcl2fastq-${replace(element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"], ".", "_")}"
+    ]
+  )
   type = "container"
 
   retry_strategy {
@@ -170,9 +178,11 @@ resource "aws_batch_job_definition" "cellranger_2_2_0_bcl2fastq_2_20_0" {
     attempt_duration_seconds = 129600
   }
 
+  # TODO: can we improve `image` string with format function?
+  # TODO: define `cellranger-pipeline` IAM role in terraform
   container_properties = <<CONTAINER_PROPERTIES
 {
-  "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-2.2.0-bcl2fastq-2.20.0",
+  "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"]}-bcl2fastq-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"]}",
   "vcpus": 16,
   "memory": 126976,
   "command": [
@@ -205,58 +215,8 @@ resource "aws_batch_job_definition" "cellranger_2_2_0_bcl2fastq_2_20_0" {
 CONTAINER_PROPERTIES
 }
 
-resource "aws_batch_job_definition" "cellranger_3_0_2_bcl2fastq_2_20_0" {
-  name = "${var.environment}-cellranger-pipeline-cellranger-3_0_2-bcl2fastq-2_20_0"
-  type = "container"
+resource "aws_ecr_repository" "main" {
+  count = length(var.cellranger_bcl2fastq_version_pairs)
 
-  retry_strategy {
-    attempts = 1
-  }
-
-  timeout {
-    attempt_duration_seconds = 129600
-  }
-
-  container_properties = <<CONTAINER_PROPERTIES
-{
-  "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-3.0.2-bcl2fastq-2.20.0",
-  "vcpus": 16,
-  "memory": 126976,
-  "command": [
-    "Ref::command",
-    "Ref::configuration"
-  ],
-  "jobRoleArn": "arn:aws:iam::402084680610:role/cellranger-pipeline",
-  "volumes": [
-    {
-      "host": {
-        "sourcePath": "/docker_scratch"
-      },
-      "name": "scratch"
-    }
-  ],
-  "environment": [
-    {
-      "name": "DEBUG",
-      "value": "false"
-    }
-  ],
-  "mountPoints": [
-    {
-      "containerPath": "/home/cellranger/scratch",
-      "sourceVolume": "scratch"
-    }
-  ],
-  "ulimits": []
-}
-CONTAINER_PROPERTIES
-}
-
-# TODO: dry this up
-resource "aws_ecr_repository" "cellranger_2_2_0_bcl2fastq_2_20_0" {
-  name = "cellranger-2.2.0-bcl2fastq-2.20.0"
-}
-
-resource "aws_ecr_repository" "cellranger_3_0_2_bcl2fastq_2_20_0" {
-  name = "cellranger-3.0.2-bcl2fastq-2.20.0"
+  name = "cellranger-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"]}-bcl2fastq-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"]}"
 }
