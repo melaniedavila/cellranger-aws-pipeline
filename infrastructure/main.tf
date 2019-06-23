@@ -34,25 +34,6 @@ resource "aws_iam_instance_profile" "ecs_instance_role" {
   role = aws_iam_role.ecs_instance_role.name
 }
 
-resource "aws_iam_role" "pipeline" {
-  name        = "cellranger-pipeline"
-  description = "Allow ECS containers to read input and write output to S3."
-  assume_role_policy = jsonencode(
-    {
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Action = "sts:AssumeRole"
-          Effect = "Allow"
-          Principal = {
-            Service = "ecs-tasks.amazonaws.com"
-          }
-        },
-      ]
-    }
-  )
-}
-
 resource "aws_iam_role" "aws_batch_service_role" {
   name               = "AWSBatchServiceRole"
   path               = "/service-role/"
@@ -112,6 +93,25 @@ resource "aws_batch_job_queue" "this" {
   state = "ENABLED"
   priority = 10
   compute_environments = [aws_batch_compute_environment.cellranger_pipeline.arn]
+}
+
+resource "aws_iam_role" "pipeline" {
+  name        = "cellranger-pipeline"
+  description = "Allow ECS containers to read input and write output to S3."
+  assume_role_policy = jsonencode(
+    {
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action = "sts:AssumeRole"
+          Effect = "Allow"
+          Principal = {
+            Service = "ecs-tasks.amazonaws.com"
+          }
+        },
+      ]
+    }
+  )
 }
 
 resource "aws_batch_job_definition" "main" {
