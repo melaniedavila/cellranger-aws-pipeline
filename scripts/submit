@@ -22,8 +22,6 @@ SEQUENCING_RUN_FIELD_DELIMITER = "_"
 batch_client = boto3.client('batch')
 
 def usage():
-  # TODO: reconsider reading config yaml from stdin to avoid issues
-  # around this script locating the config file.
   print(f"""
 usage: {sys.argv[0]} CONFIG_YAML_FILENAME
 
