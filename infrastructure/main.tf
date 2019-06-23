@@ -34,6 +34,25 @@ resource "aws_iam_instance_profile" "ecs_instance_role" {
   role = aws_iam_role.ecs_instance_role.name
 }
 
+resource "aws_iam_role" "pipeline" {
+  name = "cellranger-pipeline"
+  description = "Allow ECS containers to read input and write output to S3."
+  assume_role_policy = jsonencode(
+    {
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action = "sts:AssumeRole"
+          Effect = "Allow"
+          Principal = {
+            Service = "ecs-tasks.amazonaws.com"
+          }
+        },
+      ]
+    }
+  )
+}
+
 resource "aws_iam_role" "aws_batch_service_role" {
   name = "AWSBatchServiceRole"
   path = "/service-role/"
@@ -174,7 +193,6 @@ resource "aws_batch_job_definition" "main" {
     attempt_duration_seconds = 129600
   }
 
-  # TODO: define `cellranger-pipeline` IAM role in terraform
   container_properties = <<CONTAINER_PROPERTIES
 {
   "image": "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"]}-bcl2fastq-${element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"]}",
