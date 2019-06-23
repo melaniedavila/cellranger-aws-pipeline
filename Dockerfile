@@ -7,9 +7,6 @@ ARG BCL2FASTQ_VERSION
 
 RUN pip3 install --upgrade awscli boto3
 
-RUN wget -O /home/cellranger/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64
-RUN chmod +x /home/cellranger/bin/dumb-init
-
 # Install bcl2fastq. cellranger mkfastq requires it.
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
@@ -20,6 +17,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && dpkg -i bcl2fastq2*.deb \
   && rm bcl2fastq2*.deb bcl2fastq2*.rpm bcl2fastq2*.zip \
   && apt-get remove -y alien
+
+RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64 \
+  && chmod +x /usr/local/bin/dumb-init
 
 # don't run containers as root
 RUN groupadd -g 999 cellranger \
@@ -40,6 +40,6 @@ COPY bin/ /home/cellranger/bin/
 
 WORKDIR /home/cellranger/
 
-ENTRYPOINT ["/home/cellranger/bin/dumb-init"]
+ENTRYPOINT ["/usr/local/bin/dumb-init"]
 
 CMD ["bash"]
