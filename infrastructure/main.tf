@@ -3,8 +3,6 @@ provider "aws" {
   version = "~> 2.15"
 }
 
-# BEGIN COMPUTE ENVIRONMENT RESOURCES
-
 resource "aws_iam_role" "ecs_instance_role" {
   name = "ecsInstanceRole"
 
@@ -85,8 +83,6 @@ resource "aws_batch_compute_environment" "cellranger_pipeline" {
   service_role = aws_iam_role.aws_batch_service_role.arn
   depends_on = ["aws_iam_role_policy_attachment.aws_batch_service_role"]
 }
-
-# END COMPUTE ENVIRONMENT RESOURCES
 
 resource "aws_batch_job_queue" "this" {
   name = "${var.environment}-cellranger-pipeline"
