@@ -45,7 +45,7 @@ resource "aws_internet_gateway" "this" {
 }
 
 resource "aws_security_group" "all_outbound" {
-  name = "all-inbound"
+  name = "all-outbound"
   vpc_id = aws_vpc.this.id
 }
 
