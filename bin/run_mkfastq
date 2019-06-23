@@ -44,11 +44,6 @@ fetch_raw_data() {
 }
 
 cellranger_mkfastq() {
-  # TODO: find out if we really need to pass these when running in a
-  # container. hoping that it defaults to no maxes
-  #
-  # --localcores="${LOCALCORES}" \
-  # --localmem="${LOCALMEM}" \
   local stderr_log raw_data_dir
 
   # Because we get bcl files from different sources, RAW_DATA_DIR may have a different
