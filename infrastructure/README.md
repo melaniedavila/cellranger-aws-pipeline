@@ -7,6 +7,12 @@ should be made by modifying the files in this directory and then
 running `terraform apply`; changes should also be committed so that we
 can track changes to our AWS configuration.
 
+## Omissions
+
+The S3 buckets that the pipeline reads from and writes to are not
+defined here, as those S3 buckets are not only consumed by the
+pipeline.
+
 ## Prereqs
 
 * AWS credentials stored locally in `~/.aws/credentials`. If that file
