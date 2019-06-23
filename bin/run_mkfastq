@@ -13,12 +13,6 @@ fi
 # SCRATCH_DIR is a 1TB volume.
 SCRATCH_DIR="$HOME/scratch"
 COMPRESSED_RAW_DATA_PATH="${SCRATCH_DIR}/raw_data.tar.gz"
-# we might not actually need to specify these if we don't care about
-# the process consuming all of the available resources. containers are
-# a better abstraction for limiting resource consumption than whatever
-# this does.
-# LOCALMEM=124 # TODO: don't hardcode
-# LOCALCORES=15 # TODO: don't hardcode
 OUTPUT_DIR="${SCRATCH_DIR}/output"
 RAW_DATA_DIR="${SCRATCH_DIR}/raw_data"
 SAMPLESHEET_CSV_PATH="${SCRATCH_DIR}/samplesheet.csv"
