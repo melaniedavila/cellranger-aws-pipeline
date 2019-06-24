@@ -87,7 +87,6 @@ the process running inside that container.
 - Automatically migrate bcl file from S3 to Glacier after 1 month
 - Account for feature barcoding experiments where the CITE-seq samples may come
 from a different combination of bcl files than the GEX samples.
-- Reintegrate cloudformation
 - Use an AWS lambda function to auto-detect raw data and config files on s3 and
 initialize the pipeline
 
