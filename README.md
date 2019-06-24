@@ -18,7 +18,10 @@ HTO counts.
 For a high-level walkthrough of the components our pipeline uses, visit
 [this document](./docs/Architecture.md)
 
-TODO: add diagram
+![A diagram of high-level pipeline architecture][architecture_diagram]
+
+*Batch itself doesn't pull the image from ECR. Batch requests an EC2 
+instance and that EC2 instance pulls our image from ECR and runs it.
 
 ## Running the Pipeline
 In order to run the pipeline, the user must do the following:
@@ -89,3 +92,4 @@ from a different combination of bcl files than the GEX samples.
 initialize the pipeline
 
 [cellranger_pipeline_diagram]: docs/cellranger_pipeline_diagram.png
+[architecture_diagram]: docs/cellranger_pipeline_archictecture.png
