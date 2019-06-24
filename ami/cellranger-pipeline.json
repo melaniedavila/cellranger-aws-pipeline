@@ -1,7 +1,7 @@
 {
   "variables": {
-    "aws_profile": "{{ env `AWS_PROFILE` }}",
-    "git_sha": "{{ env `GIT_SHA` }}"
+    "aws_profile": "default",
+    "git_sha": ""
   },
   "builders": [
     {
