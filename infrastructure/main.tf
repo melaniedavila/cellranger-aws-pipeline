@@ -61,7 +61,7 @@ resource "aws_batch_compute_environment" "cellranger_pipeline" {
   type = "MANAGED"
 
   compute_resources {
-    image_id = "ami-000f5114abc141b76"
+    image_id = "ami-0d36b4f4d3b46109a"
 
     instance_role = aws_iam_instance_profile.ecs_instance_role.arn
     instance_type = ["r5.4xlarge"]
