@@ -88,4 +88,4 @@ from a different combination of bcl files than the GEX samples.
 - Use an AWS lambda function to auto-detect raw data and config files on s3 and
 initialize the pipeline
 
-[cellranger_pipeline_diagram]: docs/cellranger_pipeline_diagram.png?raw=true
+[cellranger_pipeline_diagram]: docs/cellranger_pipeline_diagram.png
