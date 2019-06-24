@@ -211,8 +211,8 @@ of this repo.
 
 ## AMI
 
-We use an ECS-optimized AMI with 1TB storage at `/docker_scratch`. See the AMI
-readme [file](../ami/README.md) for details on how we built the AMI.
+We use an ECS-optimized AMI with 1TB storage at `/docker_scratch`. See the 
+[AMI readme file](../ami/README.md) for details on how we built the AMI.
 
 ## IAM roles
 
