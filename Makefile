@@ -1,3 +1,4 @@
+AWS_PROFILE?=default
 REGISTRY?=$(AWS_ACCOUNT_ID).dkr.ecr.us-east-1.amazonaws.com
 NOCACHE?=false
 
@@ -6,7 +7,7 @@ CELLRANGER_VERSION?="2.2.0"
 GIT_COMMIT:=$(shell git rev-parse HEAD | cut -c-7)
 IMAGE=cellranger-$(CELLRANGER_VERSION)-bcl2fastq-$(BCL2FASTQ_VERSION)
 
-.PHONY: all build push push-latest clean test
+.PHONY: all build push push-latest clean ami
 
 all: build
 
@@ -31,3 +32,10 @@ push-latest: build
 
 clean:
 	@docker rmi -f $(shell docker images -q $(IMAGE) | uniq)
+
+ami:
+	@printf '* Building AMI\n'
+	@packer build \
+		-var git_sha=$(GIT_COMMIT) \
+		-var AWS_PROFILE=$(AWS_PROFILE) \
+		 ./ami/cellranger-pipeline.json
