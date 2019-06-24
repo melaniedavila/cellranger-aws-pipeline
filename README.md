@@ -12,7 +12,7 @@ The pipeline takes us from bcl files to fastq files and finally to GEX
 UMI counts. If we use cellranger's feature barcoding option, we also get ADT and 
 HTO counts.
 
-![Cellranger pipeline diagram](/docs/cellranger_pipeline_diagram.png?raw=true)
+![cellranger_pipeline_diagram_img][cellranger_pipeline_diagram]
 
 ## Architecture
 For a high-level walkthrough of the components our pipeline uses, visit
@@ -87,3 +87,5 @@ from a different combination of bcl files than the GEX samples.
 - Reintegrate cloudformation
 - Use an AWS lambda function to auto-detect raw data and config files on s3 and
 initialize the pipeline
+
+[cellranger_pipeline_diagram]: docs/cellranger_pipeline_diagram.png?raw=true
