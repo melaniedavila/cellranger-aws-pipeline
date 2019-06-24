@@ -148,15 +148,17 @@ resource "aws_batch_job_definition" "main" {
       )
 
       jobRoleArn = aws_iam_role.pipeline.arn
+
       memory = 126976
+      vcpus = 16
+      ulimits = []
+
       mountPoints = [
         {
           containerPath = "/home/cellranger/scratch"
           sourceVolume = "scratch"
         },
       ]
-      ulimits = []
-      vcpus = 16
       volumes = [
         {
           host = {
