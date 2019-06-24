@@ -33,7 +33,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "./configure-scratch-volume.sh"
+      "script": "{{ template_dir }}/configure-scratch-volume.sh"
     }
   ]
 }
