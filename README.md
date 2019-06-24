@@ -1,16 +1,17 @@
 # Cellranger AWS Pipeline
 
-We deploy the 10X Genomics [cellranger pipeline][cellranger_documentation]
-on AWS. This pipeline builds upon previous work done by Nick (following the AWS 
-batch genomics [example][batch_genomics_tutorial], office hour suggestions from 
-solutions architects at the AWS loft in SOHO, and recommendations from the many 
-brains that were picked.
+We deploy the 10X Genomics [cellranger
+pipeline][cellranger_documentation] on AWS. This pipeline builds upon
+previous work done by Nick (following the AWS batch genomics
+[example][batch_genomics_tutorial], office hour suggestions from
+solutions architects at the AWS loft in SOHO, and recommendations from
+the many brains that were picked.
 
 This repository is not affiliated with 10X Genomics.
 
 The pipeline takes us from bcl files to fastq files and finally to GEX
-UMI counts. If we use cellranger's feature barcoding option, we also get ADT and 
-HTO counts.
+UMI counts. If we use cellranger's feature barcoding option, we also
+get ADT and HTO counts.
 
 ![A diagram of the cellranger pipeline][cellranger_pipeline_diagram]
 
