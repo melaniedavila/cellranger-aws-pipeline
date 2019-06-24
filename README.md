@@ -12,7 +12,7 @@ The pipeline takes us from bcl files to fastq files and finally to GEX
 UMI counts. If we use cellranger's feature barcoding option, we also get ADT and 
 HTO counts.
 
-![cellranger_pipeline_diagram_img][cellranger_pipeline_diagram]
+![A diagram of the cellranger pipeline][cellranger_pipeline_diagram]
 
 ## Architecture
 For a high-level walkthrough of the components our pipeline uses, visit
