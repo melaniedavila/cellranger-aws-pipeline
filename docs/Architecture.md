@@ -88,7 +88,17 @@ We sometimes start with fastqs, instead of bcls, in which case:
 - and the fastq files must be uploaded manually according to our
   naming convention.
 
-TODO: document naming convetions for experiment name, fastqs
+#### Naming Conventions
+Our experiment directories use the following naming convention:
+{run id}_{himc pool #}_{sequencing date}
+
+If the experiment has pooled runs, we use the same naming convention, using a `-`
+to separate runs. For example:
+
+`run406_himc40_071018-run407_himc40_071118`
+
+If we're starting with fastq files, the fastq files must be stored under the
+`experiment_name/sample_id/fastqs/run_id/` folder.
 
 Note that we do not have any naming conventions around bcl archives.
 
@@ -153,7 +163,14 @@ For example:
 
 #### `fastqs_metdata`
 
-TODO:
+The fastqs metadata is stored on a per run basis. It includes information that may
+be helpful for troubleshooting. 
+
+For example, the `DemuxSummary` files under `Stats`
+can be used to troubleshoot the demultiplexing step in the case that we seem to have
+provided an inaccurate sample index. The `Most Popular Unknown Index Sequences`
+section of the files will contain barcode sequences that correspond to 10x sample 
+index sequences found [here][10x-genomics-sample-indices].
 
 ## Docker
 
@@ -194,9 +211,8 @@ of this repo.
 
 ## AMI
 
-We use an ECS-optimized AMI with 1TB storage at `/docker_scratch`.
-
-TODO: define AMI in code
+We use an ECS-optimized AMI with 1TB storage at `/docker_scratch`. See the AMI
+readme [file](../ami/README.md) for details on how we built the AMI.
 
 ## IAM roles
 
@@ -248,3 +264,4 @@ scripts are responsible for tasks including the following:
 
 [10x-genomics-downloads](https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest)
 [illumina-downloads](https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software/downloads.html)
+[10x-genomics-sample-indices](https://support.10xgenomics.com/single-cell-gene-expression/index/doc/specifications-sample-index-sets-for-single-cell-3)
