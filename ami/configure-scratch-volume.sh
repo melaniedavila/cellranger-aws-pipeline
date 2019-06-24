@@ -14,6 +14,7 @@ format_device() {
 
 mount_device() {
   sudo mkdir /docker_scratch
+  sudo chmod 0777 /docker_scratch
   sudo echo -e '/dev/xvdb /docker_scratch ext4 defaults 0 0' \
     | sudo tee -a /etc/fstab
   sudo mount -a
