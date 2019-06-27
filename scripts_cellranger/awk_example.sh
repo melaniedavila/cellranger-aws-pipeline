@@ -1,0 +1,1 @@
+awk ' {if(NR>=35) gsub(/^/, "#", $0);print($0)}' config.yaml >config3.yaml
