@@ -6,6 +6,7 @@ import boto3
 import datetime as dt
 import json
 from jsonschema import validate
+import os
 import sys
 import yaml
 # TODO: pipenv for this project and its local python dependencies, as
@@ -18,8 +19,10 @@ PIPELINE_BASE_NAME = 'test-cellranger-pipeline'
 JOB_QUEUE = PIPELINE_BASE_NAME
 SEQUENCING_RUN_NAME_DELIMITER = "-"
 SEQUENCING_RUN_FIELD_DELIMITER = "_"
+S3_BUCKET="10x-data-backup"
 
 batch_client = boto3.client('batch')
+s3_client = boto3.client('s3')
 
 def usage():
   print(f"""
@@ -169,28 +172,16 @@ def submit_bcl2fastq(bcl_file, experiment, run_id, samples):
     print(message)
     raise Exception(message)
 
-def upload_config(configuration):
-  # 10x-pipeline/configs/
-  # OR
-  # 10x-data-backup/experiment_name/configs/
+def upload_config(config_yaml_filename):
+  configuration = load_config(config_yaml_filename)
+  experiment = configuration['experiment']
+  experiment_name = generate_experiment_name(**experiment)
 
-  # consider that some experiments might need to use multiple
-  # versions of the cellranger software, in which case we would need
-  # to define multiple config yamls.
+  config_basename = os.path.basename(config_yaml_filename)
 
-  # this script decides on the naming convetion for the config yamls
-
-  # this script should not overwrite config yamls. if this script
-  # sees an existing config yaml, then it should bail and notify the
-  # user to fix the problem themselves/
-
-  # TODO: implement this
-
-  # if file_exists():
-  #     raise Exception("file exists!!! TODO: include the s3 path here")
-
-  # upload_file(config):
-  return
+  # Our s3 bucket has versioning enabled. Because of this, we can overwrite 
+  # pre-existing configuration files without worry.
+  s3_client.upload_file(config_yaml_filename, S3_BUCKET, f'{experiment_name}/configs/{config_basename}')
 
 def load_config(filename):
   with open(filename) as config_yaml:
@@ -212,7 +203,7 @@ def main(config_yaml_filename):
   processing = configuration['processing']
   processing_job_ids = []
 
-  upload_config(configuration)
+  upload_config(config_yaml_filename)
 
   if processing and 'mkfastq' in processing:
     samples = processing['mkfastq']['samples']
