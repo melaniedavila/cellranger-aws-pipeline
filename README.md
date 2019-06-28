@@ -27,15 +27,8 @@ instance and that EC2 instance pulls our image from ECR and runs it.
 In order to run the pipeline, the user must do the following:
 
 1. Set up a root directory for the experiment on AWS s3. For our team, that means
-creating a subdirectory in the `10x-data-backup` bucket.
-
-Our experiment directories use the following naming convention:
-{run id}_{himc pool #}_{sequencing date}
-
-If the experiment has pooled runs, we use the same naming convention, using a `-`
-to separate runs. For example:
-
-`run406_himc40_071018-run407_himc40_071118`
+creating a subdirectory in the `10x-data-backup` bucket that follows the convention
+explained in the [architecture document](./docs/Architecture.md)
 
 2. Create a `raw_data` subfolder in the root experiment directory and add the bcl 
 file(s).
