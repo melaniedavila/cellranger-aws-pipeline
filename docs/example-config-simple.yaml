@@ -49,7 +49,7 @@ analyses:
   samples:
     - name: 7002v3A
       job_type: count # may be count or vdj
-      # a defauly chemistry of auto is usually sufficient to run cellranger count;
+      # a default chemistry of auto is usually sufficient to run cellranger count;
       # however, if errors are thrown, you may specify the chemistry
       # as per the 10x documentation: https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/count
       chemistry: auto

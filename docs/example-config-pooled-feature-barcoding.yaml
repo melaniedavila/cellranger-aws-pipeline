@@ -3,7 +3,7 @@
 
 # The information under `experiment` is global; it does not change on a per-sample basis.
 experiment:
-  bcl2fastq_version: "2.20.0"      # Determines what image to run. Current Options: 2.20.10
+  bcl2fastq_version: "2.20.0"      # Determines what image to run. Current Options: 2.20.0
   cellranger_version: "3.0.2"      # Determines what image to run Current Options: 2.2.0, 3.0.2
   # sequencing_runs metadata is used to generate the experiment name.
   # Based off the `sequencing_runs` data below, our generated experiment name would
@@ -53,7 +53,7 @@ analyses:
   samples:
     - name: 7002v3A
       job_type: count # may be count or vdj
-      # a defauly chemistry of auto is usually sufficient to run cellranger count;
+      # a default chemistry of auto is usually sufficient to run cellranger count;
       # however, if errors are thrown, you may specify the chemistry
       # as per the 10x documentation: https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/count
       chemistry: auto
