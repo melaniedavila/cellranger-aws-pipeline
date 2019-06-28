@@ -17,9 +17,9 @@ AWS_ECR_REGISTRY = '402084680610.dkr.ecr.us-east-1.amazonaws.com'
 
 PIPELINE_BASE_NAME = 'test-cellranger-pipeline'
 JOB_QUEUE = PIPELINE_BASE_NAME
-SEQUENCING_RUN_NAME_DELIMITER = "-"
-SEQUENCING_RUN_FIELD_DELIMITER = "_"
-S3_BUCKET="10x-data-backup"
+SEQUENCING_RUN_NAME_DELIMITER = '-'
+SEQUENCING_RUN_FIELD_DELIMITER = '_'
+S3_BUCKET='10x-data-backup'
 
 batch_client = boto3.client('batch')
 s3_client = boto3.client('s3')
