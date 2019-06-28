@@ -82,6 +82,8 @@ the process running inside that container.
 from a different combination of bcl files than the GEX samples.
 - Use an AWS lambda function to auto-detect raw data and config files on s3 and
 initialize the pipeline
+- Potentially utilize pipenv for this project and its local python dependencies, 
+as yaml and boto3 are not in the stdlib
 
 [cellranger_pipeline_diagram]: docs/cellranger_pipeline_diagram.png
 [architecture_diagram]: docs/cellranger_pipeline_archictecture.png

@@ -9,9 +9,6 @@ from jsonschema import validate
 import os
 import sys
 import yaml
-# TODO: pipenv for this project and its local python dependencies, as
-# yaml and boto3 are not in the stdlib. _maybe_ requiremtns.txt will
-# be good enough, we'll see.
 
 AWS_ECR_REGISTRY = '402084680610.dkr.ecr.us-east-1.amazonaws.com'
 
