@@ -1,5 +1,5 @@
 {
-  "type": "object",
+  "type": ["null", "object"],
   "additionalProperties": false,
   "properties": {
     "mkfastq": { "$ref": "_sample_demultiplexing.json"},
