@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "additional_properties": false,
+  "properties": {
+    "id": { "type": "number" },
+    "himc_pool": { "type": "string" },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "bcl_file": { "type": "string" }
+  }
+}

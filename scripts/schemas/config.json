@@ -8,19 +8,15 @@
       "properties": {
         "bcl2fastq_version": { "type": "string" },
         "cellranger_version": { "type": "string" },
-        "himc_pool": { "type": "string" },
-        "run": { "type": "string" },
-        "sequencing_data": {
-          "type": "string",
-          "format": "date"
+        "sequencing_runs": {
+          "type": "array",
+          "items": { "$ref": "_sequencing_run.json" }
         }
       },
       "required": [
         "bcl2fastq_version",
         "cellranger_version",
-        "himc_pool",
-        "run",
-        "sequencing_date"
+        "sequencing_runs"
       ]
     },
     "processing": {
@@ -72,7 +68,13 @@
                 "required": [ "name", "version" ]
               },
               "target_cell_count": { "type": "number" },
-              "feature_barcoding": { "type": "boolean" },
+              "feature_barcoding": {
+                "type": "object",
+                "additional_properties": false,
+                "properties": {
+                  "enabled": { "type": "boolean" }
+                }
+              },
               "pooled_run": { "type": "boolean" }
             },
             "required": [
