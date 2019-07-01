@@ -198,7 +198,7 @@ def validate_configuration(configuration):
 def main(config_yaml_filename):
   configuration = load_config(config_yaml_filename)
 
-  # validate_configuration(configuration)
+  validate_configuration(configuration)
 
   experiment = configuration['experiment']
   bcl2fastq_version = experiment['bcl2fastq_version']
