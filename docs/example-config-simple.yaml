@@ -63,7 +63,7 @@ analyses:
       feature_barcoding:
         enabled: False # will be True if we're performing feature barcoding
       pooled_run: False # will be False if we only have 1 sequencing run
-      - name: 7002v3B
+    - name: 7002v3B
       job_type: count
       chemistry: auto
       reference_transcriptome:
