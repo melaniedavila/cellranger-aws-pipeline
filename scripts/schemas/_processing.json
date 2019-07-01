@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "mkfastq": { "$ref": "_sample_demultiplexing.json"},
+    "bcl2fastq": { "$ref": "_sample_demultiplexing.json"}
+  },
+  "required": []
+}

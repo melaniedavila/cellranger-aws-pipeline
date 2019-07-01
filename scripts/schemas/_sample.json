@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": { "type": "string" },
+    "index_location": { "type": "string" }
+  },
+  "required": [ "name", "index_location" ]
+}

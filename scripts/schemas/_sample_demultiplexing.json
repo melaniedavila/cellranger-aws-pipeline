@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "samples": {
+      "type": "array",
+      "items": { "$ref": "_sample.json" }
+    }
+  },
+  "required": [ "samples" ]
+}

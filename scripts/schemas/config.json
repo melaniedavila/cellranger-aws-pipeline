@@ -2,29 +2,6 @@
   "type": "object",
   "additional_properties": false,
   "properties": {
-    "processing": {
-      "type": "object",
-      "properties": {
-        "mkfastq": {
-          "type": "object",
-          "additional_properties": false,
-          "properties": {
-            "samples": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "name": { "type": "string" },
-                  "index_location": { "type": "string" }
-                },
-                "required": [ "name", "index_location" ]
-              }
-            }
-          },
-          "required": [ "samples" ]
-        }
-      }
-    },
     "analyses": {
       "type": "object",
       "additional_properties": false,
@@ -87,4 +64,5 @@
     }
   }
     "experiment": { "$ref": "_experiment.json" },
+    "processing": { "$ref": "_processing.json" },
 }
