@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "additional_properties": false,
+  "additionalProperties": false,
   "properties": {
     "id": { "type": "number" },
     "himc_pool": { "type": "string" },
@@ -9,5 +9,6 @@
       "format": "date"
     },
     "bcl_file": { "type": "string" }
-  }
+  },
+  "required": [ "id", "himc_pool", "date", "bcl_file" ]
 }

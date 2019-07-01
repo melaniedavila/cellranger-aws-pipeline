@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "bcl2fastq_version": { "type": "string" },
+    "cellranger_version": { "type": "string" },
+    "sequencing_runs": {
+      "type": "array",
+      "items": { "$ref": "_sequencing_run.json" }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "debug": { "type": "boolean" }
+      }
+    }
+  },
+  "required": [
+    "bcl2fastq_version",
+    "cellranger_version",
+    "sequencing_runs"
+  ]
+}

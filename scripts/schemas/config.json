@@ -2,23 +2,6 @@
   "type": "object",
   "additional_properties": false,
   "properties": {
-    "experiment": {
-      "type": "object",
-      "additional_properties": false,
-      "properties": {
-        "bcl2fastq_version": { "type": "string" },
-        "cellranger_version": { "type": "string" },
-        "sequencing_runs": {
-          "type": "array",
-          "items": { "$ref": "_sequencing_run.json" }
-        }
-      },
-      "required": [
-        "bcl2fastq_version",
-        "cellranger_version",
-        "sequencing_runs"
-      ]
-    },
     "processing": {
       "type": "object",
       "properties": {
@@ -103,4 +86,5 @@
       }
     }
   }
+    "experiment": { "$ref": "_experiment.json" },
 }
