@@ -12,11 +12,11 @@ experiment:
   # runs. When there is more than 1 run, we refer to them as "pooled runs"
   sequencing_runs:
     - id: 1
-      himc_pool: 1
+      himc_pool: "1"
       date: "2019-03-25"
       bcl_file: "190325_NB501426_0271_AH2J72BGXB.tar.gz"
     - id: 2
-      himc_pool: 2
+      himc_pool: "2"
       date: "2019-03-26" # YYYY-MM-DD
       bcl_file: "190326_NB501426_0272_AH2J75BGXY.tar.gz"
   meta:
