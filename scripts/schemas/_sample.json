@@ -3,7 +3,77 @@
   "additionalProperties": false,
   "properties": {
     "name": { "type": "string" },
-    "index_location": { "type": "string" }
+    "job_type": {
+      "type": "string",
+      "enum": [ "count", "vdj" ]
+    },
+    "chemistry": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "threeprime",
+        "fiveprime",
+        "SC3Pv1",
+        "SC3Pv2",
+        "SC3Pv3",
+        "SC5P-PE",
+        "SC5P-R2"
+      ]
+    },
+    "reference_transcriptome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": [
+            "GRCh38",
+            "mm10",
+            "hg19",
+            "vdj"
+          ]
+        },
+        "version": {
+          "type": "string",
+          "enum": [
+            "1.2.0",
+            "2.0.0",
+            "3.0.0"
+          ]
+        }
+      },
+      "required": [ "name", "version" ]
+    },
+    "target_cell_count": { "type": "number" },
+    "feature_barcoding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" }
+      },
+      "required": [ "enabled" ]
+    },
+    "pooled_run": { "type": "boolean" }
   },
-  "required": [ "name", "index_location" ]
+  "required": [
+    "name",
+    "job_type",
+    "chemistry",
+    "reference_transcriptome",
+    "feature_barcoding",
+    "pooled_run"
+  ],
+  "anyOf": [
+    {
+      "description": "if job_type is not count, then don't add additional requirements",
+      "not": {
+        "properties": {
+          "job_type": { "enum": ["count"] }
+        }
+      }
+    },
+    {
+      "required": ["target_cell_count"]
+    }
+  ]
 }
