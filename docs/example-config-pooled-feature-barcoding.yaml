@@ -88,10 +88,10 @@ analyses:
         samples:
           - name: 7002v3B-A
           - name: 7002v3B-H
-        oligo_group: 1
+        oligo_group: "1"
       pooled_run: True
   oligo_groups:
-    1:
+    "1":
       # Did we use Biolegend Total-Seq B or Total-Seq C antibodies?
       total_seq_b_c: False
       oligos:

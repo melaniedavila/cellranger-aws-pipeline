@@ -5,6 +5,22 @@
     "samples": {
       "type": "array",
       "items": { "$ref": "_sample.json" }
+    },
+    "oligo_groups": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "total_seq_b_c": { "type": "boolean" },
+            "oligos": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -49,7 +49,29 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "enabled": { "type": "boolean" }
+        "enabled": { "type": "boolean" },
+        "feature_type": {
+          "type": "string",
+          "enum": [ "Custom", "Antibody Capture", "Gene Expression" ]
+        },
+        "directionality": {
+          "type": "string",
+          "enum": [ "3p", "5p" ]
+        },
+        "samples": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [ "name" ]
+          }
+        },
+        "oligo_group": { "type": "string" }
       },
       "required": [ "enabled" ]
     },
