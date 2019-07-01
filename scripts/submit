@@ -5,7 +5,7 @@
 import boto3
 import datetime as dt
 import json
-from jsonschema import validate
+from jsonschema import Draft4Validator, RefResolver
 import os
 import sys
 import yaml
@@ -185,8 +185,15 @@ def load_config(filename):
     return yaml.load(config_yaml)
 
 def validate_configuration(configuration):
-  json_schema = json.load(open('config_schema.json'))
-  validate(configuration, json_schema)
+  schema_path = os.path.realpath('scripts/schemas/config.json')
+  schema = json.load(open(schema_path))
+
+  resolver = RefResolver(f'file://{schema_path}', None)
+
+  Draft4Validator.check_schema(schema)
+
+  validator = Draft4Validator(schema, resolver=resolver, format_checker=None)
+  validator.validate(configuration)
 
 def main(config_yaml_filename):
   configuration = load_config(config_yaml_filename)
