@@ -1,8 +1,10 @@
 {
   "type": "object",
-  "additional_properties": false,
+  "additionalProperties": false,
   "properties": {
     "experiment": { "$ref": "_experiment.json" },
     "processing": { "$ref": "_processing.json" },
     "analyses": { "$ref": "_analyses.json" }
+  },
+  "required": [ "experiment", "processing", "analyses" ]
 }
