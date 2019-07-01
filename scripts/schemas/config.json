@@ -2,67 +2,7 @@
   "type": "object",
   "additional_properties": false,
   "properties": {
-    "analyses": {
-      "type": "object",
-      "additional_properties": false,
-      "properties": {
-        "samples": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additional_properties": false,
-            "properties": {
-              "name": { "type": "string" },
-              "job_type": {
-                "type": "string",
-                "enum": [ "count", "vdj" ]
-              },
-              "chemistry": { "type": "string" },
-              "reference_transcriptome": {
-                "type": "object",
-                "additional_properties": false,
-                "properties": {
-                  "name": { "type": "string" },
-                  "version": { "type": "string" }
-                },
-                "required": [ "name", "version" ]
-              },
-              "target_cell_count": { "type": "number" },
-              "feature_barcoding": {
-                "type": "object",
-                "additional_properties": false,
-                "properties": {
-                  "enabled": { "type": "boolean" }
-                }
-              },
-              "pooled_run": { "type": "boolean" }
-            },
-            "required": [
-              "name",
-              "job_type",
-              "reference_transcriptome",
-              "feature_barcoding",
-              "pooled_run"
-            ],
-            "anyOf": [
-              {
-                "description": "if job_type is not count, then don't add additional requirements",
-                "not": {
-                  "properties": {
-                    "job_type": { "enum": ["count"] }
-                  }
-                }
-              },
-              {
-                "required": ["target_cell_count"]
-              }
-            ],
-            "additional_properties": false
-          }
-        }
-      }
-    }
-  }
     "experiment": { "$ref": "_experiment.json" },
     "processing": { "$ref": "_processing.json" },
+    "analyses": { "$ref": "_analyses.json" }
 }
