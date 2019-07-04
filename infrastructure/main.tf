@@ -33,32 +33,32 @@ resource "aws_iam_instance_profile" "ecs_instance_role" {
 }
 
 resource "aws_iam_role" "aws_batch_service_role" {
-  name               = "AWSBatchServiceRole"
-  path               = "/service-role/"
+  name = "AWSBatchServiceRole"
+  path = "/service-role/"
   assume_role_policy = jsonencode(
     {
       Statement = [
         {
-          Action    = "sts:AssumeRole"
-          Effect    = "Allow"
+          Action = "sts:AssumeRole"
+          Effect = "Allow"
           Principal = {
             Service = "batch.amazonaws.com"
           }
         },
       ]
-      Version   = "2012-10-17"
+      Version = "2012-10-17"
     }
   )
 }
 
 resource "aws_iam_role_policy_attachment" "aws_batch_service_role" {
-  role = aws_iam_role.aws_batch_service_role.name
+  role       = aws_iam_role.aws_batch_service_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole"
 }
 
 resource "aws_batch_compute_environment" "cellranger_pipeline" {
   compute_environment_name = "${var.environment}-cellranger-pipeline"
-  type = "MANAGED"
+  type                     = "MANAGED"
 
   compute_resources {
     image_id = "ami-0d36b4f4d3b46109a"
@@ -81,18 +81,18 @@ resource "aws_batch_compute_environment" "cellranger_pipeline" {
   }
 
   service_role = aws_iam_role.aws_batch_service_role.arn
-  depends_on = ["aws_iam_role_policy_attachment.aws_batch_service_role"]
+  depends_on   = ["aws_iam_role_policy_attachment.aws_batch_service_role"]
 }
 
 resource "aws_batch_job_queue" "this" {
-  name = "${var.environment}-cellranger-pipeline"
-  state = "ENABLED"
-  priority = 10
+  name                 = "${var.environment}-cellranger-pipeline"
+  state                = "ENABLED"
+  priority             = 10
   compute_environments = [aws_batch_compute_environment.cellranger_pipeline.arn]
 }
 
 resource "aws_iam_role" "pipeline" {
-  name        = "cellranger-pipeline"
+  name        = "${var.environment}-cellranger-pipeline"
   description = "Allow ECS containers to read input and write output to S3."
   assume_role_policy = jsonencode(
     {
@@ -108,6 +108,70 @@ resource "aws_iam_role" "pipeline" {
       ]
     }
   )
+}
+
+resource "aws_iam_role_policy_attachment" "pipeline_s3_10x_pipeline_read" {
+  role       = aws_iam_role.pipeline.name
+  policy_arn = aws_iam_policy.s3_10x_pipeline_read.arn
+}
+
+resource "aws_iam_role_policy_attachment" "pipeline_s3_10x_data_backup_read_write" {
+  role       = aws_iam_role.pipeline.name
+  policy_arn = aws_iam_policy.s3_10x_data_backup_read_write.arn
+}
+
+resource "aws_iam_policy" "s3_10x_data_backup_read_write" {
+  name        = "s3-10x-data-backup-read-write"
+  description = "Basic read and write permissions for the 10x-data-backup S3 bucket."
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket"
+        ],
+        Resource = [
+          "arn:aws:s3:::10x-data-backup",
+          "arn:aws:s3:::10x-data-backup/*"
+        ]
+      },
+      {
+        Effect   = "Allow",
+        Action   = "s3:HeadBucket",
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "s3_10x_pipeline_read" {
+  name        = "s3-10x-pipeline-read"
+  description = "Basic read permissions for the 10x-pipeline S3 bucket"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid    = "10xPipelineRead",
+        Effect = "Allow",
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ],
+        Resource = [
+          "arn:aws:s3:::10x-pipeline",
+          "arn:aws:s3:::10x-pipeline/*"
+        ]
+      },
+      {
+        Effect   = "Allow",
+        Action   = "s3:HeadBucket",
+        Resource = "*"
+      }
+    ]
+  })
 }
 
 resource "aws_batch_job_definition" "main" {
@@ -137,7 +201,7 @@ resource "aws_batch_job_definition" "main" {
       ]
       environment = [
         {
-          name = "DEBUG"
+          name  = "DEBUG"
           value = "false"
         },
       ]
@@ -150,14 +214,14 @@ resource "aws_batch_job_definition" "main" {
 
       jobRoleArn = aws_iam_role.pipeline.arn
 
-      memory = 126976
-      vcpus = 16
+      memory  = 126976
+      vcpus   = 16
       ulimits = []
 
       mountPoints = [
         {
           containerPath = "/home/cellranger/scratch"
-          sourceVolume = "scratch"
+          sourceVolume  = "scratch"
         },
       ]
       volumes = [
