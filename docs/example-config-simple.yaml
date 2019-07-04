@@ -11,7 +11,7 @@ experiment:
   # Sequencing run names are separated by '-'. We may have 1 or more sequencing
   # runs. When there is more than 1 run, we refer to them as "pooled runs"
   sequencing_runs:
-    - id: 1
+    - id: "1" # must be a string
       himc_pool: "1" # must be a string
       date: "2019-03-25"
       bcl_file: "190325_NB501426_0271_AH2J72BGXB.tar.gz"
