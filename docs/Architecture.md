@@ -89,88 +89,90 @@ We sometimes start with fastqs, instead of bcls, in which case:
   naming convention.
 
 #### Naming Conventions
-Our experiment directories use the following naming convention:
-{run id}_{himc pool #}_{sequencing date}
 
-If the experiment has pooled runs, we use the same naming convention, using a `-`
-to separate runs. For example:
+Our experiment directories use the following naming convention: `{run
+id}_{himc pool #}_{sequencing date}`
+
+If the experiment has pooled runs, we use the same naming convention,
+using a `-` to separate runs. For example:
 
 `run406_himc40_071018-run407_himc40_071118`
 
-If we're starting with fastq files, the fastq files must be stored under the
-`experiment_name/sample_id/fastqs/run_id/` folder.
+If we're starting with fastq files, the fastq files must be stored
+under the `experiment_name/sample_id/fastqs/run_id/` folder.
 
 Note that we do not have any naming conventions around bcl archives.
 
 For example:
 ```
-10x-data-backup
-	experiment_name
-		raw_data
+10x-data-backup/
+	experiment_name/
+		raw_data/
 			bcl_filename_run1.tar.gz
 			bcl_filename_run2.tar.gz
-		sample_id_A
-			fastqs
-				run1
+		sample_id_A/
+			fastqs/
+				run1/
 					...fastq.gz
-				run2
+				run2/
 					...fastq.gz
-			cellranger_count_output
-				reference_transcriptome
+			cellranger_count_output/
+				reference_transcriptome/
 					outs/
 						...
 					...
-		sample_id_B
-			fastqs
-				run1
+		sample_id_B/
+			fastqs/
+				run1/
 					...fastq.gz
-				run2
+				run2/
 					...fastq.gz
-			cellranger_count_output
-				reference_transcriptome
+			cellranger_count_output/
+				reference_transcriptome/
 					outs/
 						...
 					...
-		sample_id_A-A
-			fastqs
-				run1
+		sample_id_A-A/
+			fastqs/
+				run1/
 					...fastq.gz
-				run2
+				run2/
 					...fastq.gz
-		sample_id_A-H
-			fastqs
-				run1
+		sample_id_A-H/
+			fastqs/
+				run1/
 					...fastq.gz
-				run2
+				run2/
 					...fastq.gz
-	fastqs_metadata
-		citeseq
-			run1
-				Stats
-				Reports
-			run2
-				Stats
-				Reports
-		gex
-			run1
-				Stats
-				Reports
-			run2
-				Stats
-				Reports
+	fastqs_metadata/
+		citeseq/
+			run1/
+				Stats/
+				Reports/
+			run2/
+				Stats/
+				Reports/
+		gex/
+			run1/
+				Stats/
+				Reports/
+			run2/
+				Stats/
+				Reports/
 
 ```
 
 #### `fastqs_metdata`
 
-The fastqs metadata is stored on a per run basis. It includes information that may
-be helpful for troubleshooting. 
+The fastqs metadata is stored on a per run basis. It includes
+information that may be helpful for troubleshooting.
 
-For example, the `DemuxSummary` files under `Stats`
-can be used to troubleshoot the demultiplexing step in the case that we seem to have
-provided an inaccurate sample index. The `Most Popular Unknown Index Sequences`
-section of the files will contain barcode sequences that correspond to 10x sample 
-index sequences found [here][10x-genomics-sample-indices].
+For example, the `DemuxSummary` files under `Stats` can be used to
+troubleshoot the demultiplexing step in the case that we seem to have
+provided an inaccurate sample index. The `Most Popular Unknown Index
+Sequences` section of the files will contain barcode sequences that
+correspond to 10x sample index sequences found
+[here][10x-genomics-sample-indices].
 
 ## Docker
 
@@ -211,8 +213,9 @@ of this repo.
 
 ## AMI
 
-We use an ECS-optimized AMI with 1TB storage at `/docker_scratch`. See the 
-[AMI readme file](../ami/README.md) for details on how we built the AMI.
+We use an ECS-optimized AMI with 1TB storage at `/docker_scratch`. See
+the [AMI readme file](../ami/README.md) for details on how we built
+the AMI.
 
 ## IAM roles
 
@@ -244,8 +247,8 @@ complete until they can be started.
 ### Job Queue
 
 The job queue associates a job with a compute environment. The job
-queue is transparent unless the compute environment is at full capacity
-and jobs must wait to be run.
+queue is transparent unless the compute environment is at full
+capacity and jobs must wait to be run.
 
 ### Job Definition
 
@@ -262,6 +265,6 @@ scripts are responsible for tasks including the following:
 - validating our yaml config file
 - running `mkfastq`, `bcl2fastq`, `count`, and `vdj`
 
-[10x-genomics-downloads](https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest)
-[illumina-downloads](https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software/downloads.html)
-[10x-genomics-sample-indices](https://support.10xgenomics.com/single-cell-gene-expression/index/doc/specifications-sample-index-sets-for-single-cell-3)
+[10x-genomics-downloads]: https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest
+[illumina-downloads]: https://support.illumina.com/sequencing/sequencing_software/bcl2fastq-conversion-software/downloads.html
+[10x-genomics-sample-indices]: https://support.10xgenomics.com/single-cell-gene-expression/index/doc/specifications-sample-index-sets-for-single-cell-3
