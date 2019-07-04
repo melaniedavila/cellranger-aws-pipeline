@@ -42,8 +42,17 @@ def generate_experiment_name(sequencing_runs, **_):
   sequencing_run_names = map(generate_sequencing_run_name, sequencing_runs)
   return SEQUENCING_RUN_NAME_DELIMITER.join(sequencing_run_names)
 
+def get_oligo_group(target_oligo_group_id, oligo_groups):
+  try:
+    return [og for og in oligo_groups if og['id'] == target_oligo_group_id][0]
+  except IndexError:
+    raise Exception(f"Oligo group with id {target_oligo_group_id} not found")
+
 def submit_analysis(sample, experiment, oligo_groups, cellranger_version, depends_on = []):
   experiment_name = generate_experiment_name(**experiment)
+  target_oligo_group_id = sample['feature_barcoding']['oligo_group_id']
+  oligo_group = get_oligo_group(target_oligo_group_id, oligo_groups)
+
   container_overrides = {
     "environment": [
       {
@@ -60,7 +69,7 @@ def submit_analysis(sample, experiment, oligo_groups, cellranger_version, depend
     "experiment_name": experiment_name,
     "runs": [sequencing_run['id'] for sequencing_run in experiment['sequencing_runs']],
     "sample": sample,
-    "oligo_groups": oligo_groups
+    "oligo_group": oligo_group
   }
   parameters = {
     "command": "run_analysis",

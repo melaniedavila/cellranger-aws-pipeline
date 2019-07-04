@@ -7,17 +7,16 @@
       "items": { "$ref": "_sample.json" }
     },
     "oligo_groups": {
-      "type": "object",
-      "patternProperties": {
-        ".*": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "total_seq_b_c": { "type": "boolean" },
-            "oligos": {
-              "type": "array",
-              "items": { "type": "string" }
-            }
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "total_seq_b_c": { "type": "boolean" },
+          "oligos": {
+            "type": "array",
+            "items": { "type": "string" }
           }
         }
       }

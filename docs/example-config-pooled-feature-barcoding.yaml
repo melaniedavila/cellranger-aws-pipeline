@@ -72,7 +72,7 @@ analyses:
         # We nest related CITE-seq samples under the "parent" GEX sample (e.g. 7002v3A)
           - name: 7002v3A-A
           - name: 7002v3A-H
-        oligo_group: 1 # Refers to a specific group of oligos under the `oligo_groups` key
+        oligo_group_id: 1 # Refers to a specific group of oligos under the `oligo_groups` key
       pooled_run: True # will be False if we only have 1 sequencing run
     - name: 7002v3B
       job_type: count
@@ -88,10 +88,10 @@ analyses:
         samples:
           - name: 7002v3B-A
           - name: 7002v3B-H
-        oligo_group: "1"
+        oligo_group_id: "1" # must be a string
       pooled_run: True
   oligo_groups:
-    "1":
+    - id: "1" # must match an `oligo_group_id` value
       # Did we use Biolegend Total-Seq B or Total-Seq C antibodies?
       total_seq_b_c: False
       oligos:

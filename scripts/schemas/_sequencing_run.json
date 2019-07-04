@@ -2,7 +2,7 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "id": { "type": "number" },
+    "id": { "type": "string" },
     "himc_pool": { "type": "string" },
     "date": {
       "type": "string",

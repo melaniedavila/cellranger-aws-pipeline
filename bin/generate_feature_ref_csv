@@ -41,10 +41,9 @@ def main(config_json):
   feature_type = sample['feature_barcoding']['feature_type']
   directionality = sample['feature_barcoding']['directionality']
 
-  target_oligo_group = sample['feature_barcoding']['oligo_group']
-  oligo_groups = config['oligo_groups']
-  target_oligos = oligo_groups[str(target_oligo_group)]['oligos']
-  total_seq_b_c = oligo_groups[str(target_oligo_group)]['total_seq_b_c']
+  target_oligo_group = config['oligo_group']
+  target_oligos = target_oligo_group['oligos']
+  total_seq_b_c = target_oligo_group['total_seq_b_c']
 
   if total_seq_b_c:
     pattern = '5PNNNNNNNNNN(BC)'

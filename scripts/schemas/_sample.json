@@ -71,7 +71,7 @@
             "required": [ "name" ]
           }
         },
-        "oligo_group": { "type": "string" }
+        "oligo_group_id": { "type": "string" }
       },
       "required": [ "enabled" ]
     },
