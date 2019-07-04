@@ -51,6 +51,8 @@ visit these annotated exaple configuration files:
 
 ## Development
 
+### Local Development
+
 To run the pipeline during development, we recommend using a command
 like the below, substituting your own configuration yaml file. This
 will ensure that any changes are reflected in the Docker images on AWS
@@ -99,7 +101,31 @@ use `docker run`'s `--memory` and `--cpus` flag in order to limit the
 resources available to the container, and by extension to cellranger,
 the process running inside that container.
 
+### Remote Development
+
+There are limits to local development, and at some point you'll have
+to start testing your changes on our AWS infrastructure; you might
+even have to make changes to the AWS infrastructure itself. Our AWS
+infrastructure is defined in the `./infrastructure` directory, and
+changes should be applied by changing those files and running
+terraform; see [the infrastructure README](./infrastructure/README.md)
+for details.
+
+All remote development should be done against the dev pipeline; once
+the changes are known to be good, the changes should be merged into
+master and then applied to the prod pipeline.
+
+## Applying Changes to Prod
+
+We use the `latest` image tag in development, but in prod we pin the
+image that we're using so that we can be sure of what is running. In
+order to use a new image in prod, you'll need to update the
+`image_tag` variable in the `prod.tfvars` file with the specific image
+tag shown in the docker push output; this value will always be a short
+git sha, e.g `abc123`.
+
 ## Potential Next Steps:
+
 - Automatically migrate fastq files from S3 to Glacier after 1 year
 - Automatically migrate bcl file from S3 to Glacier after 1 month
 - Account for feature barcoding experiments where the CITE-seq samples

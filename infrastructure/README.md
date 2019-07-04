@@ -31,14 +31,23 @@ First:
   resources are up-to-date with the definitions in this repo.
 
 Now you're ready to start making changes to our Terraform files. Make
-your changes and then run `terraform plan` to see changes would take
-place; once you've made certain that all the changes shown are
-intentional, run `terraform apply`.
+your changes and then run `terraform plan -var-file=./dev.tfvars` to
+see changes would take place; once you've made certain that all the
+changes shown are intentional, run `terraform apply
+-var-file=./dev.tfvars`.
 
 Once you've validated that your changes work, run `terraform fmt`,
 commit your changes and get them into `master` (preferably by opening
 a PR and having someone approve your changes before merging into
-`master`).
+`master`). After merging your changes into master, apply them to the
+prod pipeline as you did the dev pipleline using `terraform plan` and
+`terraform apply` with the `prod.tfvars` file.
+
+## Production
+
+The prod pipeline is not to be developed against. Only stable changes
+that are present in the master branch should be applied to prod, and
+the prod pipeline should always be in-sync with master.
 
 ### Tips
 
