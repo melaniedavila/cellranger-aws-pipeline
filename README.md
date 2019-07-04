@@ -51,20 +51,6 @@ visit these annotated exaple configuration files:
 
 ## Development
 
-Before doing any development, the developer should make sure that
-they've followed the one-time steps in the following
-[Prerequisites](#Prerequisites) section.
-
-### Prerequisites
-
-1. Ensure `AWS_ACCOUNT_ID` is available in exported in your shell
-   environment. If the output of `echo $AWS_ACCOUNT_ID` is empty, then
-   you should follow the steps [here](obtain_aws_account_id) to obtain
-   our AWS account ID and then add a line exporting that account ID
-   (e.g. `export AWS_ACCOUNT_ID=...`) to your bash profile.
-
-### Example workflow
-
 To run the pipeline during development, we recommend using a command
 like the below, substituting your own configuration yaml file. This
 will ensure that any changes are reflected in the Docker images on AWS

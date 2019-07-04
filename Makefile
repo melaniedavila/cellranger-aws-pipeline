@@ -1,5 +1,5 @@
 AWS_PROFILE?=default
-REGISTRY?=$(AWS_ACCOUNT_ID).dkr.ecr.us-east-1.amazonaws.com
+REGISTRY=402084680610.dkr.ecr.us-east-1.amazonaws.com
 NOCACHE?=false
 
 BCL2FASTQ_VERSION?="2.20.0"
