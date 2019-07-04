@@ -1,4 +1,3 @@
-variable "environment" {}
 variable "cellranger_bcl2fastq_version_pairs" {
   # Don't change this default
   default = [
@@ -12,3 +11,5 @@ variable "cellranger_bcl2fastq_version_pairs" {
     }
   ]
 }
+variable "environment" {}
+variable "image_tag" {}

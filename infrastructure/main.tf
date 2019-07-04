@@ -142,9 +142,10 @@ resource "aws_batch_job_definition" "main" {
         },
       ]
       image = format(
-        "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-%s-bcl2fastq-%s",
+        "402084680610.dkr.ecr.us-east-1.amazonaws.com/cellranger-%s-bcl2fastq-%s:%s",
         element(var.cellranger_bcl2fastq_version_pairs, count.index)["cellranger_version"],
-        element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"]
+        element(var.cellranger_bcl2fastq_version_pairs, count.index)["bcl2fastq_version"],
+        var.image_tag
       )
 
       jobRoleArn = aws_iam_role.pipeline.arn
