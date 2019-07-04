@@ -111,6 +111,11 @@ changes should be applied by changing those files and running
 terraform; see [the infrastructure README](./infrastructure/README.md)
 for details.
 
+You can use the development pipeline by specifying the
+`CELLRANGER_PIPELINE_ENV` environment variable in your submit
+invocation, e.g. `CELLRANGER_PIPELINE_ENV=dev ./scripts/submit
+./configs/some-config.yaml`
+
 All remote development should be done against the dev pipeline; once
 the changes are known to be good, the changes should be merged into
 master and then applied to the prod pipeline.
