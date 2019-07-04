@@ -130,6 +130,12 @@ All remote development should be done against the dev pipeline; once
 the changes are known to be good, the changes should be merged into
 master and then applied to the prod pipeline.
 
+### Example Dataset
+
+10x Genomics has a toy dataset available. It can be found [here][batch_genomics_tutorial] 
+under the `Example Data` section. This `tiny-bcl` dataset is useful for developing 
+with a quick feedback loop.
+
 ## Applying Changes to Prod
 
 We use the `latest` image tag in development, but in prod we pin the
@@ -156,3 +162,4 @@ git sha, e.g `abc123`.
 [batch_genomics_tutorial]: https://aws.amazon.com/blogs/compute/building-high-throughput-genomics-batch-workflows-on-aws-introduction-part-1-of-4/
 [cellranger_documentation]: https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger
 [obtain_aws_account_id]: https://docs.aws.amazon.com/general/latest/gr/acct-identifiers.htlm
+[cellranger_toy_data]: https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/mkfastq
