@@ -49,6 +49,16 @@ visit these annotated exaple configuration files:
    substituting the path to your yaml configuration file:
    `./scripts/submit configs/config.yaml`
 
+### Checking Job Status
+
+To check the status of your jobs, log into the AWS console and visit the AWS Batch
+page. On the left-hand side of the page, select `Jobs` then select the appropriate
+queue from the `Queue` dropdown menu. Jobs will be submitted to the 
+`prod-cellranger-pipeline` queue by default. Otherwise, check the queue corresponding
+to your cellranger pipeline environment.
+
+The current job status and cloudwatch logs will be available through this interface.
+
 ## Development
 
 ### Local Development
