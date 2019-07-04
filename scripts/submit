@@ -51,8 +51,10 @@ def get_oligo_group(target_oligo_group_id, oligo_groups):
 
 def submit_analysis(sample, experiment, oligo_groups, cellranger_version, depends_on = []):
   experiment_name = generate_experiment_name(**experiment)
-  target_oligo_group_id = sample['feature_barcoding']['oligo_group_id']
-  oligo_group = get_oligo_group(target_oligo_group_id, oligo_groups)
+  feature_barcoding_enabled = sample['feature_barcoding']['enabled']
+  if feature_barcoding_enabled:
+    target_oligo_group_id = sample['feature_barcoding']['oligo_group_id']
+    oligo_group = get_oligo_group(target_oligo_group_id, oligo_groups)
 
   container_overrides = {
     "environment": [
@@ -70,7 +72,7 @@ def submit_analysis(sample, experiment, oligo_groups, cellranger_version, depend
     "experiment_name": experiment_name,
     "runs": [sequencing_run['id'] for sequencing_run in experiment['sequencing_runs']],
     "sample": sample,
-    "oligo_group": oligo_group
+    "oligo_group": (oligo_group if feature_barcoding_enabled else None),
   }
   parameters = {
     "command": "run_analysis",
