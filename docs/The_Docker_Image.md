@@ -18,14 +18,15 @@ the file.
 #### Other versions
 
 If you need to build an image for some other combination of versions,
-you can do that. For example, you want to build an image for cellranger
-version `3.0.2` and bcl2fastq `2.20.0`, you can run
+you can do that. For example, you want to build an image for
+cellranger version `3.0.2` and bcl2fastq `2.20.0`, you can run
 `CELLRANGER_VERSION=3.0.2 BCL2FASTQ_VERSION=2.20.0 make`.
 
 ### Pushing Docker images to ECR
 
-We push our Docker images to our AWS ECR registry. As a one-time step,
-you'll need AWS credentials.
+We push our Docker images to our AWS ECR registry. You'll need AWS
+credentials; these credentials are good for about one day, so you
+don't need to refresh your credentials before every push.
 
 1. If you're not authenticated with ECR, run `eval $(aws ecr get-login
    --no-include-email)` at the command line.
