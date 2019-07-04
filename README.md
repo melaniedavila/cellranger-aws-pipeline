@@ -16,64 +16,88 @@ get ADT and HTO counts.
 ![A diagram of the cellranger pipeline][cellranger_pipeline_diagram]
 
 ## Architecture
-For a high-level walkthrough of the components our pipeline uses, visit
-[this document](./docs/Architecture.md)
+
+For a high-level walkthrough of the components our pipeline uses,
+visit [this document](./docs/Architecture.md)
 
 ![A diagram of high-level pipeline architecture][architecture_diagram]
 
-*Batch itself doesn't pull the image from ECR. Batch requests an EC2 
+*Batch itself doesn't pull the image from ECR. Batch requests an EC2
 instance and that EC2 instance pulls our image from ECR and runs it.
 
 ## Running the Pipeline
+
 In order to run the pipeline, the user must do the following:
 
-1. Set up a root directory for the experiment on AWS s3. For our team, that means
-creating a subdirectory in the `10x-data-backup` bucket that follows the convention
-explained in the [architecture document](./docs/Architecture.md)
+1. Set up a root directory for the experiment on AWS s3. For our team,
+   that means creating a subdirectory in the `10x-data-backup` bucket
+   that follows the convention explained in the [architecture
+   document](./docs/Architecture.md)
 
-2. Create a `raw_data` subfolder in the root experiment directory and add the bcl 
-file(s).
+2. Create a `raw_data` subfolder in the root experiment directory and
+   add the bcl file(s).
 
 3. Create a yaml configuration file for the experiment.
 
-For more information on setting up your configuration file, please visit these
-annotated exaple configuration files:
+For more information on setting up your configuration file, please
+visit these annotated exaple configuration files:
+
  - [simple example](./docs/example-config-simple.yaml)
  - [feature barcoding & pooled sequencing runs example](./docs/example-config-pooled-feature-barcoding.yaml)
 
-4. From the root of this repository, run the following command, substituting the
-path to your yaml configuration file.
-
-`./scripts/submit configs/config.yaml`
+4. From the root of this repository, run the following command,
+   substituting the path to your yaml configuration file:
+   `./scripts/submit configs/config.yaml`
 
 ## Development
 
-Before doing any development, the developer should make sure that they've followed the one-time steps in the following [Prerequisites](#Prerequisites) section.
+Before doing any development, the developer should make sure that
+they've followed the one-time steps in the following
+[Prerequisites](#Prerequisites) section.
 
 ### Prerequisites
 
 1. Ensure `AWS_ACCOUNT_ID` is available in exported in your shell
    environment. If the output of `echo $AWS_ACCOUNT_ID` is empty, then
-   you should follow the steps
-   [here](https://docs.aws.amazon.com/general/latest/gr/acct-identifiers.html)
-   to obtain our AWS account ID and then add a line exporting that
-   account ID (e.g. `export AWS_ACCOUNT_ID=...`) to your bash profile.
+   you should follow the steps [here](obtain_aws_account_id) to obtain
+   our AWS account ID and then add a line exporting that account ID
+   (e.g. `export AWS_ACCOUNT_ID=...`) to your bash profile.
 
 ### Example workflow
 
-To run the pipeline during development, we recommend using a command like the below, 
-substituting your own configuration yaml file. This will ensure that any changes 
-are reflected in the Docker images on AWS ECR.
+To run the pipeline during development, we recommend using a command
+like the below, substituting your own configuration yaml file. This
+will ensure that any changes are reflected in the Docker images on AWS
+ECR.
 
 `./make-all-versions.sh push-latest && ./scripts/submit configs/config.yaml`
 
-In development, we' always use the latest version of our images, e.g. `cellranger-3.0.2-bcl2fastq-2.20.0:latest`. This is because the particular image that a job uses is hard-coded in the job definition; if we weren't using `latest`, then, every time we wanted to test a new version of the image, we'd have to 1. push and then 2. update the job definition's image tag to be the git commit tag that we just pushed .
+In development, we' always use the latest version of our images,
+e.g. `cellranger-3.0.2-bcl2fastq-2.20.0:latest`. This is because the
+particular image that a job uses is hard-coded in the job definition;
+if we weren't using `latest`, then, every time we wanted to test a new
+version of the image, we'd have to 1. push and then 2. update the job
+definition's image tag to be the git commit tag that we just pushed .
 
-To keep a tight feedback loop, it's best to perform as much development as you
-can locally. For example, if you're making changes to the `./bin/run_mkfastq` script, you might be able to validate your changes locally and not waste time waiting for Batch to do its thing; you could use the following workflow:
+To keep a tight feedback loop, it's best to perform as much
+development as you can locally. For example, if you're making changes
+to the `./bin/run_mkfastq` script, you might be able to validate your
+changes locally and not waste time waiting for Batch to do its thing;
+you could use the following workflow:
 
-1. Make the image you need using `make build` (we won't run `make push` now because we don't need to upload our image to ECR yet.)
-2. `docker run` the image you just made. The following command is just one way that you might run mkfastq locally. To break it down: `-e DEBUG=true` helps to get debug output from our scripts; the line after that allows us to pass our AWS credentials to the container, so that we can pull raw data from S3; the `--memory` and `--cpus` options help us to ensure that the container doesn't use all of our computer's resources; the very last line, beginning with `run_mkfastq`, shows the script that we want to run and the input JSON that we're passing to it. 
+1. Make the image you need using `make build` (we won't run `make
+   push` now because we don't need to upload our image to ECR yet.)
+
+2. `docker run` the image you just made. The following command is just
+   one way that you might run mkfastq locally. To break it down: `-e
+   DEBUG=true` helps to get debug output from our scripts; the line
+   after that allows us to pass our AWS credentials to the container,
+   so that we can pull raw data from S3; the `--memory` and `--cpus`
+   options help us to ensure that the container doesn't use all of our
+   computer's resources; the very last line, beginning with
+   `run_mkfastq`, shows the script that we want to run and the input
+   JSON that we're passing to it.
+
 ```sh
 docker run \
     -e DEBUG=true \
@@ -92,14 +116,16 @@ the process running inside that container.
 ## Potential Next Steps:
 - Automatically migrate fastq files from S3 to Glacier after 1 year
 - Automatically migrate bcl file from S3 to Glacier after 1 month
-- Account for feature barcoding experiments where the CITE-seq samples may come
-from a different combination of bcl files than the GEX samples.
-- Use an AWS lambda function to auto-detect raw data and config files on s3 and
-initialize the pipeline
-- Potentially utilize pipenv for this project and its local python dependencies, 
-as yaml and boto3 are not in the stdlib
+- Account for feature barcoding experiments where the CITE-seq samples
+  may come from a different combination of bcl files than the GEX
+  samples.
+- Use an AWS lambda function to auto-detect raw data and config files
+  on s3 and initialize the pipeline
+- Potentially utilize pipenv for this project and its local python
+  dependencies, as yaml and boto3 are not in the stdlib
 
 [cellranger_pipeline_diagram]: docs/cellranger_pipeline_diagram.png
 [architecture_diagram]: docs/cellranger_pipeline_archictecture.png
 [batch_genomics_tutorial]: https://aws.amazon.com/blogs/compute/building-high-throughput-genomics-batch-workflows-on-aws-introduction-part-1-of-4/
 [cellranger_documentation]: https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger
+[obtain_aws_account_id]: https://docs.aws.amazon.com/general/latest/gr/acct-identifiers.htlm
