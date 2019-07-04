@@ -41,13 +41,21 @@ commit your changes and get them into `master` (preferably by opening
 a PR and having someone approve your changes before merging into
 `master`). After merging your changes into master, apply them to the
 prod pipeline as you did the dev pipleline using `terraform plan` and
-`terraform apply` with the `prod.tfvars` file.
+`terraform apply` with the `prod.tfvars` file. You'll also need to
+`terraform workspace select prod` before doing any of that, and
+`terraform workspace select default` when you're done making changes
+to prod.
 
 ## Production
 
 The prod pipeline is not to be developed against. Only stable changes
 that are present in the master branch should be applied to prod, and
 the prod pipeline should always be in-sync with master.
+
+## Shared Resources
+
+Note that some AWS resources, such as the ECR repos and the VPC, are
+shared between the dev and prod terraform workspaces.
 
 ### Tips
 
@@ -60,5 +68,5 @@ apply them all at once.
 
 ### "Cannot delete, found existing JobQueue relationship"
 
-Run `terraform destroy -target=aws_batch_job_queue.<name>` and then
+Run `terraform destroy -target=aws_batch_job_queue.this` and then
 re-run `terraform apply`.
