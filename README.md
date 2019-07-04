@@ -58,7 +58,7 @@ like the below, substituting your own configuration yaml file. This
 will ensure that any changes are reflected in the Docker images on AWS
 ECR.
 
-`./make-all-versions.sh push-latest && ./scripts/submit configs/config.yaml`
+`./scripts/make-all-versions.sh push-latest && ./scripts/submit configs/config.yaml`
 
 In development, we' always use the latest version of our images,
 e.g. `cellranger-3.0.2-bcl2fastq-2.20.0:latest`. This is because the
