@@ -1,2 +1,2 @@
 environment = "dev"
-image_tag = "latest"
+image_tag   = "latest"
